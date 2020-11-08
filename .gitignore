@@ -1,0 +1,7 @@
+autoload
+coc/*
+!coc/ultisnips
+plugged
+tmp
+_machine_specific.vim
+.netrwhist
