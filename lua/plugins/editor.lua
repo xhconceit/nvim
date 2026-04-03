@@ -30,6 +30,7 @@ return {
             },
             -- 为键位前缀定义分组名称
             spec = {
+        { "<leader>f", group = "搜索" },
                 { "<leader>b", group = "Buffer" },
                 { "<leader>n", group = "清除" },
                 { "<leader>r", group = "重载" },
