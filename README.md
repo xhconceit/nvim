@@ -1,14 +1,6 @@
 # Neovim 配置
 
-一套以 `lazy.nvim` 为插件管理器的轻量 Neovim 配置，当前重点放在基础编辑体验、快捷键组织和 UI 美化上。
-
-目前已经完成的部分包括：
-
-- 基础编辑选项
-- 自定义快捷键体系
-- 主题与状态栏
-- 彩虹缩进线
-- 插件自动安装与锁定
+一套以 `lazy.nvim` 为插件管理器的 Neovim 配置，覆盖基础编辑、UI 美化、LSP、自动补全、文件管理、搜索、终端、Git 集成和代码格式化。
 
 ## 目录结构
 
@@ -18,74 +10,82 @@
 ├── lazy-lock.json
 └── lua
     ├── config
-    │   ├── keymaps.lua
-    │   ├── lazy.lua
-    │   └── options.lua
+    │   ├── keymaps.lua        # 自定义快捷键
+    │   ├── lazy.lua           # lazy.nvim 初始化
+    │   └── options.lua        # 编辑器基础选项
     ├── core
-    │   ├── keymap.lua
-    │   └── text.lua
+    │   ├── keymap.lua         # vim.keymap.set 封装
+    │   └── text.lua           # 文本工具函数
+    ├── lsp
+    │   ├── init.lua           # LSP 公共配置（on_attach、capabilities）
+    │   ├── lua_ls.lua         # Lua LSP 配置
+    │   └── jdtls.lua          # Java LSP 配置
     └── plugins
-        ├── common.lua
-        └── ui.lua
+        ├── cmp.lua            # 自动补全（blink.cmp）
+        ├── common.lua         # 通用依赖（plenary）
+        ├── editor.lua         # 编辑增强插件
+        ├── explorer.lua       # 文件管理（mini.files）
+        ├── format.lua         # 代码格式化（conform）
+        ├── git.lua            # Git 集成（gitsigns）
+        ├── lsp.lua            # LSP 插件声明
+        ├── search.lua         # 模糊搜索（mini.pick）
+        ├── terminal.lua       # 浮动终端（toggleterm）
+        ├── treesitter.lua     # 语法解析（treesitter）
+        └── ui.lua             # UI 插件
 ```
 
-## 配置入口
+## 插件列表
 
-- `init.lua`
-  按顺序加载基础选项、快捷键和插件管理。
-- `lua/config/options.lua`
-  管理编辑器基础行为，比如编码、缩进、搜索、行号、剪贴板相关显示等。
-- `lua/config/keymaps.lua`
-  集中管理自定义按键映射。
-- `lua/config/lazy.lua`
-  负责安装并初始化 `lazy.nvim`。
-- `lua/core/keymap.lua`
-  对 `vim.keymap.set` 做了一层简单封装，便于统一注册快捷键。
-- `lua/core/text.lua`
-  提供选中文本读取等小工具函数。
-- `lua/plugins/*.lua`
-  按模块拆分插件配置。
+### UI
 
-## 当前功能
+| 插件 | 说明 |
+| --- | --- |
+| `folke/tokyonight.nvim` | 主题，night 风格，透明背景 |
+| `lukas-reineke/indent-blankline.nvim` | 彩虹缩进线 |
+| `nvim-lualine/lualine.nvim` | 状态栏 |
+| `akinsho/bufferline.nvim` | Buffer 标签栏 |
+| `folke/noice.nvim` | 命令面板、通知美化 |
+| `rcarriga/nvim-notify` | 通知弹窗 |
+| `rrethy/vim-illuminate` | 高亮光标下相同单词 |
+| `echasnovski/mini.animate` | 光标与滚动动画 |
 
-### 基础编辑体验
+### 编辑增强
 
-- 使用 `UTF-8` 编码
-- 显示绝对行号和相对行号
-- 高亮当前行
-- 上下滚动时保留边距
-- 使用 2 空格缩进，`Tab` 自动展开为空格
-- 搜索默认忽略大小写，输入大写时自动区分大小写
-- 启用增量搜索与搜索高亮
-- 禁用备份文件和交换文件
-- 启用 24 位真彩色
-- 显示 `signcolumn`
-- `colorcolumn` 设置为 `100`
-- 可视化空格与制表符
+| 插件 | 说明 |
+| --- | --- |
+| `folke/which-key.nvim` | 快捷键提示面板 |
+| `numToStr/Comment.nvim` | 快速注释 |
+| `windwp/nvim-autopairs` | 自动配对括号/引号 |
+| `kylechui/nvim-surround` | 包裹操作（添加/修改/删除） |
+| `andyg/leap.nvim` | 快速跳转 |
+| `echasnovski/mini.ai` | 增强文本对象 |
+| `echasnovski/mini.splitjoin` | 单行/多行切换 |
+| `monaqa/dial.nvim` | 增强递增/递减 |
+| `andymass/vim-matchup` | 增强 % 匹配跳转 |
 
-### UI 插件
+### 语法与 LSP
 
-当前启用的插件包括：
+| 插件 | 说明 |
+| --- | --- |
+| `nvim-treesitter/nvim-treesitter` | 语法高亮、增量选择、文本对象 |
+| `neovim/nvim-lspconfig` | LSP 配置 |
+| `mfussenegger/nvim-jdtls` | Java LSP（JDTLS 专用） |
+| `saghen/blink.cmp` | 自动补全 |
+| `rafamadriz/friendly-snippets` | 代码片段集合 |
 
-- `folke/tokyonight.nvim`
-  使用 `night` 风格，启用透明背景。
-- `lukas-reineke/indent-blankline.nvim`
-  使用彩虹色缩进线，并启用作用域高亮。
-- `nvim-lualine/lualine.nvim`
-  提供全局状态栏，显示模式、分支、诊断、文件名、编码、进度和光标位置。
-- `nvim-lua/plenary.nvim`
-  通用 Lua 工具库，供其他插件使用。
+### 工具
 
-### 插件管理
-
-- 通过 `lazy.nvim` 自动安装缺失插件
-- 使用 `lazy-lock.json` 锁定插件版本
-- 启用插件更新检查
-- 支持配置变更检测
+| 插件 | 说明 |
+| --- | --- |
+| `echasnovski/mini.files` | 文件管理器（Miller columns 风格） |
+| `echasnovski/mini.pick` | 模糊搜索 |
+| `akinsho/toggleterm.nvim` | 浮动终端 |
+| `lewis6991/gitsigns.nvim` | Git 行内标记与 hunk 操作 |
+| `stevearc/conform.nvim` | 代码格式化 |
 
 ## 快捷键说明
 
-`<leader>` 被设置为空格键。
+`<leader>` 为空格键。
 
 ### 窗口管理
 
@@ -114,26 +114,99 @@
 | `P` | 从系统剪贴板粘贴 |
 | `U` | 还原上一步 |
 | `=` / `-` | 当前数字加 1 / 减 1 |
+| `s` | Leap 跳转 |
+| `S` | Leap 跨窗口跳转 |
+| `gS` | 单行/多行切换 |
 
-### Buffer 与跳转
+### Buffer
 
 | 快捷键 | 说明 |
 | --- | --- |
-| `<leader>bj` | 下一个 buffer |
-| `<leader>bk` | 上一个 buffer |
+| `<leader>bj` / `<leader>bk` | 下/上一个 buffer |
 | `<leader>bq` | 关闭当前 buffer |
-| `<BS>` | 跳回上一个光标位置 |
-| `<S-BS>` | 跳到下一个光标位置 |
-| `<tab>` | 作为 mark 键 |
-| `<tab><tab>` | 在标记位置间切换 |
+| `<leader>b>` / `<leader>b<` | 移动 buffer 位置 |
+| `<leader>bp` | 固定/取消固定 buffer |
+| `<leader>bo` | 关闭其他 buffer |
+| `<leader>bs` | 选择 buffer |
+| `<leader>1` ~ `<leader>5` | 跳转到指定 buffer |
+| `<BS>` / `<S-BS>` | 上/下一个光标位置 |
 
-### 退出与保存
+### 搜索（mini.pick）
 
 | 快捷键 | 说明 |
 | --- | --- |
-| `qa` | 退出 Neovim |
-| `q1` | 强制退出 Neovim |
-| `qw` | 保存并退出 |
+| `<leader>ff` | 搜索文件 |
+| `<leader>fg` | 搜索内容（live grep） |
+| `<leader>fw` | 搜索光标词 |
+| `<leader>fb` | 搜索 Buffer |
+| `<leader>fh` | 搜索帮助 |
+| `<leader>fr` | 恢复上次搜索 |
+
+### 文件管理（mini.files）
+
+| 快捷键 | 说明 |
+| --- | --- |
+| `<leader>e` | 打开文件树（定位当前文件） |
+| `<leader>E` | 打开文件树（项目根目录） |
+| 树内 `l` / `<CR>` | 进入目录或打开文件 |
+| 树内 `h` / `H` | 返回上级目录 |
+
+### LSP
+
+| 快捷键 | 说明 |
+| --- | --- |
+| `gd` | 跳转定义 |
+| `gD` | 跳转声明 |
+| `gr` | 查看引用 |
+| `gi` | 跳转实现 |
+| `gh` | 悬停文档 |
+| `<leader>lr` | 重命名 |
+| `<leader>la` | 代码操作 |
+| `<leader>ld` | 行内诊断 |
+| `<leader>lf` | 格式化 |
+| `[d` / `]d` | 上/下一个诊断 |
+
+### Java（nvim-jdtls）
+
+| 快捷键 | 说明 |
+| --- | --- |
+| `<leader>jo` | 整理 imports |
+| `<leader>jv` | 提取变量 |
+| `<leader>jc` | 提取常量 |
+| `<leader>jt` | 测试当前方法 |
+| `<leader>jT` | 测试当前类 |
+
+### Git（gitsigns）
+
+| 快捷键 | 说明 |
+| --- | --- |
+| `]h` / `[h` | 下/上一个 hunk |
+| `<leader>gs` | 暂存 hunk |
+| `<leader>gr` | 还原 hunk |
+| `<leader>gS` / `<leader>gR` | 暂存/还原整个文件 |
+| `<leader>gu` | 撤销暂存 |
+| `<leader>gp` | 预览 hunk |
+| `<leader>gb` | blame 当前行 |
+| `<leader>gd` | diff 当前文件 |
+| `<leader>gt` | 显示/隐藏已删除行 |
+
+### 终端（toggleterm）
+
+| 快捷键 | 说明 |
+| --- | --- |
+| `<leader>tt` | 浮动终端 |
+| `<leader>th` | 底部终端 |
+| `<leader>tv` | 侧边终端 |
+| `<leader>tg` | LazyGit |
+
+### 补全（blink.cmp）
+
+| 快捷键 | 说明 |
+| --- | --- |
+| `<CR>` | 确认选中项 |
+| `<C-j>` / `<C-k>` | 上下选择 |
+| `<C-d>` / `<C-u>` | 滚动文档 |
+| `<Tab>` / `<S-Tab>` | snippet 跳转占位符 |
 
 ### 插入模式增强
 
@@ -146,42 +219,45 @@
 | `<C-e>` | 跳到单词末尾插入 |
 | `<C-b>` | 跳到单词开头插入 |
 
-### 搜索与配置重载
+### 其他
 
 | 快捷键 | 说明 |
 | --- | --- |
+| `qa` | 退出 Neovim |
+| `q1` | 强制退出 |
+| `qw` | 保存并退出 |
 | `<leader>nh` | 清除搜索高亮 |
-| 可视模式下 `/` | 搜索当前选中文本 |
-| `<leader>rr` | 重新加载当前 Neovim 配置 |
+| 可视模式 `/` | 搜索选中文本 |
+| `<leader>rr` | 重新加载配置 |
+| `<leader>?` | 查看 Buffer 本地快捷键 |
+| `]]` / `[[` | 下/上一个引用（illuminate） |
 
-## 安装方式
+## 安装
 
-确保本机已安装：
+### 系统依赖
 
-- `Neovim` 0.9+
-- `git`
+```bash
+# 必须
+brew install neovim git
 
-然后将配置放到默认目录：
+# LSP
+brew install lua-language-server jdtls
+
+# 搜索（推荐）
+brew install ripgrep fd
+
+# 格式化（按需）
+brew install stylua google-java-format
+npm install -g prettier
+
+# Git（可选）
+brew install lazygit
+```
+
+### 安装配置
 
 ```bash
 git clone <your-repo-url> ~/.config/nvim
 ```
 
-首次启动 Neovim 时，`lazy.nvim` 会自动安装自身并拉取插件。
-
-## 说明
-
-这份配置目前偏向“可用的基础骨架”，适合继续往下扩展，例如：
-
-- LSP
-- 自动补全
-- Treesitter
-- 文件树
-- Telescope
-- Git 集成
-
-如果后续继续扩展，建议仍然保持现在这种分层方式：
-
-- `config` 放基础配置
-- `core` 放工具封装
-- `plugins` 按功能拆分插件
+首次启动 Neovim 时，`lazy.nvim` 会自动安装所有插件。
