@@ -1,0 +1,112 @@
+local keymap = require("core.keymap")
+return {
+	{
+		"folke/snacks.nvim",
+		priority = 900,
+		lazy = false,
+		config = function()
+      require("plugins.config.snacks")
+		end
+	},
+	{
+		"coder/claudecode.nvim",
+		dependencies = { "folke/snacks.nvim" },
+		opts = {},
+		config = true,
+		keys = {
+			{ "<leader>cc", "<cmd>ClaudeCode<cr>", desc = "打开 Claude Code" },
+			{ "<leader>cf", "<cmd>ClaudeCodeFocus<cr>", desc = "聚焦 Claude Code" },
+			{ "<leader>cr", "<cmd>ClaudeCode --resume<cr>", desc = "恢复 Claude 会话" },
+			{ "<leader>cC", "<cmd>ClaudeCode --continue<cr>", desc = "继续最近 Claude 会话" },
+			{ "<leader>cm", "<cmd>ClaudeCodeSelectModel<cr>", desc = "选择 Claude 模型" },
+			{ "<leader>cb", "<cmd>ClaudeCodeAdd %<cr>", desc = "添加当前文件到 Claude" },
+			{ "<leader>cs", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "发送选区到 Claude" },
+			{
+				"<leader>cs",
+				"<cmd>ClaudeCodeTreeAdd<cr>",
+				desc = "添加文件到 Claude",
+				ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw" },
+			},
+			{ "<leader>ca", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "接受 Claude diff" },
+			{ "<leader>cd", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "拒绝 Claude diff" },
+		},
+	},
+	{
+		"folke/sidekick.nvim",
+		dependencies = { "folke/snacks.nvim" },
+		opts = {
+			-- 当前配置里还没有 Copilot LSP，先只启用 AI CLI 工作流。
+			nes = { enabled = false },
+			cli = {
+				picker = "snacks",
+				win = {
+					layout = "right",
+					split = {
+						width = 80,
+					},
+				},
+			},
+		},
+		keys = {
+			{
+				"<leader>aa",
+				function()
+					require("sidekick.cli").toggle()
+				end,
+				desc = "切换 Sidekick CLI",
+			},
+			{
+				"<leader>as",
+				function()
+					require("sidekick.cli").select()
+				end,
+				desc = "选择 AI CLI",
+			},
+			{
+				"<leader>ac",
+				function()
+					require("sidekick.cli").toggle({ name = "claude", focus = true })
+				end,
+				desc = "用 Sidekick 打开 Claude",
+			},
+			{
+				"<leader>ap",
+				function()
+					require("sidekick.cli").prompt()
+				end,
+				mode = { "n", "x" },
+				desc = "选择 AI 提示词",
+			},
+			{
+				"<leader>at",
+				function()
+					require("sidekick.cli").send({ msg = "{this}" })
+				end,
+				mode = { "n", "x" },
+				desc = "发送当前上下文",
+			},
+			{
+				"<leader>af",
+				function()
+					require("sidekick.cli").send({ msg = "{file}" })
+				end,
+				desc = "发送当前文件",
+			},
+			{
+				"<leader>av",
+				function()
+					require("sidekick.cli").send({ msg = "{selection}" })
+				end,
+				mode = "x",
+				desc = "发送选区",
+			},
+			{
+				"<leader>ax",
+				function()
+					require("sidekick.cli").close()
+				end,
+				desc = "断开 Sidekick 会话",
+			},
+		},
+	},
+}
