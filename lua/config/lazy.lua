@@ -105,4 +105,8 @@ require("lazy").setup({
 		loader = false, -- 是否启用加载器性能分析
 		require = false, -- 是否跟踪每个 `require` 的性能
 	},
-})
+}, {
+ performance = {
+    reset_packpath = false,
+  },
+  })
