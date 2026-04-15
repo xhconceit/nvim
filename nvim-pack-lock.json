@@ -1,0 +1,16 @@
+{
+  "plugins": {
+    "pick": {
+      "rev": "fc63eaf01a3a36d5865a0cd47989c1560d4a3c4b",
+      "src": "https://github.com/xhconceit/pick.nvim"
+    },
+    "pick.nvim": {
+      "rev": "fc63eaf01a3a36d5865a0cd47989c1560d4a3c4b",
+      "src": "https://github.com/xhconceit/pick.nvim"
+    },
+    "tokyonight.nvim": {
+      "rev": "cdc07ac78467a233fd62c493de29a17e0cf2b2b6",
+      "src": "https://github.com/folke/tokyonight.nvim"
+    }
+  }
+}
