@@ -3,9 +3,7 @@ local text = require("core.text")
 local map = keymap.map
 local nmap = keymap.nmap
 local imap = keymap.imap
-local vmap = keymap.vmap
 local tmap = keymap.tmap
-local xmap = keymap.xmap
 local cmap = keymap.cmap
 local vmap = keymap.vmap
 
@@ -57,7 +55,7 @@ nmap("yh", "y^", { desc = "复制到行首" })
 map({ "n", "v" }, "Y", '"+y', { desc = "复制到系统剪切板" })
 
 -- 粘贴
-map({ "n", "v" }, "P", '"+p', { desc = "粘贴系统剪切板" }) 
+map({ "n", "v" }, "P", '"+p', { desc = "粘贴系统剪切板" })
 -- 还原上一步
 nmap("U", "<C-r>", { desc = "还原上一步" })
 -- 当前数字加1
@@ -88,38 +86,32 @@ imap("<c-'>", "<Esc>A", { desc = "插入模式下插入到行尾" })
 imap("<c-e>", "<Esc>ea", { desc = "插入模式下插入到单词末尾" })
 imap("<c-b>", "<Esc>bi", { desc = "插入模式下插入到单词开头" })
 
-
-cmap("<c-v>", "<c-r>*<left>", { desc = "从系统剪贴板中粘贴内容" })
+-- cmap("<c-v>", "<c-r>*<left>", { desc = "从系统剪贴板中粘贴内容" })
 cmap("<D-v>", "<c-r>*<left>", { desc = "从系统剪贴板中粘贴内容" })
 imap("<d-v>", '<esc>"+pa', { desc = "从系统剪贴板中粘贴内容" })
-imap("<c-v>", '<esc>"+pa', { desc = "从系统剪贴板中粘贴内容" })
+-- imap("<c-v>", '<esc>"+pa', { desc = "从系统剪贴板中粘贴内容" })
 tmap("<c-v>", '<c-\\><c-n>"+pa', { desc = "从系统剪贴板中粘贴内容" })
 nmap("<d-v>", '"+p', { desc = "从系统剪贴板中粘贴内容" })
 vmap("<d-v>", '"+p', { desc = "从系统剪贴板中粘贴内容" })
 tmap("<d-v>", '<c-\\><c-n>"+pa', { desc = "从系统剪贴板中粘贴内容" })
 tmap("<esc>", "<c-\\><c-n>", { desc = "终端进入 ESC" })
 
-
 local function search_selected_text()
-    local selected_text = text.get_selected_text()
-    vim.api.nvim_feedkeys(
-        vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "x", false
-    )
-    local escaped = selected_text:gsub("\\", "\\\\"):gsub("\n", "\\n")
-    vim.fn.setreg("/", "\\V" .. escaped)
-    vim.opt.hlsearch = true
-    pcall(vim.cmd, "normal! n")
+  local selected_text = text.get_selected_text()
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "x", false)
+  local escaped = selected_text:gsub("\\", "\\\\"):gsub("\n", "\\n")
+  vim.fn.setreg("/", "\\V" .. escaped)
+  vim.opt.hlsearch = true
+  pcall(vim.cmd, "normal! n")
 end
 
 vmap("/", search_selected_text, { desc = "搜索选中文本" })
 
 -- 重新加载配置
 nmap("<leader>rr", function()
-    for name, _ in pairs(package.loaded) do
-      if name:match("^config") or name:match("^core") or name:match("^plugins") then
-        package.loaded[name] = nil
-      end
-    end
-    dofile(vim.env.MYVIMRC)
-    vim.notify("配置已重新加载", vim.log.levels.INFO)
-  end, { desc = "重新加载配置" })
+  for name, _ in pairs(package.loaded) do
+    if name:match("^config") or name:match("^core") or name:match("^plugins") then package.loaded[name] = nil end
+  end
+  dofile(vim.env.MYVIMRC)
+  vim.notify("配置已重新加载", vim.log.levels.INFO)
+end, { desc = "重新加载配置" })

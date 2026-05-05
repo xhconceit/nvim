@@ -261,3 +261,6 @@ git clone <your-repo-url> ~/.config/nvim
 ```
 
 首次启动 Neovim 时，`lazy.nvim` 会自动安装所有插件。
+
+![Neovim Logo](https://raw.githubusercontent.com/neovim/neovim/master/runtime/nvim.png)
+

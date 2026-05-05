@@ -4,22 +4,34 @@ return {
     lazy = false,
     build = ":TSUpdate",
     config = function()
-        -- 想要本地安装 treesitter
+      -- 想要本地安装 treesitter
       require("nvim-treesitter").setup({})
 
       require("nvim-treesitter").install({
-        "lua", "vim", "vimdoc", "query",
-        "javascript", "typescript", "tsx",
-        "html", "css", "json", "yaml", "toml",
-        "markdown", "markdown_inline",
-        "bash", "regex", "python", "go", "rust",
+        "lua",
+        "vim",
+        "vimdoc",
+        "query",
+        "javascript",
+        "typescript",
+        "tsx",
+        "html",
+        "css",
+        "json",
+        "yaml",
+        "toml",
+        "markdown",
+        "markdown_inline",
+        "bash",
+        "regex",
+        "python",
+        "go",
+        "rust",
       })
 
       vim.api.nvim_create_autocmd("FileType", {
         callback = function()
-          if pcall(vim.treesitter.start) then
-            vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-          end
+          if pcall(vim.treesitter.start) then vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()" end
         end,
       })
 
@@ -94,36 +106,38 @@ return {
         ["il"] = "@loop.inner",
       }
       for key, query in pairs(select_maps) do
-        vim.keymap.set({ "x", "o" }, key, function()
-          sel.select_textobject(query, "textobjects")
-        end)
+        vim.keymap.set({ "x", "o" }, key, function() sel.select_textobject(query, "textobjects") end)
       end
 
       local move = require("nvim-treesitter-textobjects.move")
       for _, m in ipairs({
-        { "]f", "goto_next_start",     "@function.outer" },
-        { "]c", "goto_next_start",     "@class.outer" },
-        { "]a", "goto_next_start",     "@parameter.inner" },
-        { "]F", "goto_next_end",       "@function.outer" },
-        { "]C", "goto_next_end",       "@class.outer" },
+        { "]f", "goto_next_start", "@function.outer" },
+        { "]c", "goto_next_start", "@class.outer" },
+        { "]a", "goto_next_start", "@parameter.inner" },
+        { "]F", "goto_next_end", "@function.outer" },
+        { "]C", "goto_next_end", "@class.outer" },
         { "[f", "goto_previous_start", "@function.outer" },
         { "[c", "goto_previous_start", "@class.outer" },
         { "[a", "goto_previous_start", "@parameter.inner" },
-        { "[F", "goto_previous_end",   "@function.outer" },
-        { "[C", "goto_previous_end",   "@class.outer" },
+        { "[F", "goto_previous_end", "@function.outer" },
+        { "[C", "goto_previous_end", "@class.outer" },
       }) do
-        vim.keymap.set({ "n", "x", "o" }, m[1], function()
-          move[m[2]](m[3], "textobjects")
-        end)
+        vim.keymap.set({ "n", "x", "o" }, m[1], function() move[m[2]](m[3], "textobjects") end)
       end
 
       local swap = require("nvim-treesitter-textobjects.swap")
-      vim.keymap.set("n", "<leader>sn", function()
-        swap.swap_next("@parameter.inner")
-      end, { desc = "Swap with next parameter" })
-      vim.keymap.set("n", "<leader>sp", function()
-        swap.swap_previous("@parameter.inner")
-      end, { desc = "Swap with previous parameter" })
+      vim.keymap.set(
+        "n",
+        "<leader>sn",
+        function() swap.swap_next("@parameter.inner") end,
+        { desc = "Swap with next parameter" }
+      )
+      vim.keymap.set(
+        "n",
+        "<leader>sp",
+        function() swap.swap_previous("@parameter.inner") end,
+        { desc = "Swap with previous parameter" }
+      )
     end,
   },
 }
