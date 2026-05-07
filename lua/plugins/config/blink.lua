@@ -5,10 +5,10 @@ require("blink.cmp").setup({
   },
   keymap = {
     preset = "enter", -- 默认的快捷键
-    ["<C-j>"] = { "select_next", "fallback" }, -- 向下选择
-    ["<C-k>"] = { "select_prev", "fallback" }, -- 向上选择
-    ["<C-d>"] = { "scroll_documentation_down" }, -- 向下滚动文档
-    ["<C-u>"] = { "scroll_documentation_up" }, -- 向上滚动文档
+    ["<A-j>"] = { "select_next", "fallback" }, -- 向下选择
+    ["<A-k>"] = { "select_prev", "fallback" }, -- 向上选择
+    ["<A-d>"] = { "scroll_documentation_down" }, -- 向下滚动文档
+    ["<A-u>"] = { "scroll_documentation_up" }, -- 向上滚动文档
     ["<Tab>"] = false,
     ["<S-Tab>"] = false,
   },
