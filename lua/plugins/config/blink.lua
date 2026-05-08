@@ -47,7 +47,7 @@ require("blink.cmp").setup({
 })
 local ls = require("luasnip")
 
-vim.keymap.set({ "i", "s" }, "<C-l>", function()
+vim.keymap.set({ "i", "s" }, "<A-l>", function()
   local n = require("luasnip").session.current_nodes[vim.api.nvim_get_current_buf()]
   if n then
     ls.jump(1)
@@ -59,7 +59,7 @@ vim.keymap.set({ "i", "s" }, "<C-l>", function()
   end
 end, { silent = true })
 
-vim.keymap.set({ "i", "s" }, "<C-h>", function()
+vim.keymap.set({ "i", "s" }, "<A-h>", function()
   local n = require("luasnip").session.current_nodes[vim.api.nvim_get_current_buf()]
 
   if n then
