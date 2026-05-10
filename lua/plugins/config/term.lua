@@ -68,7 +68,7 @@ local function show(t, opts)
     local cmd = opts.cmd or vim.o.shell
     t.job = vim.fn.jobstart(cmd, {
       term = true,
-      cmd = opts.cmd,
+      cmd = opts.cwd,
       env = opts.env,
       on_exit = function(_, _, _)
         -- 进程退出时清理，on_exit 在 fast-event 上下文, 必须 schedule

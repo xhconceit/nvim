@@ -35,26 +35,8 @@ return {
         desc = "恢复上次搜索",
       },
     },
-    opts = {
-      mappings = {
-        move_down = "<C-j>",
-        move_up = "<C-k>",
-      },
-      window = {
-        config = function()
-          local height = math.floor(0.6 * vim.o.lines)
-          local width = math.floor(0.6 * vim.o.columns)
-          return {
-            anchor = "NW",
-            height = height,
-            width = width,
-            row = math.floor(0.2 * vim.o.lines),
-            col = math.floor(0.2 * vim.o.columns),
-            border = "rounded",
-          }
-        end,
-      },
-    },
+    config = function ()
+      require("plugins.config.pick")
+    end,
   },
 }
-

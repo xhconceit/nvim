@@ -4,7 +4,7 @@ require("blink.cmp").setup({
     preset = "luasnip",
   },
   keymap = {
-    preset = "enter", -- 默认的快捷键
+    ["<A-enter>"] = { "accept", "fallback" }, -- 默认的快捷键
     ["<A-j>"] = { "select_next", "fallback" }, -- 向下选择
     ["<A-k>"] = { "select_prev", "fallback" }, -- 向上选择
     ["<A-d>"] = { "scroll_documentation_down" }, -- 向下滚动文档
