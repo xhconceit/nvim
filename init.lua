@@ -1,0 +1,2 @@
+require("nvi").setup()
+
