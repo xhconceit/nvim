@@ -3,6 +3,10 @@ local M = {}
 function M.setup()
 	local opt = vim.opt
 
+  -- 编码 utf-8
+  opt.encoding = "UTF-8"
+  opt.fileencoding = "utf-8"
+
 	-- 界面
 	opt.number = true
 	opt.relativenumber = true
