@@ -15,4 +15,32 @@ function M.find_files()
   )
 end
 
+function M.search_text()
+  local text = vim.fn.input("搜索文本：")
+
+  if text == "" then
+    return
+  end
+
+  local pattern = "\\V"
+  .. vim.fn.escape(text, [[\/]])
+
+  local ok = pcall(
+    vim.cmd,
+    "silent vimgrep /"
+    .. pattern
+    .. "/gj **/*"
+  )
+
+  if not ok then
+    vim.notify(
+      "没有找到：" .. text,
+      vim.log.levels.WARN
+    )
+    return
+  end
+
+  vim.cmd("copen")
+end
+
 return M

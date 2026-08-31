@@ -35,6 +35,14 @@ function M.setup()
 	opt.clipboard = "unnamedplus"
 	opt.undofile = true
 	opt.confirm = true
+
+    -- 原生补全菜单
+  opt.completeopt = {
+    "menuone",
+    "noselect",
+    "popup",
+  }
+
 end
 
 return M

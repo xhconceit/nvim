@@ -22,3 +22,19 @@ assert(
   error_message:match("format_buffer"),
   "错误信息应该指出缺少 format_buffer"
 )
+
+local type_ok, type_error = pcall(function()
+  FormatterPort.validate(nil)
+end)
+
+assert(
+  not type_ok,
+  "非 table 适配器应该验证失败"
+)
+
+assert(
+  type_error:match("table"),
+  "错误信息应该指出适配器必须是 table"
+)
+
+print("formatter_port_test: OK")

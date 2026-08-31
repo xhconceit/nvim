@@ -6,7 +6,7 @@ local required_methods = {
 
 function M.validate(adapter)
   assert(
-    type(adapter == "table", "formatter adapter 必须是 table")
+    type(adapter) == "table", "formatter adapter 必须是 table"
   )
 
   for _, method in ipairs(required_methods) do 
