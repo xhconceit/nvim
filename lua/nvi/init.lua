@@ -1,61 +1,85 @@
 local M = {}
 
-function M.setup()
-  -- 核心层
-  require("nvi.core.commands").setup()
-  require("nvi.core.options").setup()
-  require("nvi.core.keymaps").setup()
-  require("nvi.core.autocmds").setup()
+local function production_dependencies()
+  return {
+    core = {
+      commands = require("nvi.core.commands"),
+      options = require("nvi.core.options"),
+      keymaps = require("nvi.core.keymaps"),
+      autocmds = require("nvi.core.autocmds"),
+    },
 
-  -- 基础设施
-  require("nvi.infrastructure.lazy").setup()
+    lazy = require("nvi.infrastructure.lazy"),
 
-  -- 选择具体适配器
-  local search_adapter =
-      require("nvi.adapters.mini_pick")
+    search = {
+      feature = require("nvi.features.search"),
+      adapter = require("nvi.adapters.mini_pick"),
+    },
 
-  local formatter_adapter =
-      require("nvi.adapters.lsp_formatter")
+    formatting = {
+      feature = require("nvi.features.formatting"),
+      adapter = require("nvi.adapters.lsp_formatter"),
+    },
 
-  local code_intelligence_adapter = require("nvi.adapters.native_lsp")
+    lsp = {
+      composition = require("nvi.composition.lsp"),
+      dependencies = {
+        infrastructure =
+          require("nvi.infrastructure.lsp"),
 
-  local completion_adapter =
-      require("nvi.adapters.native_completion")
+        code_intelligence = {
+          feature =
+            require("nvi.features.code_intelligence"),
+          adapter =
+            require("nvi.adapters.native_lsp"),
+        },
 
-  -- 注入功能层
-  require("nvi.features.search").setup(
-    search_adapter
+        completion = {
+          feature =
+            require("nvi.features.completion"),
+          adapter =
+            require("nvi.adapters.native_completion"),
+        },
+
+        diagnostics = {
+          feature =
+            require("nvi.features.diagnostics"),
+          adapter =
+            require("nvi.adapters.native_diagnostics"),
+        },
+
+        servers = {
+          lua_ls = require(
+            "nvi.infrastructure.lsp.servers.lua_ls"
+          ),
+        },
+      },
+    },
+  }
+end
+
+function M.setup(dependencies)
+  dependencies =
+    dependencies or production_dependencies()
+
+  dependencies.core.commands.setup()
+  dependencies.core.options.setup()
+  dependencies.core.keymaps.setup()
+  dependencies.core.autocmds.setup()
+
+  dependencies.lazy.setup()
+
+  dependencies.search.feature.setup(
+    dependencies.search.adapter
   )
 
-  require("nvi.features.formatting").setup(
-    formatter_adapter
+  dependencies.formatting.feature.setup(
+    dependencies.formatting.adapter
   )
 
-  local completion =
-      require("nvi.features.completion")
-
-  -- 语言服务器连接后，给对应 Buffer 附加代码智能功能
-  local code_intelligence = require("nvi.features.code_intelligence")
-
-  require("nvi.infrastructure.lsp").setup({
-    on_attach = function(context)
-      code_intelligence.attach(
-        code_intelligence_adapter,
-        context.bufnr
-      )
-
-      completion.attach(
-        completion_adapter,
-        context
-      )
-    end,
-
-    servers = {
-      lua_ls = require(
-        "nvi.infrastructure.lsp.servers.lua_ls"
-      ),
-    }
-  })
+  dependencies.lsp.composition.setup(
+    dependencies.lsp.dependencies
+  )
 end
 
 return M

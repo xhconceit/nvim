@@ -1,18 +1,21 @@
 local SearchPort = require("nvi.ports.search")
+local Keymap = require("nvi.ui.keymap")
 local M = {}
 
 function M.setup(adapter)
   local search = SearchPort.validate(adapter)
 
-  vim.keymap.set("n", "<leader>ff", search.find_files, {
-    silent = true,
-    desc = "搜索文件"
-  })
+  Keymap.nmap(
+    "<leader>ff",
+    search.find_files,
+    "搜索文件"
+  )
 
-  vim.keymap.set("n", "<leader>fg", search.search_text, {
-    silent = true,
-    desc = "搜索文本"
-  })
+  Keymap.nmap(
+    "<leader>fg",
+    search.search_text,
+    "搜索文本"
+  )
 
 end
 

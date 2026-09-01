@@ -1,0 +1,218 @@
+local captured_lsp_options = nil
+local LspComposition =
+  require("nvi.composition.lsp")
+
+local code_attach = nil
+local completion_attach = nil
+local diagnostics_attach = nil
+
+local fake_code_adapter = {
+  name = "fake-code-adapter",
+}
+
+local fake_completion_adapter = {
+  name = "fake-completion-adapter",
+}
+
+local fake_diagnostics_adapter = {
+  name = "fake-diagnostics-adapter",
+}
+
+local fake_dependencies = {
+  infrastructure = {
+    setup = function(options)
+      captured_lsp_options = options
+    end,
+  },
+
+  code_intelligence = {
+    adapter = fake_code_adapter,
+
+    feature = {
+      attach = function(adapter, bufnr)
+        code_attach = {
+          adapter = adapter,
+          bufnr = bufnr,
+        }
+      end,
+    },
+  },
+
+  completion = {
+    adapter = fake_completion_adapter,
+
+    feature = {
+      attach = function(adapter, context)
+        completion_attach = {
+          adapter = adapter,
+          context = context,
+        }
+      end,
+    },
+  },
+
+  diagnostics = {
+    adapter = fake_diagnostics_adapter,
+
+    feature = {
+      attach = function(adapter, bufnr)
+        diagnostics_attach = {
+          adapter = adapter,
+          bufnr = bufnr,
+        }
+      end,
+    },
+  },
+
+  servers = {
+    lua_ls = {
+      name = "fake-lua-ls",
+    },
+  },
+}
+
+LspComposition.setup(fake_dependencies)
+
+assert(
+  type(captured_lsp_options) == "table",
+  "组合根没有配置 LSP 基础设施"
+)
+
+assert(
+  type(captured_lsp_options.on_attach)
+    == "function",
+  "组合根没有向 LSP 提供 on_attach"
+)
+
+assert(
+  captured_lsp_options.servers
+    == fake_dependencies.servers,
+  "组合根没有传递语言服务器配置"
+)
+
+local context = {
+  bufnr = 17,
+  client_id = 42,
+}
+
+captured_lsp_options.on_attach(context)
+
+assert(
+  code_attach ~= nil,
+  "LSP 连接后没有附加代码智能"
+)
+
+assert(
+  code_attach.adapter
+    == fake_code_adapter,
+  "代码智能使用了错误的适配器"
+)
+
+assert(
+  code_attach.bufnr
+    == context.bufnr,
+  "代码智能附加到了错误的 Buffer"
+)
+
+assert(
+  completion_attach ~= nil,
+  "LSP 连接后没有附加补全"
+)
+
+assert(
+  completion_attach.adapter
+    == fake_completion_adapter,
+  "补全使用了错误的适配器"
+)
+
+assert(
+  completion_attach.context
+    == context,
+  "补全没有收到完整的 LSP 上下文"
+)
+
+assert(
+  completion_attach.context.bufnr
+    == code_attach.bufnr,
+  "代码智能和补全没有附加到同一个 Buffer"
+)
+
+assert(
+  diagnostics_attach ~= nil,
+  "LSP 连接后没有附加诊断功能"
+)
+
+assert(
+  diagnostics_attach.adapter
+    == fake_diagnostics_adapter,
+  "诊断功能使用了错误的适配器"
+)
+
+assert(
+  diagnostics_attach.bufnr
+    == context.bufnr,
+  "诊断功能附加到了错误的 Buffer"
+)
+
+assert(
+  diagnostics_attach.bufnr
+    == code_attach.bufnr
+    and diagnostics_attach.bufnr
+      == completion_attach.context.bufnr,
+  "三个 LSP 功能没有附加到同一个 Buffer"
+)
+
+local invalid_dependencies =
+  vim.deepcopy(fake_dependencies)
+
+invalid_dependencies
+  .completion
+  .feature
+  .attach = nil
+
+local ok, error_message = pcall(function()
+  LspComposition.setup(
+    invalid_dependencies
+  )
+end)
+
+assert(
+  not ok,
+  "缺少 completion.feature.attach 时应该失败"
+)
+
+assert(
+  error_message:match(
+    "completion%.feature%.attach"
+  ),
+  "错误信息应该指出缺少 completion.feature.attach"
+)
+
+local invalid_diagnostics =
+  vim.deepcopy(fake_dependencies)
+
+invalid_diagnostics
+  .diagnostics
+  .feature
+  .attach = nil
+
+local diagnostics_ok,
+  diagnostics_error = pcall(function()
+    LspComposition.setup(
+      invalid_diagnostics
+    )
+  end)
+
+assert(
+  not diagnostics_ok,
+  "缺少 diagnostics.feature.attach 时应该失败"
+)
+
+assert(
+  diagnostics_error:match(
+    "diagnostics%.feature%.attach"
+  ),
+  "错误信息应该指出缺少 diagnostics.feature.attach"
+)
+
+print("lsp_composition_test: OK")

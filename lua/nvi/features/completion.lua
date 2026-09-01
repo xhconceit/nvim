@@ -1,4 +1,5 @@
 local CompletionPort = require("nvi.ports.completion")
+local Keymap = require("nvi.ui.keymap")
 
 local M = {}
 
@@ -18,15 +19,12 @@ function M.attach(adapter, context)
   completion.enable(context)
 
   -- 手动触发补全
-  vim.keymap.set(
+  Keymap.buffer(
+    context.bufnr,
     "i",
     "<C-Space>",
     completion.trigger,
-    {
-      buffer = context.bufnr,
-      silent = true,
-      desc = "触发代码补全"
-    }
+    "触发代码补全"
   )
 end
 

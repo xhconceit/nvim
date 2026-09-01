@@ -1,12 +1,13 @@
 local CodeIntelligencePort =
   require("nvi.ports.code_intelligence")
+local Keymap = require("nvi.ui.keymap")
 
 local M = {}
 
 -- 用数据描述快捷键，避免重复调用 keymap.set
 local mappings = {
   {
-    lhs = "K",
+    lhs = "gh",
     method = "hover",
     desc = "显示符号文档",
   },
@@ -44,15 +45,12 @@ function M.attach(adapter, bufnr)
   )
 
   for _, mapping in ipairs(mappings) do
-    vim.keymap.set(
+    Keymap.buffer(
+      bufnr,
       "n",
       mapping.lhs,
       code[mapping.method],
-      {
-        buffer = bufnr,
-        silent = true,
-        desc = mapping.desc,
-      }
+      mapping.desc
     )
   end
 end
