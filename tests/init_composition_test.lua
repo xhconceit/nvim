@@ -7,6 +7,7 @@ local calls = {
   autocmds = 0,
   lazy = 0,
   search = nil,
+  file_explorer = nil,
   formatting = nil,
   lsp = nil,
 }
@@ -21,6 +22,9 @@ end
 
 local search_adapter = {
   name = "fake search adapter",
+}
+local file_explorer_adapter = {
+  name = "fake file explorer adapter",
 }
 local formatter_adapter = {
   name = "fake formatter adapter",
@@ -77,6 +81,14 @@ local dependencies = {
     },
     adapter = search_adapter,
   },
+  file_explorer = {
+    feature = {
+      setup = function(adapter)
+        calls.file_explorer = adapter
+      end,
+    },
+    adapter = file_explorer_adapter,
+  },
   formatting = {
     feature = {
       setup = function(adapter)
@@ -113,6 +125,11 @@ end
 assert(
   calls.search == search_adapter,
   "搜索功能没有收到注入的适配器"
+)
+assert(
+  calls.file_explorer
+    == file_explorer_adapter,
+  "文件浏览器没有收到 mini.files 适配器"
 )
 assert(
   calls.formatting == formatter_adapter,

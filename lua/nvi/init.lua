@@ -1,7 +1,68 @@
 local M = {}
 
+local required_methods = {
+  "core.commands.setup",
+  "core.options.setup",
+  "core.keymaps.setup",
+  "core.autocmds.setup",
+  "lazy.setup",
+  "search.feature.setup",
+  "formatting.feature.setup",
+  "lsp.composition.setup",
+  "file_explorer.feature.setup"
+}
+
+local function get_path(value, path)
+  local current = value
+  for part in path:gmatch("[^.]+") do
+    if type(current) ~= "table" then
+      return nil
+    end
+    current = current[part]
+  end
+  return current
+end
+
+local function validate(dependencies)
+  assert(
+    type(dependencies) == "table",
+    "nvi composition 需要依赖"
+  )
+
+  for _, path in ipairs(required_methods) do
+    assert(
+      type(get_path(dependencies, path)) == "function",
+      "nvi composition 缺少依赖：" .. path
+    )
+  end
+
+  assert(
+    dependencies.search.adapter ~= nil,
+    "nvi composition 缺少依赖：search.adapter"
+  )
+
+  assert(
+    dependencies.formatting.adapter ~= nil,
+    "nvi composition 缺少依赖：formatting.adapter"
+  )
+
+  assert(
+    type(dependencies.lsp.dependencies) == "table",
+    "nvi composition 缺少依赖：lsp.dependencies"
+  )
+
+  assert(
+    dependencies.file_explorer.adapter ~= nil,
+    "nvi composition 缺少依赖：file_explorer.adapter"
+  )
+
+  return dependencies
+end
+
+
 local function production_dependencies()
   return {
+
     core = {
       commands = require("nvi.core.commands"),
       options = require("nvi.core.options"),
@@ -11,9 +72,15 @@ local function production_dependencies()
 
     lazy = require("nvi.infrastructure.lazy"),
 
+
     search = {
       feature = require("nvi.features.search"),
       adapter = require("nvi.adapters.mini_pick"),
+    },
+
+    file_explorer = {
+      feature = require("nvi.features.file_explorer"),
+      adapter = require("nvi.adapters.mini_files")
     },
 
     formatting = {
@@ -25,27 +92,27 @@ local function production_dependencies()
       composition = require("nvi.composition.lsp"),
       dependencies = {
         infrastructure =
-          require("nvi.infrastructure.lsp"),
+            require("nvi.infrastructure.lsp"),
 
         code_intelligence = {
           feature =
-            require("nvi.features.code_intelligence"),
+              require("nvi.features.code_intelligence"),
           adapter =
-            require("nvi.adapters.native_lsp"),
+              require("nvi.adapters.native_lsp"),
         },
 
         completion = {
           feature =
-            require("nvi.features.completion"),
+              require("nvi.features.completion"),
           adapter =
-            require("nvi.adapters.native_completion"),
+              require("nvi.adapters.native_completion"),
         },
 
         diagnostics = {
           feature =
-            require("nvi.features.diagnostics"),
+              require("nvi.features.diagnostics"),
           adapter =
-            require("nvi.adapters.native_diagnostics"),
+              require("nvi.adapters.native_diagnostics"),
         },
 
         servers = {
@@ -54,13 +121,15 @@ local function production_dependencies()
           ),
         },
       },
+
     },
   }
 end
 
 function M.setup(dependencies)
-  dependencies =
+  dependencies = validate(
     dependencies or production_dependencies()
+  )
 
   dependencies.core.commands.setup()
   dependencies.core.options.setup()
@@ -71,6 +140,10 @@ function M.setup(dependencies)
 
   dependencies.search.feature.setup(
     dependencies.search.adapter
+  )
+
+  dependencies.file_explorer.feature.setup(
+    dependencies.file_explorer.adapter
   )
 
   dependencies.formatting.feature.setup(
