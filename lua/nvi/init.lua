@@ -59,7 +59,7 @@ local function validate(dependencies)
 
   assert(
     dependencies.git.adapter ~= nil,
-    "nvi composition 缺少依赖： git.adapter"
+    "nvi composition 缺少依赖：git.adapter"
   )
 
   return dependencies

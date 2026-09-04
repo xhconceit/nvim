@@ -1,4 +1,3 @@
-
 local M = {}
 
 local required_methods = {
@@ -9,7 +8,7 @@ local required_methods = {
   "preview_hunk"
 }
 
-function M.validate(adapter) 
+function M.validate(adapter)
   assert(
     type(adapter) == "table",
     "git adapter 必须是 table"
