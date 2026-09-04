@@ -9,7 +9,8 @@ local required_methods = {
   "search.feature.setup",
   "formatting.feature.setup",
   "lsp.composition.setup",
-  "file_explorer.feature.setup"
+  "file_explorer.feature.setup",
+  "git.feature.setup"
 }
 
 local function get_path(value, path)
@@ -56,6 +57,11 @@ local function validate(dependencies)
     "nvi composition 缺少依赖：file_explorer.adapter"
   )
 
+  assert(
+    dependencies.git.adapter ~= nil,
+    "nvi composition 缺少依赖： git.adapter"
+  )
+
   return dependencies
 end
 
@@ -72,6 +78,10 @@ local function production_dependencies()
 
     lazy = require("nvi.infrastructure.lazy"),
 
+    git = {
+      feature = require("nvi.features.git"),
+      adapter = require("nvi.adapters.gitsigns")
+    },
 
     search = {
       feature = require("nvi.features.search"),
@@ -144,6 +154,10 @@ function M.setup(dependencies)
 
   dependencies.file_explorer.feature.setup(
     dependencies.file_explorer.adapter
+  )
+
+  dependencies.git.feature.setup(
+    dependencies.git.adapter
   )
 
   dependencies.formatting.feature.setup(

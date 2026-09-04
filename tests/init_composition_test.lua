@@ -7,6 +7,7 @@ local calls = {
   autocmds = 0,
   lazy = 0,
   search = nil,
+  git = nil,
   file_explorer = nil,
   formatting = nil,
   lsp = nil,
@@ -22,6 +23,9 @@ end
 
 local search_adapter = {
   name = "fake search adapter",
+}
+local git_adapter = {
+  name = "fake git adapter",
 }
 local file_explorer_adapter = {
   name = "fake file explorer adapter",
@@ -81,6 +85,14 @@ local dependencies = {
     },
     adapter = search_adapter,
   },
+  git = {
+    feature = {
+      setup = function(adapter)
+        calls.git = adapter
+      end,
+    },
+    adapter = git_adapter,
+  },
   file_explorer = {
     feature = {
       setup = function(adapter)
@@ -125,6 +137,10 @@ end
 assert(
   calls.search == search_adapter,
   "搜索功能没有收到注入的适配器"
+)
+assert(
+  calls.git == git_adapter,
+  "Git 功能没有收到注入的适配器"
 )
 assert(
   calls.file_explorer

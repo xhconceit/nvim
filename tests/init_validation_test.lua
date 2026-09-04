@@ -20,6 +20,12 @@ local function create_dependencies()
       },
       adapter = {},
     },
+    git = {
+      feature = {
+        setup = no_op_setup,
+      },
+      adapter = {},
+    },
     file_explorer = {
       feature = {
         setup = no_op_setup,
@@ -79,6 +85,26 @@ local missing_explorer_adapter_ok,
     missing_explorer_adapter_dependencies
   )
 
+local missing_git_feature_dependencies =
+  create_dependencies()
+missing_git_feature_dependencies.git.feature.setup = nil
+
+local missing_git_feature_ok,
+  missing_git_feature_error = pcall(
+    Nvi.setup,
+    missing_git_feature_dependencies
+  )
+
+local missing_git_adapter_dependencies =
+  create_dependencies()
+missing_git_adapter_dependencies.git.adapter = nil
+
+local missing_git_adapter_ok,
+  missing_git_adapter_error = pcall(
+    Nvi.setup,
+    missing_git_adapter_dependencies
+  )
+
 assert(
   not missing_core_ok,
   "缺少 core.commands.setup 时应该拒绝启动"
@@ -108,6 +134,32 @@ assert(
 assert(
   not missing_explorer_feature_ok,
   "缺少文件浏览器功能时应该拒绝启动"
+)
+
+assert(
+  not missing_git_feature_ok,
+  "缺少 Git 功能时应该拒绝启动"
+)
+assert(
+  tostring(missing_git_feature_error):find(
+    "git.feature.setup",
+    1,
+    true
+  ),
+  "错误应该指出缺少 git.feature.setup"
+)
+
+assert(
+  not missing_git_adapter_ok,
+  "缺少 Git 适配器时应该拒绝启动"
+)
+assert(
+  tostring(missing_git_adapter_error):find(
+    "git.adapter",
+    1,
+    true
+  ),
+  "错误应该指出缺少 git.adapter"
 )
 assert(
   tostring(missing_explorer_feature_error):find(
