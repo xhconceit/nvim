@@ -7,6 +7,8 @@ local calls = {
   autocmds = 0,
   lazy = 0,
   search = nil,
+  buffer = nil,
+  terminal = nil,
   git = nil,
   file_explorer = nil,
   formatting = nil,
@@ -23,6 +25,12 @@ end
 
 local search_adapter = {
   name = "fake search adapter",
+}
+local buffer_adapter = {
+  name = "fake buffer adapter",
+}
+local terminal_adapter = {
+  name = "fake terminal adapter",
 }
 local git_adapter = {
   name = "fake git adapter",
@@ -85,6 +93,22 @@ local dependencies = {
     },
     adapter = search_adapter,
   },
+  buffer = {
+    feature = {
+      setup = function(adapter)
+        calls.buffer = adapter
+      end,
+    },
+    adapter = buffer_adapter,
+  },
+  terminal = {
+    feature = {
+      setup = function(adapter)
+        calls.terminal = adapter
+      end,
+    },
+    adapter = terminal_adapter,
+  },
   git = {
     feature = {
       setup = function(adapter)
@@ -137,6 +161,14 @@ end
 assert(
   calls.search == search_adapter,
   "搜索功能没有收到注入的适配器"
+)
+assert(
+  calls.buffer == buffer_adapter,
+  "Buffer 功能没有收到注入的适配器"
+)
+assert(
+  calls.terminal == terminal_adapter,
+  "终端功能没有收到注入的适配器"
 )
 assert(
   calls.git == git_adapter,

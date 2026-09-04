@@ -134,13 +134,6 @@ function M.setup()
     "增加窗口高度"
   )
 
-  -- Buffer 导航
-  Keymap.del("n", "[b")
-  Keymap.del("n", "]b")
-  Keymap.nmap("<leader>bj", "<cmd>bnext<CR>", "下一个 Buffer")
-  Keymap.nmap("<leader>bk", "<cmd>bprevious<CR>", "上一个 Buffer")
-  Keymap.nmap("<leader>bq", "<cmd>bdelete<CR>", "关闭当前 Buffer")
-
   -- 调整缩进后保持选区
   Keymap.vmap("<", "<gv", "减少缩进")
   Keymap.vmap(">", ">gv", "增加缩进")

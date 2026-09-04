@@ -1,3 +1,11 @@
+for _, lhs in ipairs({
+  "<leader>bj",
+  "<leader>bk",
+  "<leader>bq",
+}) do
+  pcall(vim.keymap.del, "n", lhs)
+end
+
 require("nvi.core.keymaps").setup()
 
 local expected_mappings = {
@@ -6,9 +14,6 @@ local expected_mappings = {
   ["<leader>qa"] = "退出 Neovim",
   ["<leader>qf"] = "强制退出 Neovim",
   ["<leader>qw"] = "保存并关闭当前窗口",
-  ["<leader>bj"] = "下一个 Buffer",
-  ["<leader>bk"] = "上一个 Buffer",
-  ["<leader>bq"] = "关闭当前 Buffer",
   ["J"] = "向下移动 5 行",
   ["H"] = "向左移动 5 列",
   ["K"] = "向上移动 5 行",
@@ -152,9 +157,10 @@ assert(
 )
 
 for _, lhs in ipairs({
-  "[b",
-  "]b",
   "<leader>bd",
+  "<leader>bj",
+  "<leader>bk",
+  "<leader>bq",
 }) do
   assert(
     vim.tbl_isempty(

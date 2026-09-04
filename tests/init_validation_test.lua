@@ -20,6 +20,18 @@ local function create_dependencies()
       },
       adapter = {},
     },
+    buffer = {
+      feature = {
+        setup = no_op_setup,
+      },
+      adapter = {},
+    },
+    terminal = {
+      feature = {
+        setup = no_op_setup,
+      },
+      adapter = {},
+    },
     git = {
       feature = {
         setup = no_op_setup,
@@ -72,6 +84,50 @@ local missing_explorer_feature_ok,
   missing_explorer_feature_error = pcall(
     Nvi.setup,
     missing_explorer_feature_dependencies
+  )
+
+local missing_buffer_feature_dependencies =
+  create_dependencies()
+missing_buffer_feature_dependencies
+  .buffer.feature.setup = nil
+
+local missing_buffer_feature_ok,
+  missing_buffer_feature_error = pcall(
+    Nvi.setup,
+    missing_buffer_feature_dependencies
+  )
+
+local missing_buffer_adapter_dependencies =
+  create_dependencies()
+missing_buffer_adapter_dependencies
+  .buffer.adapter = nil
+
+local missing_buffer_adapter_ok,
+  missing_buffer_adapter_error = pcall(
+    Nvi.setup,
+    missing_buffer_adapter_dependencies
+  )
+
+local missing_terminal_feature_dependencies =
+  create_dependencies()
+missing_terminal_feature_dependencies
+  .terminal.feature.setup = nil
+
+local missing_terminal_feature_ok,
+  missing_terminal_feature_error = pcall(
+    Nvi.setup,
+    missing_terminal_feature_dependencies
+  )
+
+local missing_terminal_adapter_dependencies =
+  create_dependencies()
+missing_terminal_adapter_dependencies
+  .terminal.adapter = nil
+
+local missing_terminal_adapter_ok,
+  missing_terminal_adapter_error = pcall(
+    Nvi.setup,
+    missing_terminal_adapter_dependencies
   )
 
 local missing_explorer_adapter_dependencies =
@@ -134,6 +190,58 @@ assert(
 assert(
   not missing_explorer_feature_ok,
   "缺少文件浏览器功能时应该拒绝启动"
+)
+
+assert(
+  not missing_buffer_feature_ok,
+  "缺少 Buffer 功能时应该拒绝启动"
+)
+
+assert(
+  not missing_terminal_feature_ok,
+  "缺少终端功能时应该拒绝启动"
+)
+assert(
+  tostring(missing_terminal_feature_error):find(
+    "terminal.feature.setup",
+    1,
+    true
+  ),
+  "错误应该指出缺少 terminal.feature.setup"
+)
+
+assert(
+  not missing_terminal_adapter_ok,
+  "缺少终端适配器时应该拒绝启动"
+)
+assert(
+  tostring(missing_terminal_adapter_error):find(
+    "terminal.adapter",
+    1,
+    true
+  ),
+  "错误应该指出缺少 terminal.adapter"
+)
+assert(
+  tostring(missing_buffer_feature_error):find(
+    "buffer.feature.setup",
+    1,
+    true
+  ),
+  "错误应该指出缺少 buffer.feature.setup"
+)
+
+assert(
+  not missing_buffer_adapter_ok,
+  "缺少 Buffer 适配器时应该拒绝启动"
+)
+assert(
+  tostring(missing_buffer_adapter_error):find(
+    "buffer.adapter",
+    1,
+    true
+  ),
+  "错误应该指出缺少 buffer.adapter"
 )
 
 assert(

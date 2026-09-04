@@ -10,7 +10,9 @@ local required_methods = {
   "formatting.feature.setup",
   "lsp.composition.setup",
   "file_explorer.feature.setup",
-  "git.feature.setup"
+  "git.feature.setup",
+  "buffer.feature.setup",
+  "terminal.feature.setup"
 }
 
 local function get_path(value, path)
@@ -62,6 +64,17 @@ local function validate(dependencies)
     "nvi composition 缺少依赖：git.adapter"
   )
 
+  assert(
+    dependencies.buffer.adapter ~= nil,
+    "nvi composition 缺少依赖：buffer.adapter"
+  )
+
+  assert(
+    dependencies.terminal.adapter ~= nil,
+    "nvi composition 缺少依赖：terminal.adapter"
+  )
+
+
   return dependencies
 end
 
@@ -83,6 +96,11 @@ local function production_dependencies()
       adapter = require("nvi.adapters.gitsigns")
     },
 
+    buffer = {
+      feature = require("nvi.features.buffer"),
+      adapter = require("nvi.adapters.native_buffer")
+    },
+
     search = {
       feature = require("nvi.features.search"),
       adapter = require("nvi.adapters.mini_pick"),
@@ -96,6 +114,11 @@ local function production_dependencies()
     formatting = {
       feature = require("nvi.features.formatting"),
       adapter = require("nvi.adapters.lsp_formatter"),
+    },
+
+    terminal = {
+      feature = require("nvi.features.terminal"),
+      adapter = require("nvi.adapters.native_terminal")
     },
 
     lsp = {
@@ -151,6 +174,13 @@ function M.setup(dependencies)
   dependencies.search.feature.setup(
     dependencies.search.adapter
   )
+
+  dependencies.buffer.feature.setup(
+    dependencies.buffer.adapter
+  )
+  dependencies.terminal.feature.setup(
+  dependencies.terminal.adapter
+)
 
   dependencies.file_explorer.feature.setup(
     dependencies.file_explorer.adapter
