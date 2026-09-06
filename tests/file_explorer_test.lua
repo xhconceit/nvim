@@ -1,6 +1,7 @@
 local calls = {
   open_current = 0,
   open_cwd = 0,
+  close = 0,
 }
 
 local adapter = {
@@ -10,6 +11,9 @@ local adapter = {
   end,
   open_cwd = function()
     calls.open_cwd = calls.open_cwd + 1
+  end,
+  close = function()
+    calls.close = calls.close + 1
   end,
 }
 
@@ -34,6 +38,7 @@ local current_mapping = find_mapping(
 local cwd_mapping = find_mapping(
   "打开当前工作目录"
 )
+local close_mapping = find_mapping("关闭文件浏览器")
 
 assert(
   type(current_mapping.callback) == "function",
@@ -43,9 +48,11 @@ assert(
   type(cwd_mapping.callback) == "function",
   "打开工作目录没有 Lua callback"
 )
+assert(type(close_mapping.callback) == "function", "关闭文件浏览器没有 Lua callback")
 
 current_mapping.callback()
 cwd_mapping.callback()
+close_mapping.callback()
 
 assert(
   calls.open_current == 1,
@@ -55,5 +62,6 @@ assert(
   calls.open_cwd == 1,
   "open_cwd 应该被调用一次"
 )
+assert(calls.close == 1, "close 应该被调用一次")
 
 print("file_explorer_test: OK")

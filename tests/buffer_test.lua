@@ -1,6 +1,8 @@
 local calls = {
+  new_buffer = 0,
   next_buffer = 0,
   prev_buffer = 0,
+  alternate_buffer = 0,
   close_buffer = 0,
 }
 
@@ -27,6 +29,11 @@ local function find_mapping(lhs)
 end
 
 local expectations = {
+  {
+    lhs = " bn",
+    method = "new_buffer",
+    description = "新建空 Buffer",
+  },
   {
     lhs = " bj",
     method = "next_buffer",

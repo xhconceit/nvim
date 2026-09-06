@@ -15,8 +15,14 @@ assert(
 local ok, error_message = pcall(function () 
   CodeIntelligencePort.validate({
     hover = function() end,
-    definition = function() end,
-    references = function() end,
+  definition = function() end,
+  declaration = function() end,
+  implementation = function() end,
+  type_definition = function() end,
+  document_symbol = function() end,
+  workspace_symbol = function() end,
+  signature_help = function() end,
+  references = function() end,
     rename = function() end,
   })
 end)

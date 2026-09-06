@@ -4,6 +4,8 @@ local calls = {
   stage_hunk = 0,
   reset_hunk = 0,
   preview_hunk = 0,
+  blame_line = 0,
+  toggle_line_blame = 0,
 }
 
 local adapter = {}
@@ -53,6 +55,16 @@ local expectations = {
     lhs = " hp",
     method = "preview_hunk",
     description = "预览 Git 变更块",
+  },
+  {
+    lhs = " hb",
+    method = "blame_line",
+    description = "查看当前行提交信息",
+  },
+  {
+    lhs = " ht",
+    method = "toggle_line_blame",
+    description = "切换行级 Git blame",
   },
 }
 

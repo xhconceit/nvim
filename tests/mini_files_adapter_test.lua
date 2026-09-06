@@ -24,6 +24,9 @@ package.loaded["mini.files"] = {
       use_latest = use_latest,
     })
   end,
+  close = function()
+    table.insert(calls, { method = "close" })
+  end,
 }
 
 local MiniFilesAdapter =
@@ -36,10 +39,11 @@ local ok, error_message = xpcall(function()
   MiniFilesAdapter.open_current()
 
   MiniFilesAdapter.open_cwd()
+  MiniFilesAdapter.close()
 
   assert(
-    #calls == 3,
-    "mini.files.open 应该被调用三次"
+    #calls == 4,
+    "mini.files 应该被调用四次"
   )
   assert(
     calls[1].path
@@ -66,6 +70,7 @@ local ok, error_message = xpcall(function()
     calls[3].use_latest == false,
     "打开工作目录时不应该复用历史"
   )
+  assert(calls[4].method == "close", "应该调用 mini.files.close")
 end, debug.traceback)
 
 vim.api.nvim_buf_get_name = original.get_name

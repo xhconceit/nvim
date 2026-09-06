@@ -15,6 +15,8 @@ local required_methods = {
   "decrease_height",
   "increase_width",
   "decrease_width",
+  "swap_next",
+  "swap_previous",
 }
 
 

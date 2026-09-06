@@ -12,6 +12,8 @@ function M.setup(adapter)
   Keymap.nmap("<leader>hs", git.stage_hunk, "暂存 Git 变更块")
   Keymap.nmap("<leader>hr", git.reset_hunk, "撤销 Git 变更块")
   Keymap.nmap("<leader>hp", git.preview_hunk, "预览 Git 变更块")
+  Keymap.nmap("<leader>hb", git.blame_line, "查看当前行提交信息")
+  Keymap.nmap("<leader>ht", git.toggle_line_blame, "切换行级 Git blame")
 end
 
 return M

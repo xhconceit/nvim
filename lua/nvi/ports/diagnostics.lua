@@ -5,7 +5,8 @@ local required_methods = {
   "jump_next",
   "jump_previous",
   "open_list",
-  "open_workspace_list"
+  "open_workspace_list",
+  "toggle",
 }
 
 function M.validate(adapter)

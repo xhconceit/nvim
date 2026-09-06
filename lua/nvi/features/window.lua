@@ -43,6 +43,8 @@ function M.setup(adapter)
   Keymap.nmap("<C-l>", window.focus_right, "移动到右侧窗口")
 
   Keymap.nmap("<leader>w=", window.equalize, "平均分配窗口")
+  Keymap.nmap("<leader>wr", window.swap_next, "交换到下一个窗口")
+  Keymap.nmap("<leader>wR", window.swap_previous, "交换到上一个窗口")
 
   Keymap.nmap(
     "<leader>wmh",

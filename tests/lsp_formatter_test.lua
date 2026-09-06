@@ -32,6 +32,16 @@ local ok, error_message = xpcall(function()
     received_options.async == true,
     "LSP 格式化应该异步执行"
   )
+
+  LspFormatter.format_range({
+    bufnr = request.bufnr,
+    range = {
+      start = { 0, 0 },
+      ["end"] = { 2, 0 },
+    },
+  })
+
+  assert(received_options.range["end"][1] == 2, "范围格式化传递了错误的结束行")
 end, debug.traceback)
 
 vim.lsp.buf.format =

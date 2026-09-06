@@ -19,6 +19,12 @@ package.loaded["gitsigns"] = {
   preview_hunk = function()
     table.insert(calls, { method = "preview_hunk" })
   end,
+  blame_line = function()
+    table.insert(calls, { method = "blame_line" })
+  end,
+  toggle_current_line_blame = function()
+    table.insert(calls, { method = "toggle_current_line_blame" })
+  end,
 }
 
 package.loaded[module_name] = nil
@@ -31,6 +37,8 @@ local ok, error_message = xpcall(function()
   adapter.stage_hunk()
   adapter.reset_hunk()
   adapter.preview_hunk()
+  adapter.blame_line()
+  adapter.toggle_line_blame()
 
   local expectations = {
     { method = "nav_hunk", argument = "next" },
@@ -38,6 +46,8 @@ local ok, error_message = xpcall(function()
     { method = "stage_hunk" },
     { method = "reset_hunk" },
     { method = "preview_hunk" },
+    { method = "blame_line" },
+    { method = "toggle_current_line_blame" },
   }
 
   assert(

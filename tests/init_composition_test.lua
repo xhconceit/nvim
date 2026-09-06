@@ -10,6 +10,8 @@ local calls = {
   buffer = nil,
   terminal = nil,
   window = nil,
+  tab = nil,
+  session = nil,
   quickfix = nil,
   git = nil,
   file_explorer = nil,
@@ -37,6 +39,10 @@ local terminal_adapter = {
 local window_adapter = {
   name = "fake window adapter",
 }
+local tab_adapter = {
+  name = "fake tab adapter",
+}
+local session_adapter = { name = "fake session adapter" }
 local quickfix_adapter = {
   name = "fake quickfix adapter",
 }
@@ -125,6 +131,18 @@ local dependencies = {
     },
     adapter = window_adapter,
   },
+  tab = {
+    feature = {
+      setup = function(adapter)
+        calls.tab = adapter
+      end,
+    },
+    adapter = tab_adapter,
+  },
+  session = {
+    feature = { setup = function(adapter) calls.session = adapter end },
+    adapter = session_adapter,
+  },
   quickfix = {
     feature = {
       setup = function(adapter)
@@ -198,6 +216,8 @@ assert(
   calls.window == window_adapter,
   "窗口功能没有收到注入的适配器"
 )
+assert(calls.tab == tab_adapter, "Tab 功能没有收到注入的适配器")
+assert(calls.session == session_adapter, "Session 功能没有收到注入的适配器")
 assert(
   calls.quickfix == quickfix_adapter,
   "Quickfix 功能没有收到注入的适配器"

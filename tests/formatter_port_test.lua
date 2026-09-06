@@ -2,6 +2,7 @@ local FormatterPort = require("nvi.ports.formatter")
 
 local valid_adapter = {
   format_buffer = function() end,
+  format_range = function() end,
 }
 
 assert(

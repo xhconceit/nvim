@@ -2,7 +2,8 @@ local M = {}
 
 local required_methods = {
   "open_current",
-  "open_cwd"
+  "open_cwd",
+  "close"
 }
 
 function M.validate(adapter)

@@ -7,7 +7,13 @@ local required_methods = {
   "definition",
   "references",
   "rename",
-  "code_action"
+  "code_action",
+  "declaration", -- 跳转到声明
+  "implementation",
+  "type_definition",
+  "document_symbol",
+  "workspace_symbol",
+  "signature_help",
 }
 
 -- 验证具体适配器是否符合端口契约

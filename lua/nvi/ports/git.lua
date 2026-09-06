@@ -5,7 +5,9 @@ local required_methods = {
   "prev_hunk",
   "stage_hunk",
   "reset_hunk",
-  "preview_hunk"
+  "preview_hunk",
+  "blame_line",
+  "toggle_line_blame"
 }
 
 function M.validate(adapter)

@@ -28,4 +28,29 @@ function M.code_action()
   vim.lsp.buf.code_action()
 end
 
+-- 跳转到声明
+function M.declaration()
+  vim.lsp.buf.declaration()
+end
+
+function M.implementation()
+  vim.lsp.buf.implementation()
+end
+
+function M.type_definition()
+  vim.lsp.buf.type_definition()
+end
+
+function M.document_symbol()
+  vim.lsp.buf.document_symbol()
+end
+
+function M.workspace_symbol()
+  vim.lsp.buf.workspace_symbol()
+end
+
+function M.signature_help()
+  vim.lsp.buf.signature_help()
+end
+
 return M

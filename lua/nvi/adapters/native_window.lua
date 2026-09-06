@@ -56,4 +56,12 @@ function M.decrease_width()
   vim.cmd.vertical("resize -5")
 end
 
+function M.swap_next()
+  vim.cmd.wincmd("r")
+end
+
+function M.swap_previous()
+  vim.cmd.wincmd("R")
+end
+
 return M

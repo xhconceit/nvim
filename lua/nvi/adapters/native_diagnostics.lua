@@ -38,4 +38,9 @@ function M.open_workspace_list()
   })
 end
 
+function M.toggle()
+  local enabled = vim.diagnostic.is_enabled({ bufnr = 0 })
+  vim.diagnostic.enable(not enabled, { bufnr = 0 })
+end
+
 return M

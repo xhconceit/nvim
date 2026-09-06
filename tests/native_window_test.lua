@@ -98,6 +98,12 @@ local ok, error_message = xpcall(function()
     "equalize 应该执行 wincmd ="
   )
 
+  NativeWindow.swap_next()
+  NativeWindow.swap_previous()
+
+  assert(calls.wincmd[7] == "r", "swap_next 应该执行 wincmd r")
+  assert(calls.wincmd[8] == "R", "swap_previous 应该执行 wincmd R")
+
   NativeWindow.increase_height()
   NativeWindow.decrease_height()
   NativeWindow.increase_width()

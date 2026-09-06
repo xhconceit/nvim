@@ -3,6 +3,8 @@ local original = {
   jump = vim.diagnostic.jump,
   setloclist = vim.diagnostic.setloclist,
   setqflist = vim.diagnostic.setqflist,
+  is_enabled = vim.diagnostic.is_enabled,
+  enable = vim.diagnostic.enable,
 }
 
 local calls = {
@@ -10,7 +12,19 @@ local calls = {
   jumps = {},
   setloclist = nil,
   setqflist = nil,
+  enable = nil,
 }
+
+local enabled = true
+local enable_call
+vim.diagnostic.is_enabled = function(options)
+  assert(options.bufnr == 0)
+  return enabled
+end
+vim.diagnostic.enable = function(value, options)
+  enabled = value
+  enable_call = { value = value, options = options }
+end
 
 vim.diagnostic.open_float = function(options)
   calls.open_float = options
@@ -37,6 +51,7 @@ local ok, error_message = xpcall(function()
   NativeDiagnostics.jump_previous()
   NativeDiagnostics.open_list()
   NativeDiagnostics.open_workspace_list()
+  NativeDiagnostics.toggle()
 
   assert(
     calls.open_float.scope == "cursor",
@@ -94,6 +109,9 @@ local ok, error_message = xpcall(function()
     "工作区诊断应该自动打开 Quickfix"
   )
 
+  assert(enable_call.value == false, "toggle 应该关闭当前 Buffer 的诊断")
+  assert(enable_call.options.bufnr == 0, "toggle 应该作用于当前 Buffer")
+
   assert(
     calls.setqflist.title
       == "Workspace Diagnostics",
@@ -112,6 +130,8 @@ vim.diagnostic.setloclist =
 
 vim.diagnostic.setqflist =
   original.setqflist
+vim.diagnostic.is_enabled = original.is_enabled
+vim.diagnostic.enable = original.enable
 
 assert(ok, error_message)
 

@@ -9,6 +9,7 @@ function M.setup(adapter)
 
   Keymap.nmap("<leader>ef", explorer.open_current, "打开当前文件所在位置")
   Keymap.nmap("<leader>ew", explorer.open_cwd, "打开当前工作目录")
+  Keymap.nmap("<leader>eq", explorer.close, "关闭文件浏览器")
 end
 
 return M

@@ -6,6 +6,14 @@ local M = {}
 function M.setup(adapter)
   local buffer = BufferPort.validate(adapter)
 
+  Keymap.nmap("<leader>bn", buffer.new_buffer, "新建空 Buffer")
+
+  Keymap.nmap(
+    "<leader>bb",
+    buffer.alternate_buffer,
+    "切回上一个 Buffer"
+  )
+
   Keymap.nmap(
     "<leader>bj",
     buffer.next_buffer,

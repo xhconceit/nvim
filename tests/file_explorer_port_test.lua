@@ -7,6 +7,8 @@ local adapter = {
   end,
   open_cwd = function()
   end,
+  close = function()
+  end,
 }
 
 assert(

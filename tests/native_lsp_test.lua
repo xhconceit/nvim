@@ -1,6 +1,12 @@
 local methods = {
   "hover",
   "definition",
+  "declaration",
+  "implementation",
+  "type_definition",
+  "document_symbol",
+  "workspace_symbol",
+  "signature_help",
   "references",
   "rename",
   "code_action",

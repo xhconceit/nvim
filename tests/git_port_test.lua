@@ -6,6 +6,8 @@ local adapter = {
   stage_hunk = function() end,
   reset_hunk = function() end,
   preview_hunk = function() end,
+  blame_line = function() end,
+  toggle_line_blame = function() end,
 }
 
 assert(
@@ -19,6 +21,8 @@ local required_methods = {
   "stage_hunk",
   "reset_hunk",
   "preview_hunk",
+  "blame_line",
+  "toggle_line_blame",
 }
 
 for _, missing_method in ipairs(required_methods) do

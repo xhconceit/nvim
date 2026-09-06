@@ -12,13 +12,17 @@ package.loaded[module_name] = nil
 local ok, error_message = xpcall(function()
   local adapter = require(module_name)
 
+  adapter.new_buffer()
   adapter.next_buffer()
   adapter.prev_buffer()
+  adapter.alternate_buffer()
   adapter.close_buffer()
 
   local expected_commands = {
+    "enew",
     "bnext",
     "bprevious",
+    "buffer #",
     "bdelete",
   }
 

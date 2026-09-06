@@ -13,6 +13,8 @@ local methods = {
   "decrease_height",
   "increase_width",
   "decrease_width",
+  "swap_next",
+  "swap_previous",
 }
 
 local calls = {}
@@ -61,6 +63,8 @@ local cases = {
   { lhs = "<C-k>", desc = "移动到上方窗口", methods = { "focus_up" } },
   { lhs = "<C-l>", desc = "移动到右侧窗口", methods = { "focus_right" } },
   { lhs = "<leader>w=", desc = "平均分配窗口", methods = { "equalize" } },
+  { lhs = "<leader>wr", desc = "交换到下一个窗口", methods = { "swap_next" } },
+  { lhs = "<leader>wR", desc = "交换到上一个窗口", methods = { "swap_previous" } },
   { lhs = "<leader>wmh", desc = "缩小窗口宽度", methods = { "decrease_width" } },
   { lhs = "<leader>wml", desc = "增加窗口宽度", methods = { "increase_width" } },
   { lhs = "<leader>wmk", desc = "缩小窗口高度", methods = { "decrease_height" } },

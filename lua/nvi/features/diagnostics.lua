@@ -29,7 +29,12 @@ local mappings = {
     lhs = "<leader>dq",
     method = "open_workspace_list",
     desc = "打开工作区诊断"
-  }
+  },
+  {
+    lhs = "<leader>dt",
+    method = "toggle",
+    desc = "切换诊断显示"
+  },
 }
 
 function M.attach(adapter, bufnr)

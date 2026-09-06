@@ -38,6 +38,16 @@ local function create_dependencies()
       },
       adapter = {},
     },
+    tab = {
+      feature = {
+        setup = no_op_setup,
+      },
+      adapter = {},
+    },
+    session = {
+      feature = { setup = no_op_setup },
+      adapter = {},
+    },
     quickfix = {
       feature = {
         setup = no_op_setup,

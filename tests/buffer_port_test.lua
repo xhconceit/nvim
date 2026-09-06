@@ -1,8 +1,10 @@
 local Port = require("nvi.ports.buffer")
 
 local required_methods = {
+  "new_buffer",
   "next_buffer",
   "prev_buffer",
+  "alternate_buffer",
   "close_buffer",
 }
 

@@ -22,4 +22,12 @@ function M.preview_hunk()
   require("gitsigns").preview_hunk()
 end
 
+function M.blame_line()
+  require("gitsigns").blame_line()
+end
+
+function M.toggle_line_blame()
+  require("gitsigns").toggle_current_line_blame()
+end
+
 return M

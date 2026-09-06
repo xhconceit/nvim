@@ -2,6 +2,7 @@ local M = {}
 
 local required_methods = {
   "format_buffer",
+  "format_range",
 }
 
 function M.validate(adapter)

@@ -15,4 +15,8 @@ function M.open_cwd()
   require("mini.files").open(vim.fn.getcwd(), false)
 end
 
+function M.close()
+  require("mini.files").close()
+end
+
 return M

@@ -15,6 +15,8 @@ local adapter = {
   decrease_height = function() end,
   increase_width = function() end,
   decrease_width = function() end,
+  swap_next = function() end,
+  swap_previous = function() end,
 }
 
 assert(

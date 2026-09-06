@@ -15,6 +15,8 @@ local required_methods = {
   "terminal.feature.setup",
   "quickfix.feature.setup",
   "window.feature.setup",
+  "tab.feature.setup",
+  "session.feature.setup",
 }
 
 local function get_path(value, path)
@@ -86,6 +88,12 @@ local function validate(dependencies)
     "nvi composition 缺少依赖：quickfix.adapter"
   )
 
+  assert(
+    dependencies.tab.adapter ~= nil,
+    "nvi composition 缺少依赖：tab.adapter"
+  )
+  assert(dependencies.session.adapter ~= nil, "nvi composition 缺少依赖：session.adapter")
+
   return dependencies
 end
 
@@ -140,6 +148,15 @@ local function production_dependencies()
     window = {
       feature = require("nvi.features.window"),
       adapter = require("nvi.adapters.native_window")
+    },
+
+    tab = {
+      feature = require("nvi.features.tab"),
+      adapter = require("nvi.adapters.native_tab")
+    },
+    session = {
+      feature = require("nvi.features.session"),
+      adapter = require("nvi.adapters.native_session"),
     },
 
     lsp = {
@@ -205,6 +222,14 @@ function M.setup(dependencies)
 
   dependencies.window.feature.setup(
     dependencies.window.adapter
+  )
+
+  dependencies.tab.feature.setup(
+    dependencies.tab.adapter
+  )
+
+  dependencies.session.feature.setup(
+    dependencies.session.adapter
   )
 
   dependencies.file_explorer.feature.setup(
