@@ -84,4 +84,33 @@ function M.buffer(bufnr, mode, lhs, rhs, options)
   M.set(mode, lhs, rhs, options)
 end
 
+function M.list(mode)
+  local items = {}
+
+  for _, mapping in ipairs(
+    vim.api.nvim_get_keymap(mode)
+  ) do
+    if mapping.desc and mapping.desc ~= "" then
+      table.insert(items, {
+        lhs = mapping.lhs,
+        desc = mapping.desc,
+        text = mapping.lhs .. "  " .. mapping.desc,
+      })
+    end
+  end
+
+  return items
+end
+
+function M.execute(lhs)
+  local keys = vim.api.nvim_replace_termcodes(
+    lhs,
+    true,
+    false,
+    true
+  )
+
+  vim.api.nvim_feedkeys(keys, "m", false)
+end
+
 return M

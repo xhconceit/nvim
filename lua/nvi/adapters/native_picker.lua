@@ -1,3 +1,5 @@
+local Keymap = require("nvi.ui.keymap")
+
 local M = {}
 
 function M.find_files()
@@ -41,6 +43,23 @@ function M.search_text()
   end
 
   vim.cmd("copen")
+end
+
+function M.search_keymaps()
+  vim.ui.select(
+    Keymap.list("n"),
+    {
+      prompt = "搜索快捷键：",
+      format_item = function(item)
+        return item.text
+      end,
+    },
+    function(item)
+      if item then
+        Keymap.execute(item.lhs)
+      end
+    end
+  )
 end
 
 return M

@@ -4,7 +4,7 @@ local function session_path()
   local directory = vim.fn.stdpath("state") .. "/nvi/sessions"
   local project_id = vim.fn.sha256(vim.fn.getcwd())
 
-  return directory, directory .. "/" .. project_id
+  return directory, directory .. "/" .. project_id .. ".vim"
 end
 
 function M.save_current()

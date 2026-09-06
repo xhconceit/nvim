@@ -2,7 +2,8 @@ local M = {}
 
 local required_methods = {
   "find_files",
-  "search_text"
+  "search_text",
+  "search_keymaps"
 }
 
 function M.validate(adapter)

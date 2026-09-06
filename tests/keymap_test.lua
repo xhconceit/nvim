@@ -116,4 +116,97 @@ vim.api.nvim_buf_delete(bufnr, {
   force = true,
 })
 
+local original_api = {
+  get_keymap = vim.api.nvim_get_keymap,
+  replace_termcodes = vim.api.nvim_replace_termcodes,
+  feedkeys = vim.api.nvim_feedkeys,
+}
+
+local calls = {
+  replaced_keys = nil,
+  feedkeys = nil,
+}
+
+vim.api.nvim_get_keymap = function(mode)
+  assert(mode == "n", "应该读取指定模式的快捷键")
+
+  return {
+    {
+      lhs = "<leader>ff",
+      desc = "搜索文件",
+    },
+    {
+      lhs = "<F12>",
+    },
+    {
+      lhs = "<F11>",
+      desc = "",
+    },
+  }
+end
+
+vim.api.nvim_replace_termcodes = function(
+  keys,
+  from_part,
+  do_lt,
+  special
+)
+  calls.replaced_keys = {
+    keys = keys,
+    from_part = from_part,
+    do_lt = do_lt,
+    special = special,
+  }
+
+  return "encoded:" .. keys
+end
+
+
+vim.api.nvim_feedkeys = function(keys, mode, escape)
+  calls.feedkeys = {
+    keys = keys,
+    mode = mode,
+    escape = escape,
+  }
+end
+
+local catalog_ok, catalog_error = xpcall(function()
+  local items = Keymap.list("n")
+
+  assert(
+    #items == 1,
+    "Keymap.list 应该忽略没有 desc 的快捷键"
+  )
+
+  assert(
+    vim.deep_equal(items[1], {
+      lhs = "<leader>ff",
+      desc = "搜索文件",
+      text = "<leader>ff  搜索文件",
+    }),
+    "Keymap.list 生成了错误的快捷键条目"
+  )
+
+  Keymap.execute(items[1].lhs)
+
+  assert(
+    calls.replaced_keys.keys == "<leader>ff",
+    "Keymap.execute 应该转换快捷键编码"
+  )
+
+  assert(
+    calls.feedkeys.keys == "encoded:<leader>ff"
+      and calls.feedkeys.mode == "m"
+      and calls.feedkeys.escape == false,
+    "Keymap.execute 应该执行转换后的快捷键"
+  )
+end, debug.traceback)
+
+vim.api.nvim_get_keymap = original_api.get_keymap
+vim.api.nvim_replace_termcodes =
+  original_api.replace_termcodes
+vim.api.nvim_feedkeys = original_api.feedkeys
+
+assert(catalog_ok, catalog_error)
+
 print("keymap_test: OK")

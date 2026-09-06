@@ -17,6 +17,12 @@ function M.setup(adapter)
     "搜索文本"
   )
 
+  Keymap.nmap(
+    "<leader>fk",
+    search.search_keymaps,
+    "搜索快捷键"
+  )
+
 end
 
 return M

@@ -2,6 +2,10 @@ local original = {
   input = vim.fn.input,
   fnameescape = vim.fn.fnameescape,
   escape = vim.fn.escape,
+  get_keymap = vim.api.nvim_get_keymap,
+  replace_termcodes = vim.api.nvim_replace_termcodes,
+  feedkeys = vim.api.nvim_feedkeys,
+  select = vim.ui.select,
   cmd = vim.cmd,
   notify = vim.notify,
 }
@@ -18,6 +22,9 @@ local calls = {
   copen = 0,
   notification = nil,
   escape = nil,
+  select = nil,
+  replaced_keys = nil,
+  feedkeys = nil,
 }
 
 local fail_vimgrep = false
@@ -37,6 +44,53 @@ vim.fn.escape = function(text, characters)
   }
 
   return "escaped-" .. text
+end
+
+vim.api.nvim_get_keymap = function(mode)
+  assert(mode == "n", "应该读取普通模式快捷键")
+
+  return {
+    {
+      lhs = "<leader>ff",
+      desc = "搜索文件",
+    },
+    {
+      lhs = "<F12>",
+    },
+  }
+end
+
+vim.api.nvim_replace_termcodes = function(
+  keys,
+  from_part,
+  do_lt,
+  special
+)
+  calls.replaced_keys = {
+    keys = keys,
+    from_part = from_part,
+    do_lt = do_lt,
+    special = special,
+  }
+
+  return "encoded:" .. keys
+end
+
+vim.api.nvim_feedkeys = function(keys, mode, escape)
+  calls.feedkeys = {
+    keys = keys,
+    mode = mode,
+    escape = escape,
+  }
+end
+
+vim.ui.select = function(items, options, on_choice)
+  calls.select = {
+    items = items,
+    options = options,
+  }
+
+  on_choice(items[1])
 end
 
 local fake_cmd = {}
@@ -145,11 +199,45 @@ local ok, error_message = xpcall(function()
       == vim.log.levels.WARN,
     "搜索失败应该使用 WARN 级别"
   )
+
+  NativePicker.search_keymaps()
+
+  assert(
+    calls.select.options.prompt == "搜索快捷键：",
+    "原生 Picker 提示文本错误"
+  )
+
+  assert(
+    #calls.select.items == 1,
+    "应该忽略没有 desc 的快捷键"
+  )
+
+  assert(
+    calls.select.items[1].text
+      == "<leader>ff  搜索文件",
+    "快捷键条目应该包含按键和描述"
+  )
+
+  assert(
+    calls.replaced_keys.keys == "<leader>ff",
+    "执行前应该转换快捷键编码"
+  )
+
+  assert(
+    calls.feedkeys.keys == "encoded:<leader>ff"
+      and calls.feedkeys.mode == "m"
+      and calls.feedkeys.escape == false,
+    "选中条目后应该执行对应快捷键"
+  )
 end, debug.traceback)
 
 vim.fn.input = original.input
 vim.fn.fnameescape = original.fnameescape
 vim.fn.escape = original.escape
+vim.api.nvim_get_keymap = original.get_keymap
+vim.api.nvim_replace_termcodes = original.replace_termcodes
+vim.api.nvim_feedkeys = original.feedkeys
+vim.ui.select = original.select
 vim.cmd = original.cmd
 vim.notify = original.notify
 
