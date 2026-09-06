@@ -12,7 +12,9 @@ local required_methods = {
   "file_explorer.feature.setup",
   "git.feature.setup",
   "buffer.feature.setup",
-  "terminal.feature.setup"
+  "terminal.feature.setup",
+  "quickfix.feature.setup",
+  "window.feature.setup",
 }
 
 local function get_path(value, path)
@@ -45,6 +47,11 @@ local function validate(dependencies)
   )
 
   assert(
+    dependencies.window.adapter ~= nil,
+    "nvi composition 缺少依赖：window.adapter"
+  )
+
+  assert(
     dependencies.formatting.adapter ~= nil,
     "nvi composition 缺少依赖：formatting.adapter"
   )
@@ -74,6 +81,10 @@ local function validate(dependencies)
     "nvi composition 缺少依赖：terminal.adapter"
   )
 
+  assert(
+    dependencies.quickfix.adapter ~= nil,
+    "nvi composition 缺少依赖：quickfix.adapter"
+  )
 
   return dependencies
 end
@@ -119,6 +130,16 @@ local function production_dependencies()
     terminal = {
       feature = require("nvi.features.terminal"),
       adapter = require("nvi.adapters.native_terminal")
+    },
+
+    quickfix = {
+      feature = require("nvi.features.quickfix"),
+      adapter = require("nvi.adapters.native_quickfix")
+    },
+
+    window = {
+      feature = require("nvi.features.window"),
+      adapter = require("nvi.adapters.native_window")
     },
 
     lsp = {
@@ -179,8 +200,12 @@ function M.setup(dependencies)
     dependencies.buffer.adapter
   )
   dependencies.terminal.feature.setup(
-  dependencies.terminal.adapter
-)
+    dependencies.terminal.adapter
+  )
+
+  dependencies.window.feature.setup(
+    dependencies.window.adapter
+  )
 
   dependencies.file_explorer.feature.setup(
     dependencies.file_explorer.adapter
@@ -192,6 +217,10 @@ function M.setup(dependencies)
 
   dependencies.formatting.feature.setup(
     dependencies.formatting.adapter
+  )
+
+  dependencies.quickfix.feature.setup(
+    dependencies.quickfix.adapter
   )
 
   dependencies.lsp.composition.setup(

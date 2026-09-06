@@ -1,8 +1,9 @@
+local Project = require("nvi.core.project")
 local M = {}
 
 local function session_path()
   local directory = vim.fn.stdpath("state") .. "/nvi/sessions"
-  local project_id = vim.fn.sha256(vim.fn.getcwd())
+  local project_id = vim.fn.sha256(Project.root())
 
   return directory, directory .. "/" .. project_id .. ".vim"
 end

@@ -9,6 +9,8 @@ local calls = {
   search = nil,
   buffer = nil,
   terminal = nil,
+  window = nil,
+  quickfix = nil,
   git = nil,
   file_explorer = nil,
   formatting = nil,
@@ -31,6 +33,12 @@ local buffer_adapter = {
 }
 local terminal_adapter = {
   name = "fake terminal adapter",
+}
+local window_adapter = {
+  name = "fake window adapter",
+}
+local quickfix_adapter = {
+  name = "fake quickfix adapter",
 }
 local git_adapter = {
   name = "fake git adapter",
@@ -109,6 +117,22 @@ local dependencies = {
     },
     adapter = terminal_adapter,
   },
+  window = {
+    feature = {
+      setup = function(adapter)
+        calls.window = adapter
+      end,
+    },
+    adapter = window_adapter,
+  },
+  quickfix = {
+    feature = {
+      setup = function(adapter)
+        calls.quickfix = adapter
+      end,
+    },
+    adapter = quickfix_adapter,
+  },
   git = {
     feature = {
       setup = function(adapter)
@@ -169,6 +193,14 @@ assert(
 assert(
   calls.terminal == terminal_adapter,
   "终端功能没有收到注入的适配器"
+)
+assert(
+  calls.window == window_adapter,
+  "窗口功能没有收到注入的适配器"
+)
+assert(
+  calls.quickfix == quickfix_adapter,
+  "Quickfix 功能没有收到注入的适配器"
 )
 assert(
   calls.git == git_adapter,

@@ -2,12 +2,14 @@ local original = {
   open_float = vim.diagnostic.open_float,
   jump = vim.diagnostic.jump,
   setloclist = vim.diagnostic.setloclist,
+  setqflist = vim.diagnostic.setqflist,
 }
 
 local calls = {
   open_float = nil,
   jumps = {},
   setloclist = nil,
+  setqflist = nil,
 }
 
 vim.diagnostic.open_float = function(options)
@@ -22,6 +24,10 @@ vim.diagnostic.setloclist = function(options)
   calls.setloclist = options
 end
 
+vim.diagnostic.setqflist = function(options)
+  calls.setqflist = options
+end
+
 local NativeDiagnostics =
   require("nvi.adapters.native_diagnostics")
 
@@ -30,6 +36,7 @@ local ok, error_message = xpcall(function()
   NativeDiagnostics.jump_next()
   NativeDiagnostics.jump_previous()
   NativeDiagnostics.open_list()
+  NativeDiagnostics.open_workspace_list()
 
   assert(
     calls.open_float.scope == "cursor",
@@ -81,6 +88,17 @@ local ok, error_message = xpcall(function()
       == "Buffer Diagnostics",
     "诊断列表标题错误"
   )
+
+  assert(
+    calls.setqflist.open == true,
+    "工作区诊断应该自动打开 Quickfix"
+  )
+
+  assert(
+    calls.setqflist.title
+      == "Workspace Diagnostics",
+    "工作区诊断列表标题错误"
+  )
 end, debug.traceback)
 
 vim.diagnostic.open_float =
@@ -91,6 +109,9 @@ vim.diagnostic.jump =
 
 vim.diagnostic.setloclist =
   original.setloclist
+
+vim.diagnostic.setqflist =
+  original.setqflist
 
 assert(ok, error_message)
 

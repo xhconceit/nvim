@@ -1,15 +1,24 @@
-
-
+local Project = require("nvi.core.project")
 local M = {}
 
-function M.open_horizontal()
-  vim.cmd("botright 12split | terminal")
+local function open(split_command)
+  local root = vim.fn.fnameescape(Project.root())
+
+  vim.cmd(
+    split_command
+    .. " | lcd "
+    .. root
+    .. " | terminal"
+  )
   vim.cmd("startinsert")
 end
 
+function M.open_horizontal()
+  open("botright 12split")
+end
+
 function M.open_vertical()
-  vim.cmd("botright vsplit | terminal")
-  vim.cmd("startinsert")
+  open("botright vsplit")
 end
 
 return M

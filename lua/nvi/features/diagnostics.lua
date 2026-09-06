@@ -24,6 +24,11 @@ local mappings = {
     lhs = "<leader>dl",
     method = "open_list",
     desc = "打开诊断列表"
+  },
+  {
+    lhs = "<leader>dq",
+    method = "open_workspace_list",
+    desc = "打开工作区诊断"
   }
 }
 

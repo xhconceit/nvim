@@ -31,4 +31,11 @@ function M.open_list()
   })
 end
 
+function M.open_workspace_list()
+  vim.diagnostic.setqflist({
+    open = true,
+    title = "Workspace Diagnostics"
+  })
+end
+
 return M

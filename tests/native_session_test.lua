@@ -11,11 +11,13 @@ local original = {
 }
 
 local module_name = "nvi.adapters.native_session"
+local original_project = package.loaded["nvi.core.project"]
 local calls = {
   mkdir = {},
   commands = {},
   deleted = {},
   notifications = {},
+  project_root = 0,
 }
 local readable = 1
 
@@ -24,10 +26,10 @@ vim.fn.stdpath = function(kind)
   return "/tmp/nvi-state"
 end
 vim.fn.getcwd = function()
-  return "/projects/demo"
+  error("会话路径不应该直接依赖 getcwd")
 end
 vim.fn.sha256 = function(value)
-  assert(value == "/projects/demo", "应该散列当前工作目录")
+  assert(value == "/projects/demo", "应该散列项目根目录")
   return "project-hash"
 end
 vim.fn.mkdir = function(path, flags)
@@ -53,6 +55,13 @@ end
 vim.notify = function(message)
   table.insert(calls.notifications, message)
 end
+
+package.loaded["nvi.core.project"] = {
+  root = function()
+    calls.project_root = calls.project_root + 1
+    return "/projects/demo"
+  end,
+}
 
 package.loaded[module_name] = nil
 
@@ -83,6 +92,11 @@ local ok, error_message = xpcall(function()
   )
 
   adapter.delete_current()
+
+  assert(
+    calls.project_root == 3,
+    "每次会话操作都应该基于项目根目录"
+  )
   assert(
     calls.deleted[1] == session_file,
     "应该删除当前项目会话"
@@ -116,6 +130,7 @@ for name, value in pairs(original) do
   end
 end
 package.loaded[module_name] = nil
+package.loaded["nvi.core.project"] = original_project
 
 assert(ok, error_message)
 

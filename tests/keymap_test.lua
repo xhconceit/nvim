@@ -118,6 +118,8 @@ vim.api.nvim_buf_delete(bufnr, {
 
 local original_api = {
   get_keymap = vim.api.nvim_get_keymap,
+  get_current_buf = vim.api.nvim_get_current_buf,
+  buf_get_keymap = vim.api.nvim_buf_get_keymap,
   replace_termcodes = vim.api.nvim_replace_termcodes,
   feedkeys = vim.api.nvim_feedkeys,
 }
@@ -136,11 +138,34 @@ vim.api.nvim_get_keymap = function(mode)
       desc = "搜索文件",
     },
     {
+      lhs = "gd",
+      desc = "全局跳转定义",
+    },
+    {
       lhs = "<F12>",
     },
     {
       lhs = "<F11>",
       desc = "",
+    },
+  }
+end
+
+vim.api.nvim_get_current_buf = function()
+  return 42
+end
+
+vim.api.nvim_buf_get_keymap = function(bufnr, mode)
+  assert(bufnr == 42, "应该读取当前 Buffer 的快捷键")
+  assert(mode == "n", "应该读取相同模式的 Buffer 快捷键")
+
+  return {
+    {
+      lhs = "gd",
+      desc = "跳转到定义",
+    },
+    {
+      lhs = "<F10>",
     },
   }
 end
@@ -174,8 +199,8 @@ local catalog_ok, catalog_error = xpcall(function()
   local items = Keymap.list("n")
 
   assert(
-    #items == 1,
-    "Keymap.list 应该忽略没有 desc 的快捷键"
+    #items == 2,
+    "Buffer 快捷键应该覆盖同 lhs 的全局快捷键"
   )
 
   assert(
@@ -185,6 +210,15 @@ local catalog_ok, catalog_error = xpcall(function()
       text = "<leader>ff  搜索文件",
     }),
     "Keymap.list 生成了错误的快捷键条目"
+  )
+
+  assert(
+    vim.deep_equal(items[2], {
+      lhs = "gd",
+      desc = "跳转到定义",
+      text = "gd  跳转到定义",
+    }),
+    "Keymap.list 没有生成 Buffer 快捷键条目"
   )
 
   Keymap.execute(items[1].lhs)
@@ -203,6 +237,8 @@ local catalog_ok, catalog_error = xpcall(function()
 end, debug.traceback)
 
 vim.api.nvim_get_keymap = original_api.get_keymap
+vim.api.nvim_get_current_buf = original_api.get_current_buf
+vim.api.nvim_buf_get_keymap = original_api.buf_get_keymap
 vim.api.nvim_replace_termcodes =
   original_api.replace_termcodes
 vim.api.nvim_feedkeys = original_api.feedkeys

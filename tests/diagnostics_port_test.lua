@@ -29,4 +29,23 @@ assert(
   "错误信息应该指出缺少 open_list"
 )
 
+local workspace_ok, workspace_error = pcall(function()
+  DiagnosticsPort.validate({
+    show_current = function() end,
+    jump_next = function() end,
+    jump_previous = function() end,
+    open_list = function() end,
+  })
+end)
+
+assert(
+  not workspace_ok,
+  "缺少 open_workspace_list 时应该验证失败"
+)
+
+assert(
+  workspace_error:match("open_workspace_list"),
+  "错误信息应该指出缺少 open_workspace_list"
+)
+
 print("diagnostics_port_test: OK")

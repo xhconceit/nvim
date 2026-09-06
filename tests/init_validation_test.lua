@@ -32,6 +32,18 @@ local function create_dependencies()
       },
       adapter = {},
     },
+    window = {
+      feature = {
+        setup = no_op_setup,
+      },
+      adapter = {},
+    },
+    quickfix = {
+      feature = {
+        setup = no_op_setup,
+      },
+      adapter = {},
+    },
     git = {
       feature = {
         setup = no_op_setup,
@@ -130,6 +142,49 @@ local missing_terminal_adapter_ok,
     missing_terminal_adapter_dependencies
   )
 
+local missing_window_feature_dependencies =
+  create_dependencies()
+missing_window_feature_dependencies
+  .window.feature.setup = nil
+
+local missing_window_feature_ok,
+  missing_window_feature_error = pcall(
+    Nvi.setup,
+    missing_window_feature_dependencies
+  )
+
+local missing_window_adapter_dependencies =
+  create_dependencies()
+missing_window_adapter_dependencies.window.adapter = nil
+
+local missing_window_adapter_ok,
+  missing_window_adapter_error = pcall(
+    Nvi.setup,
+    missing_window_adapter_dependencies
+  )
+
+local missing_quickfix_feature_dependencies =
+  create_dependencies()
+missing_quickfix_feature_dependencies
+  .quickfix.feature.setup = nil
+
+local missing_quickfix_feature_ok,
+  missing_quickfix_feature_error = pcall(
+    Nvi.setup,
+    missing_quickfix_feature_dependencies
+  )
+
+local missing_quickfix_adapter_dependencies =
+  create_dependencies()
+missing_quickfix_adapter_dependencies
+  .quickfix.adapter = nil
+
+local missing_quickfix_adapter_ok,
+  missing_quickfix_adapter_error = pcall(
+    Nvi.setup,
+    missing_quickfix_adapter_dependencies
+  )
+
 local missing_explorer_adapter_dependencies =
   create_dependencies()
 missing_explorer_adapter_dependencies
@@ -221,6 +276,58 @@ assert(
     true
   ),
   "错误应该指出缺少 terminal.adapter"
+)
+
+assert(
+  not missing_window_feature_ok,
+  "缺少窗口功能时应该拒绝启动"
+)
+assert(
+  tostring(missing_window_feature_error):find(
+    "window.feature.setup",
+    1,
+    true
+  ),
+  "错误应该指出缺少 window.feature.setup"
+)
+
+assert(
+  not missing_window_adapter_ok,
+  "缺少窗口适配器时应该拒绝启动"
+)
+assert(
+  tostring(missing_window_adapter_error):find(
+    "window.adapter",
+    1,
+    true
+  ),
+  "错误应该指出缺少 window.adapter"
+)
+
+assert(
+  not missing_quickfix_feature_ok,
+  "缺少 Quickfix 功能时应该拒绝启动"
+)
+assert(
+  tostring(missing_quickfix_feature_error):find(
+    "quickfix.feature.setup",
+    1,
+    true
+  ),
+  "错误应该指出缺少 quickfix.feature.setup"
+)
+
+assert(
+  not missing_quickfix_adapter_ok,
+  "缺少 Quickfix 适配器时应该拒绝启动"
+)
+assert(
+  tostring(missing_quickfix_adapter_error):find(
+    "quickfix.adapter",
+    1,
+    true
+  ),
+  "错误应该指出缺少 quickfix.adapter"
 )
 assert(
   tostring(missing_buffer_feature_error):find(

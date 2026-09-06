@@ -3,6 +3,7 @@ local calls = {
   jump_next = 0,
   jump_previous = 0,
   open_list = 0,
+  open_workspace_list = 0,
 }
 
 local fake_diagnostics = {}
@@ -28,6 +29,7 @@ local expected_mappings = {
   ["下一个诊断"] = "jump_next",
   ["上一个诊断"] = "jump_previous",
   ["打开诊断列表"] = "open_list",
+  ["打开工作区诊断"] = "open_workspace_list",
 }
 
 for _, mapping in ipairs(

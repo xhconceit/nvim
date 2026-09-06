@@ -20,21 +20,6 @@ local expected_mappings = {
   ["L"] = "向右移动 5 列",
   ["<leader>jo"] = "上一个光标位置",
   ["<leader>ji"] = "下一个光标位置",
-  ["<leader>wa"] = "左右分屏，光标留在左边",
-  ["<leader>wd"] = "左右分屏，光标留在右边",
-  ["<leader>ww"] = "上下分屏，光标留在上方",
-  ["<leader>ws"] = "上下分屏，光标留在下方",
-  ["<leader>wq"] = "关闭当前窗口",
-  ["<leader>we"] = "关闭其他窗口",
-  ["<leader>wt"] = "切换窗口",
-  ["<leader>wh"] = "跳转到左侧窗口",
-  ["<leader>wj"] = "跳转到下方窗口",
-  ["<leader>wk"] = "跳转到上方窗口",
-  ["<leader>wl"] = "跳转到右侧窗口",
-  ["<leader>wmh"] = "缩小窗口宽度",
-  ["<leader>wml"] = "增加窗口宽度",
-  ["<leader>wmk"] = "缩小窗口高度",
-  ["<leader>wmj"] = "增加窗口高度",
 }
 
 for lhs, description in pairs(expected_mappings) do
@@ -48,6 +33,36 @@ for lhs, description in pairs(expected_mappings) do
   assert(
     mapping.desc == description,
     lhs .. " 没有注册正确的窗口快捷键"
+  )
+end
+
+for _, lhs in ipairs({
+  "<leader>wa",
+  "<leader>wd",
+  "<leader>ww",
+  "<leader>ws",
+  "<leader>wq",
+  "<leader>we",
+  "<leader>wt",
+  "<leader>wh",
+  "<leader>wj",
+  "<leader>wk",
+  "<leader>wl",
+  "<C-h>",
+  "<C-j>",
+  "<C-k>",
+  "<C-l>",
+  "<leader>wmh",
+  "<leader>wml",
+  "<leader>wmk",
+  "<leader>wmj",
+}) do
+  local mapping = vim.fn.maparg(lhs, "n", false, true)
+  local description = mapping.desc or ""
+
+  assert(
+    not description:find("窗口", 1, true),
+    lhs .. " 应该由 window Feature 管理"
   )
 end
 

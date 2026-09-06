@@ -3,7 +3,13 @@ local M = {}
 local required_methods = {
   "find_files",
   "search_text",
-  "search_keymaps"
+  "search_keymaps",
+  "search_commands",
+  "search_buffers",
+  "search_recent_files",
+  "search_help",
+  "search_word",
+  "find_git_files",
 }
 
 function M.validate(adapter)

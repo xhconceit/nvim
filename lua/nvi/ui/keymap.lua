@@ -22,7 +22,7 @@ local function normalize_options(options)
 
   assert(
     type(options.desc) == "string"
-      and options.desc ~= "",
+    and options.desc ~= "",
     "快捷键必须提供非空 desc"
   )
 
@@ -69,7 +69,7 @@ end
 function M.buffer(bufnr, mode, lhs, rhs, options)
   assert(
     type(bufnr) == "number"
-      and vim.api.nvim_buf_is_valid(bufnr),
+    and vim.api.nvim_buf_is_valid(bufnr),
     "Buffer 快捷键需要有效的 Buffer"
   )
 
@@ -86,10 +86,30 @@ end
 
 function M.list(mode)
   local items = {}
+  local mappings = vim.api.nvim_get_keymap(mode)
 
-  for _, mapping in ipairs(
-    vim.api.nvim_get_keymap(mode)
-  ) do
+  vim.list_extend(
+    mappings,
+    vim.api.nvim_buf_get_keymap(
+      vim.api.nvim_get_current_buf(),
+      mode
+    )
+  )
+
+  local mapping_by_lhs = {}
+  local lhs_order = {}
+
+  for _, mapping in ipairs(mappings) do
+    if mapping_by_lhs[mapping.lhs] == nil then
+      table.insert(lhs_order, mapping.lhs)
+    end
+
+    mapping_by_lhs[mapping.lhs] = mapping
+  end
+
+  for _, lhs in ipairs(lhs_order) do
+    local mapping = mapping_by_lhs[lhs]
+
     if mapping.desc and mapping.desc ~= "" then
       table.insert(items, {
         lhs = mapping.lhs,
