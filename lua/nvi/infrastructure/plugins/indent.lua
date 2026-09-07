@@ -2,6 +2,7 @@ return {
   {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
+    event = { "BufReadPost", "BufNewFile" },
     opts = {
       indent = {
         char = "┊", -- 显示普通缩进层级

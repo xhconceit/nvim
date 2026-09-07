@@ -5,12 +5,59 @@ assert(type(plugin) == "table", "应该返回 blink.cmp 插件声明")
 assert(plugin[1] == "saghen/blink.cmp", "声明了错误的补全插件")
 assert(plugin.version == "1.*", "blink.cmp 应该固定在稳定的 v1")
 assert(
+  vim.deep_equal(plugin.event, { "InsertEnter", "CmdlineEnter" }),
+  "blink.cmp 应该在补全场景中按需加载"
+)
+assert(
   vim.tbl_contains(plugin.dependencies, "rafamadriz/friendly-snippets"),
   "blink.cmp 应该加载包含 Dart 模板的 snippets"
 )
 assert(
   plugin.opts.keymap.preset == "default",
   "blink.cmp 应该使用原生风格按键"
+)
+assert(
+  vim.deep_equal(plugin.opts.keymap["<A-j>"], {
+    "select_next",
+    "fallback",
+  }),
+  "Alt-J 应该选择下一个候选"
+)
+assert(
+  vim.deep_equal(plugin.opts.keymap["<A-k>"], {
+    "select_prev",
+    "fallback",
+  }),
+  "Alt-K 应该选择上一个候选"
+)
+assert(
+  vim.deep_equal(plugin.opts.keymap["<A-CR>"], {
+    "accept",
+    "fallback",
+  }),
+  "Alt-Enter 应该确认候选"
+)
+assert(plugin.opts.cmdline.keymap.preset == "cmdline")
+assert(
+  vim.deep_equal(plugin.opts.cmdline.keymap["<A-j>"], {
+    "select_next",
+    "fallback",
+  }),
+  "命令行中的 Alt-J 应该选择下一个候选"
+)
+assert(
+  vim.deep_equal(plugin.opts.cmdline.keymap["<A-k>"], {
+    "select_prev",
+    "fallback",
+  }),
+  "命令行中的 Alt-K 应该选择上一个候选"
+)
+assert(
+  vim.deep_equal(plugin.opts.cmdline.keymap["<A-CR>"], {
+    "accept",
+    "fallback",
+  }),
+  "命令行中的 Alt-Enter 应该确认候选"
 )
 assert(
   vim.deep_equal(plugin.opts.sources.default, {

@@ -20,6 +20,10 @@ local ok, error_message = xpcall(function()
     "行尾空格插件声明错误"
   )
   assert(
+    vim.deep_equal(plugin.event, { "BufReadPost", "BufNewFile" }),
+    "行尾空格提示应该在打开文件后加载"
+  )
+  assert(
     plugin.opts.only_in_normal_buffers == true,
     "只应该处理普通 Buffer"
   )

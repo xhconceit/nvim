@@ -5,6 +5,10 @@ assert(
   "缩进线插件声明错误"
 )
 assert(plugin.main == "ibl", "缩进线插件入口错误")
+assert(
+  vim.deep_equal(plugin.event, { "BufReadPost", "BufNewFile" }),
+  "缩进线应该在打开文件后加载"
+)
 assert(plugin.opts.indent.char == "┊", "缩进线字符错误")
 assert(plugin.opts.scope.enabled == true, "应该显示当前作用域")
 assert(

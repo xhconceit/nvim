@@ -5,11 +5,9 @@ return {
     event = "VeryLazy",
 
     opts = {
-      -- 输入命令时自动打开模糊补全菜单
+      -- 命令行补全由 blink.cmp 负责
       autocomplete = {
-        enable = true,
-        delay = 80,
-        map_arrows = true,
+        enable = false,
       },
 
       -- 自动修正不存在但非常接近的命令或选项

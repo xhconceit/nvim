@@ -2,6 +2,7 @@ return {
   {
     "nvim-mini/mini.files",
     version = false,
+    lazy = true,
     config = function()
       require("mini.files").setup({
         options = {

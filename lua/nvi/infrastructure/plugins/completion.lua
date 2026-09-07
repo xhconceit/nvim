@@ -5,10 +5,22 @@ return {
       "rafamadriz/friendly-snippets",
     },
     version = "1.*",
+    event = { "InsertEnter", "CmdlineEnter" },
     opts = {
       -- 快捷键
       keymap = {
         preset = "default",
+        ["<A-j>"] = { "select_next", "fallback" },
+        ["<A-k>"] = { "select_prev", "fallback" },
+        ["<A-CR>"] = { "accept", "fallback" },
+      },
+      cmdline = {
+        keymap = {
+          preset = "cmdline",
+          ["<A-j>"] = { "select_next", "fallback" },
+          ["<A-k>"] = { "select_prev", "fallback" },
+          ["<A-CR>"] = { "accept", "fallback" },
+        },
       },
       -- 提示来源
       sources = {

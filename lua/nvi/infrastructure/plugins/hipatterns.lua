@@ -2,7 +2,7 @@ return {
   {
     "nvim-mini/mini.hipatterns",
     version = false,
-    event = "VeryLazy",
+    event = { "BufReadPost", "BufNewFile" },
 
     config = function()
       local hipatterns = require("mini.hipatterns")

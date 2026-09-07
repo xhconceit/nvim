@@ -24,6 +24,7 @@ local ok, error_message = xpcall(function()
     "声明了错误的 picker 插件"
   )
   assert(picker.version == false, "mini.pick 应该跟随最新版")
+  assert(picker.lazy == true, "mini.pick 应该按需加载")
   assert(
     type(picker.config) == "function",
     "mini.pick 应该提供 config 函数"

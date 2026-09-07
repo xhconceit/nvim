@@ -2,7 +2,7 @@ return {
   {
     "nvim-mini/mini.trailspace",
     version = false,
-    event = "VeryLazy",
+    event = { "BufReadPost", "BufNewFile" },
 
     opts = {
       only_in_normal_buffers = true,

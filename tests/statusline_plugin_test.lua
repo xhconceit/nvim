@@ -24,6 +24,7 @@ local ok, error_message = xpcall(function()
     "声明了错误的状态栏插件"
   )
   assert(plugin.version == false, "mini.statusline 应该跟随最新版")
+  assert(plugin.event == "VeryLazy", "状态栏应该在首屏后加载")
   assert(
     type(plugin.config) == "function",
     "状态栏插件应该提供 config 函数"

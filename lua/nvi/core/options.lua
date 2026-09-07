@@ -23,9 +23,6 @@ function M.setup()
   opt.scrolloff = 8
   opt.sidescrolloff = 8
 
-  -- 自动补全不自动选中
-  opt.completeopt = "menu,menuone,noselect,noinsert"
-
   -- 右侧参考线，超过表示代码太长了，考虑换行
   opt.colorcolumn = "100"
 

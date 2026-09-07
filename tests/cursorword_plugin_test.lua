@@ -20,6 +20,10 @@ local ok, error_message = xpcall(function()
     plugin[1] == "nvim-mini/mini.cursorword",
     "光标词插件声明错误"
   )
+  assert(
+    vim.deep_equal(plugin.event, { "BufReadPost", "BufNewFile" }),
+    "光标词应该在打开文件后加载"
+  )
   assert(plugin.opts.delay == 200, "光标词高亮延迟错误")
 
   plugin.config(nil, plugin.opts)

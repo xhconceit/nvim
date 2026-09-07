@@ -24,6 +24,7 @@ local ok, error_message = xpcall(function()
     "声明了错误的文件浏览器插件"
   )
   assert(plugin.version == false, "mini.files 应该跟随最新版")
+  assert(plugin.lazy == true, "mini.files 应该按需加载")
   assert(
     type(plugin.config) == "function",
     "mini.files 应该提供 config 函数"
