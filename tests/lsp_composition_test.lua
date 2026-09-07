@@ -3,15 +3,10 @@ local LspComposition =
   require("nvi.composition.lsp")
 
 local code_attach = nil
-local completion_attach = nil
 local diagnostics_attach = nil
 
 local fake_code_adapter = {
   name = "fake-code-adapter",
-}
-
-local fake_completion_adapter = {
-  name = "fake-completion-adapter",
 }
 
 local fake_diagnostics_adapter = {
@@ -33,19 +28,6 @@ local fake_dependencies = {
         code_attach = {
           adapter = adapter,
           bufnr = bufnr,
-        }
-      end,
-    },
-  },
-
-  completion = {
-    adapter = fake_completion_adapter,
-
-    feature = {
-      attach = function(adapter, context)
-        completion_attach = {
-          adapter = adapter,
-          context = context,
         }
       end,
     },
@@ -115,29 +97,6 @@ assert(
 )
 
 assert(
-  completion_attach ~= nil,
-  "LSP 连接后没有附加补全"
-)
-
-assert(
-  completion_attach.adapter
-    == fake_completion_adapter,
-  "补全使用了错误的适配器"
-)
-
-assert(
-  completion_attach.context
-    == context,
-  "补全没有收到完整的 LSP 上下文"
-)
-
-assert(
-  completion_attach.context.bufnr
-    == code_attach.bufnr,
-  "代码智能和补全没有附加到同一个 Buffer"
-)
-
-assert(
   diagnostics_attach ~= nil,
   "LSP 连接后没有附加诊断功能"
 )
@@ -156,36 +115,8 @@ assert(
 
 assert(
   diagnostics_attach.bufnr
-    == code_attach.bufnr
-    and diagnostics_attach.bufnr
-      == completion_attach.context.bufnr,
-  "三个 LSP 功能没有附加到同一个 Buffer"
-)
-
-local invalid_dependencies =
-  vim.deepcopy(fake_dependencies)
-
-invalid_dependencies
-  .completion
-  .feature
-  .attach = nil
-
-local ok, error_message = pcall(function()
-  LspComposition.setup(
-    invalid_dependencies
-  )
-end)
-
-assert(
-  not ok,
-  "缺少 completion.feature.attach 时应该失败"
-)
-
-assert(
-  error_message:match(
-    "completion%.feature%.attach"
-  ),
-  "错误信息应该指出缺少 completion.feature.attach"
+    == code_attach.bufnr,
+  "代码智能和诊断没有附加到同一个 Buffer"
 )
 
 local invalid_diagnostics =

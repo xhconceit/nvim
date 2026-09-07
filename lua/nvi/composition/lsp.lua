@@ -36,27 +36,6 @@ local function validate(dependencies)
   )
 
   assert(
-    type(dependencies.completion) == "table",
-    "LSP composition 缺少 completion"
-  )
-
-  assert(
-    type(
-      dependencies.completion.feature
-    ) == "table"
-    and type(
-      dependencies.completion.feature.attach
-    ) == "function",
-    "LSP composition 缺少 completion.feature.attach"
-  )
-
-  assert(
-    type(dependencies.completion.adapter)
-    == "table",
-    "LSP composition 缺少 completion.adapter"
-  )
-
-  assert(
     dependencies.servers == nil
     or type(dependencies.servers) == "table",
     "LSP composition servers 必须是 table"
@@ -91,7 +70,6 @@ function M.setup(dependencies)
 
   local infrastructure = dependencies.infrastructure
   local code_intelligence = dependencies.code_intelligence
-  local completion = dependencies.completion
   local diagnostics = dependencies.diagnostics
 
   infrastructure.setup({
@@ -100,10 +78,6 @@ function M.setup(dependencies)
       code_intelligence.feature.attach(
         code_intelligence.adapter,
         context.bufnr
-      )
-      completion.feature.attach(
-        completion.adapter,
-        context
       )
 
       diagnostics.feature.attach(

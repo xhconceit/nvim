@@ -68,14 +68,6 @@ local lsp_dependencies = {
       name = "fake code intelligence adapter",
     },
   },
-  completion = {
-    feature = {
-      name = "fake completion feature",
-    },
-    adapter = {
-      name = "fake completion adapter",
-    },
-  },
   diagnostics = {
     feature = {
       name = "fake diagnostics feature",
@@ -249,11 +241,6 @@ assert(
   calls.lsp.code_intelligence
     == lsp_dependencies.code_intelligence,
   "代码智能接线错误"
-)
-assert(
-  calls.lsp.completion
-    == lsp_dependencies.completion,
-  "补全接线错误"
 )
 assert(
   calls.lsp.diagnostics

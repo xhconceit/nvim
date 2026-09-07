@@ -172,12 +172,6 @@ local function production_dependencies()
               require("nvi.adapters.native_lsp"),
         },
 
-        completion = {
-          feature =
-              require("nvi.features.completion"),
-          adapter =
-              require("nvi.adapters.native_completion"),
-        },
 
         diagnostics = {
           feature =
@@ -190,6 +184,9 @@ local function production_dependencies()
           lua_ls = require(
             "nvi.infrastructure.lsp.servers.lua_ls"
           ),
+          dartls = require(
+            "nvi.infrastructure.lsp.servers.dartls"
+          )
         },
       },
 

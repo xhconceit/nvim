@@ -11,6 +11,7 @@ return {
         "vimdoc",
         "query",
         "bash",
+        "dart",
         "json",
         "markdown"
       }

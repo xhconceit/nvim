@@ -76,6 +76,7 @@ local ok, error_message = xpcall(function()
     "vimdoc",
     "query",
     "bash",
+    "dart",
     "json",
     "markdown",
   }
