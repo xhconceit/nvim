@@ -27,7 +27,7 @@ end
 
 local expectations = {
   {
-    lhs = " th",
+    lhs = " ts",
     method = "open_horizontal",
     description = "打开水平终端",
   },

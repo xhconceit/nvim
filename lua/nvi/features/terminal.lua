@@ -9,7 +9,7 @@ function M.setup(adapter)
   local terminal = TerminalPort.validate(adapter)
 
   Keymap.nmap(
-    "<leader>th",
+    "<leader>ts",
     terminal.open_horizontal,
     "打开水平终端"
   )

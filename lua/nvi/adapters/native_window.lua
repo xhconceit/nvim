@@ -9,7 +9,14 @@ function M.split_horizontal()
 end
 
 function M.close()
-  vim.cmd.close()
+  local ok = pcall(vim.cmd.close)
+
+  if not ok then
+    vim.notify(
+      "无法关闭最后一个窗口",
+      vim.log.levels.WARN
+    )
+  end
 end
 
 function M.only()

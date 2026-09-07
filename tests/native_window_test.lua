@@ -1,6 +1,7 @@
 local module_name = "nvi.adapters.native_window"
 local original_adapter = package.loaded[module_name]
 local original_cmd = vim.cmd
+local original_notify = vim.notify
 
 local calls = {
   vsplit = 0,
@@ -10,7 +11,9 @@ local calls = {
   wincmd = {},
   resize = {},
   vertical = {},
+  notifications = {},
 }
+local fail_close = false
 
 vim.cmd = {
   vsplit = function()
@@ -21,6 +24,9 @@ vim.cmd = {
   end,
   close = function()
     calls.close = calls.close + 1
+    if fail_close then
+      error("cannot close last window")
+    end
   end,
   only = function()
     calls.only = calls.only + 1
@@ -35,6 +41,13 @@ vim.cmd = {
     table.insert(calls.vertical, command)
   end,
 }
+
+vim.notify = function(message, level)
+  table.insert(calls.notifications, {
+    message = message,
+    level = level,
+  })
+end
 
 package.loaded[module_name] = nil
 
@@ -121,9 +134,25 @@ local ok, error_message = xpcall(function()
     }),
     "窗口宽度应该按 5 列增减"
   )
+
+  fail_close = true
+  local close_ok = pcall(NativeWindow.close)
+  local notification =
+    calls.notifications[#calls.notifications]
+
+  assert(close_ok, "关闭最后一个窗口不应该抛出异常")
+  assert(
+    notification.message == "无法关闭最后一个窗口",
+    "关闭最后一个窗口时应该通知用户"
+  )
+  assert(
+    notification.level == vim.log.levels.WARN,
+    "关闭最后一个窗口应该使用 WARN 通知"
+  )
 end, debug.traceback)
 
 vim.cmd = original_cmd
+vim.notify = original_notify
 package.loaded[module_name] = original_adapter
 
 assert(ok, error_message)

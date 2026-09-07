@@ -4,7 +4,16 @@ function M.new()
   vim.cmd.tabnew()
 end
 
-function M.close() vim.cmd.tabclose() end
+function M.close()
+  local ok = pcall(vim.cmd.tabclose)
+
+  if not ok then
+    vim.notify(
+      "无法关闭最后一个 Tab",
+      vim.log.levels.WARN
+    )
+  end
+end
 
 function M.next() vim.cmd.tabnext() end
 
