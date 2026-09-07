@@ -22,6 +22,16 @@ local ok, error_message = xpcall(function()
   assert(plugin.lazy == false, "主题插件应该立即加载")
   assert(plugin.priority == 1000, "主题插件优先级错误")
   assert(plugin.opts.style == "night", "主题风格错误")
+  assert(plugin.opts.dim_inactive == true, "应该弱化非活动窗口")
+  assert(
+    type(plugin.opts.on_highlights) == "function",
+    "应该配置主题高亮"
+  )
+
+  local highlights = {}
+  plugin.opts.on_highlights(highlights, { border_highlight = "#abcdef" })
+  assert(highlights.WinSeparator.fg == "#abcdef", "窗口分隔线颜色错误")
+  assert(highlights.WinSeparator.bold == true, "窗口分隔线应该加粗")
 
   plugin.config(nil, plugin.opts)
 

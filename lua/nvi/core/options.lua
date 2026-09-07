@@ -9,6 +9,8 @@ function M.setup()
 
   -- 界面
   opt.termguicolors = true
+  opt.laststatus = 3
+  opt.showmode = false
 
   -- 行号
   opt.number = true
@@ -40,6 +42,7 @@ function M.setup()
   -- 窗口分隔线和文件末尾
   opt.fillchars = {
     eob = " ",
+    vert = "│",
     fold = " ",
     foldopen = "",
     foldclose = "",
@@ -47,8 +50,20 @@ function M.setup()
     diff = "╱",
   }
 
+  -- 使用 Tree-sitter 计算代码折叠，默认保持全部展开
+  opt.foldmethod = "expr"
+  opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+  opt.foldcolumn = "1"
+  opt.foldlevel = 99
+  opt.foldlevelstart = 99
+  opt.foldenable = true
+
   -- 补全最多显示10行
   opt.pumheight = 10
+
+  -- 为补全菜单和浮动窗口增加轻微透明效果
+  opt.pumblend = 10
+  opt.winblend = 10
 
   -- 编辑
   opt.expandtab = true
@@ -78,8 +93,8 @@ function M.setup()
   opt.writebackup = false
   opt.swapfile = false
 
-  -- 命令行高为 2
-  opt.cmdheight = 2
+  -- 命令行仅在输入命令或显示消息时出现
+  opt.cmdheight = 0
   opt.winborder = "rounded"
 
   -- 窗口
