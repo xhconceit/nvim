@@ -27,15 +27,9 @@ for _, missing_name in ipairs(method_names) do
     end
   end
 
-  local ok, error_message = pcall(
-    QuickfixPort.validate,
-    incomplete_adapter
-  )
+  local ok, error_message = pcall(QuickfixPort.validate, incomplete_adapter)
 
-  assert(
-    not ok,
-    "缺少 " .. missing_name .. " 时应该验证失败"
-  )
+  assert(not ok, "缺少 " .. missing_name .. " 时应该验证失败")
 
   assert(
     error_message:match(missing_name),

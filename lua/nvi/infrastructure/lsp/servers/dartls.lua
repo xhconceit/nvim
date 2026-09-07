@@ -3,14 +3,14 @@ return {
     "fvm",
     "dart",
     "language-server",
-    "--protocol=lsp"
+    "--protocol=lsp",
   },
   filetypes = {
     "dart",
   },
   root_markers = {
     "pubspec.yaml",
-    ".git"
+    ".git",
   },
   workspace_required = true,
 }

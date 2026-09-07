@@ -8,32 +8,32 @@ local mappings = {
   {
     lhs = "<leader>dd",
     method = "show_current",
-    desc = "显示当前位置诊断"
+    desc = "显示当前位置诊断",
   },
   {
     lhs = "<leader>dn",
     method = "jump_next",
-    desc = "下一个诊断"
+    desc = "下一个诊断",
   },
   {
     lhs = "<leader>dp",
     method = "jump_previous",
-    desc = "上一个诊断"
+    desc = "上一个诊断",
   },
   {
     lhs = "<leader>dl",
     method = "open_list",
-    desc = "打开诊断列表"
+    desc = "打开诊断列表",
   },
   {
     lhs = "<leader>dq",
     method = "open_workspace_list",
-    desc = "打开工作区诊断"
+    desc = "打开工作区诊断",
   },
   {
     lhs = "<leader>dt",
     method = "toggle",
-    desc = "切换诊断显示"
+    desc = "切换诊断显示",
   },
 }
 

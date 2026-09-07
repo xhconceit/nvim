@@ -54,21 +54,65 @@ local cases = {
   { lhs = "<leader>wq", desc = "关闭当前窗口", methods = { "close" } },
   { lhs = "<leader>we", desc = "关闭其他窗口", methods = { "only" } },
   { lhs = "<leader>wt", desc = "切换窗口", methods = { "focus_previous" } },
-  { lhs = "<leader>wh", desc = "跳转到左侧窗口", methods = { "focus_left" } },
-  { lhs = "<leader>wj", desc = "跳转到下方窗口", methods = { "focus_down" } },
-  { lhs = "<leader>wk", desc = "跳转到上方窗口", methods = { "focus_up" } },
-  { lhs = "<leader>wl", desc = "跳转到右侧窗口", methods = { "focus_right" } },
+  {
+    lhs = "<leader>wh",
+    desc = "跳转到左侧窗口",
+    methods = { "focus_left" },
+  },
+  {
+    lhs = "<leader>wj",
+    desc = "跳转到下方窗口",
+    methods = { "focus_down" },
+  },
+  {
+    lhs = "<leader>wk",
+    desc = "跳转到上方窗口",
+    methods = { "focus_up" },
+  },
+  {
+    lhs = "<leader>wl",
+    desc = "跳转到右侧窗口",
+    methods = { "focus_right" },
+  },
   { lhs = "<C-h>", desc = "移动到左侧窗口", methods = { "focus_left" } },
   { lhs = "<C-j>", desc = "移动到下方窗口", methods = { "focus_down" } },
   { lhs = "<C-k>", desc = "移动到上方窗口", methods = { "focus_up" } },
-  { lhs = "<C-l>", desc = "移动到右侧窗口", methods = { "focus_right" } },
+  {
+    lhs = "<C-l>",
+    desc = "移动到右侧窗口",
+    methods = { "focus_right" },
+  },
   { lhs = "<leader>w=", desc = "平均分配窗口", methods = { "equalize" } },
-  { lhs = "<leader>wr", desc = "交换到下一个窗口", methods = { "swap_next" } },
-  { lhs = "<leader>wR", desc = "交换到上一个窗口", methods = { "swap_previous" } },
-  { lhs = "<leader>wmh", desc = "缩小窗口宽度", methods = { "decrease_width" } },
-  { lhs = "<leader>wml", desc = "增加窗口宽度", methods = { "increase_width" } },
-  { lhs = "<leader>wmk", desc = "缩小窗口高度", methods = { "decrease_height" } },
-  { lhs = "<leader>wmj", desc = "增加窗口高度", methods = { "increase_height" } },
+  {
+    lhs = "<leader>wr",
+    desc = "交换到下一个窗口",
+    methods = { "swap_next" },
+  },
+  {
+    lhs = "<leader>wR",
+    desc = "交换到上一个窗口",
+    methods = { "swap_previous" },
+  },
+  {
+    lhs = "<leader>wmh",
+    desc = "缩小窗口宽度",
+    methods = { "decrease_width" },
+  },
+  {
+    lhs = "<leader>wml",
+    desc = "增加窗口宽度",
+    methods = { "increase_width" },
+  },
+  {
+    lhs = "<leader>wmk",
+    desc = "缩小窗口高度",
+    methods = { "decrease_height" },
+  },
+  {
+    lhs = "<leader>wmj",
+    desc = "增加窗口高度",
+    methods = { "increase_height" },
+  },
 }
 
 for _, case in ipairs(cases) do

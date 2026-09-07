@@ -10,10 +10,7 @@ local required_methods = {
 }
 
 function M.validate(adapter)
-  assert(
-    type(adapter) == "table",
-    "diagnostics adapter 必须是 table"
-  )
+  assert(type(adapter) == "table", "diagnostics adapter 必须是 table")
 
   for _, method in ipairs(required_methods) do
     assert(

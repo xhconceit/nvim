@@ -1,5 +1,4 @@
-local CodeIntelligencePort =
-    require("nvi.ports.code_intelligence")
+local CodeIntelligencePort = require("nvi.ports.code_intelligence")
 local Keymap = require("nvi.ui.keymap")
 
 local M = {}
@@ -65,23 +64,15 @@ local mappings = {
 
 -- 将代码智能快捷键附加到指定 Buffer
 function M.attach(adapter, bufnr)
-  local code =
-      CodeIntelligencePort.validate(adapter)
+  local code = CodeIntelligencePort.validate(adapter)
 
   assert(
-    type(bufnr) == "number"
-    and vim.api.nvim_buf_is_valid(bufnr),
+    type(bufnr) == "number" and vim.api.nvim_buf_is_valid(bufnr),
     "code intelligence 需要有效的 Buffer"
   )
 
   for _, mapping in ipairs(mappings) do
-    Keymap.buffer(
-      bufnr,
-      "n",
-      mapping.lhs,
-      code[mapping.method],
-      mapping.desc
-    )
+    Keymap.buffer(bufnr, "n", mapping.lhs, code[mapping.method], mapping.desc)
   end
 end
 

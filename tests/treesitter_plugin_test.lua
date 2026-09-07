@@ -1,10 +1,7 @@
-local original_treesitter =
-  package.loaded["nvim-treesitter"]
-local original_create_autocmd =
-  vim.api.nvim_create_autocmd
+local original_treesitter = package.loaded["nvim-treesitter"]
+local original_create_autocmd = vim.api.nvim_create_autocmd
 local original_start = vim.treesitter.start
-local module_name =
-  "nvi.infrastructure.plugins.treesitter"
+local module_name = "nvi.infrastructure.plugins.treesitter"
 
 local calls = {
   setup = 0,
@@ -48,14 +45,8 @@ local ok, error_message = xpcall(function()
     plugin[1] == "nvim-treesitter/nvim-treesitter",
     "声明了错误的 Treesitter 插件"
   )
-  assert(
-    plugin.branch == "main",
-    "应该使用新版 main 分支"
-  )
-  assert(
-    plugin.lazy == false,
-    "新版 Treesitter 不支持懒加载"
-  )
+  assert(plugin.branch == "main", "应该使用新版 main 分支")
+  assert(plugin.lazy == false, "新版 Treesitter 不支持懒加载")
   assert(
     plugin.build == ":TSUpdate",
     "升级插件时应该同步更新 parser"
@@ -79,6 +70,8 @@ local ok, error_message = xpcall(function()
     "dart",
     "json",
     "markdown",
+    "markdown_inline",
+    "latex",
   }
 
   assert(
@@ -90,10 +83,7 @@ local ok, error_message = xpcall(function()
     "应该在 FileType 事件启用高亮"
   )
   assert(
-    vim.deep_equal(
-      calls.autocmd.options.pattern,
-      expected_languages
-    ),
+    vim.deep_equal(calls.autocmd.options.pattern, expected_languages),
     "只应该为已安装的语言启用高亮"
   )
   assert(
@@ -103,14 +93,10 @@ local ok, error_message = xpcall(function()
 
   calls.autocmd.options.callback()
 
-  assert(
-    calls.start == 1,
-    "FileType callback 应该启动 Treesitter 高亮"
-  )
+  assert(calls.start == 1, "FileType callback 应该启动 Treesitter 高亮")
 end, debug.traceback)
 
-package.loaded["nvim-treesitter"] =
-  original_treesitter
+package.loaded["nvim-treesitter"] = original_treesitter
 package.loaded[module_name] = nil
 vim.api.nvim_create_autocmd = original_create_autocmd
 vim.treesitter.start = original_start

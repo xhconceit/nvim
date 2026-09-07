@@ -12,10 +12,7 @@ local function execute(command, failure_message)
   local ok = pcall(vim.cmd, command)
 
   if not ok then
-    vim.notify(
-      failure_message,
-      vim.log.levels.ERROR
-    )
+    vim.notify(failure_message, vim.log.levels.ERROR)
     return false
   end
 
@@ -24,17 +21,10 @@ end
 
 function M.save_current()
   local directory, path = session_path()
-  local created = vim.fn.mkdir(
-    directory,
-    "p",
-    tonumber("700", 8)
-  )
+  local created = vim.fn.mkdir(directory, "p", tonumber("700", 8))
 
   if created == 0 then
-    vim.notify(
-      "无法创建会话目录",
-      vim.log.levels.ERROR
-    )
+    vim.notify("无法创建会话目录", vim.log.levels.ERROR)
     return
   end
 
@@ -79,10 +69,7 @@ function M.delete_current()
   local result = vim.fn.delete(path)
 
   if result ~= 0 then
-    vim.notify(
-      "无法删除当前项目会话",
-      vim.log.levels.ERROR
-    )
+    vim.notify("无法删除当前项目会话", vim.log.levels.ERROR)
     return
   end
 

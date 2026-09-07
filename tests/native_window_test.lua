@@ -56,36 +56,21 @@ local ok, error_message = xpcall(function()
 
   NativeWindow.split_vertical()
 
-  assert(
-    calls.vsplit == 1,
-    "split_vertical 应该执行一次 vsplit"
-  )
+  assert(calls.vsplit == 1, "split_vertical 应该执行一次 vsplit")
 
   NativeWindow.split_horizontal()
 
-  assert(
-    calls.split == 1,
-    "split_horizontal 应该执行一次 split"
-  )
+  assert(calls.split == 1, "split_horizontal 应该执行一次 split")
 
-  assert(
-    calls.vsplit == 1,
-    "水平分屏不应该再次执行 vsplit"
-  )
+  assert(calls.vsplit == 1, "水平分屏不应该再次执行 vsplit")
 
   NativeWindow.close()
 
-  assert(
-    calls.close == 1,
-    "close 应该执行一次 close 命令"
-  )
+  assert(calls.close == 1, "close 应该执行一次 close 命令")
 
   NativeWindow.only()
 
-  assert(
-    calls.only == 1,
-    "only 应该执行一次 only 命令"
-  )
+  assert(calls.only == 1, "only 应该执行一次 only 命令")
 
   NativeWindow.focus_left()
   NativeWindow.focus_down()
@@ -106,10 +91,7 @@ local ok, error_message = xpcall(function()
 
   NativeWindow.equalize()
 
-  assert(
-    calls.wincmd[6] == "=",
-    "equalize 应该执行 wincmd ="
-  )
+  assert(calls.wincmd[6] == "=", "equalize 应该执行 wincmd =")
 
   NativeWindow.swap_next()
   NativeWindow.swap_previous()
@@ -137,8 +119,7 @@ local ok, error_message = xpcall(function()
 
   fail_close = true
   local close_ok = pcall(NativeWindow.close)
-  local notification =
-    calls.notifications[#calls.notifications]
+  local notification = calls.notifications[#calls.notifications]
 
   assert(close_ok, "关闭最后一个窗口不应该抛出异常")
   assert(

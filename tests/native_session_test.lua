@@ -82,8 +82,7 @@ package.loaded[module_name] = nil
 
 local ok, error_message = xpcall(function()
   local adapter = require(module_name)
-  local session_file =
-    "/tmp/nvi-state/nvi/sessions/project-hash.vim"
+  local session_file = "/tmp/nvi-state/nvi/sessions/project-hash.vim"
 
   adapter.save_current()
 
@@ -96,8 +95,7 @@ local ok, error_message = xpcall(function()
     "保存前应该以 0700 权限创建会话目录"
   )
   assert(
-    calls.commands[1]
-      == "mksession! escaped:" .. session_file,
+    calls.commands[1] == "mksession! escaped:" .. session_file,
     "应该保存当前项目会话"
   )
 
@@ -113,38 +111,24 @@ local ok, error_message = xpcall(function()
     calls.project_root == 3,
     "每次会话操作都应该基于项目根目录"
   )
-  assert(
-    calls.deleted[1] == session_file,
-    "应该删除当前项目会话"
-  )
+  assert(calls.deleted[1] == session_file, "应该删除当前项目会话")
 
   readable = 0
   adapter.restore_current()
   adapter.delete_current()
 
-  assert(
-    #calls.commands == 2,
-    "会话不存在时不应该执行 source"
-  )
-  assert(
-    #calls.deleted == 1,
-    "会话不存在时不应该执行 delete"
-  )
-  assert(
-    #calls.notifications >= 2,
-    "会话不存在时应该通知用户"
-  )
+  assert(#calls.commands == 2, "会话不存在时不应该执行 source")
+  assert(#calls.deleted == 1, "会话不存在时不应该执行 delete")
+  assert(#calls.notifications >= 2, "会话不存在时应该通知用户")
 
   readable = 1
   delete_result = -1
   adapter.delete_current()
 
-  local failure_notification =
-    calls.notifications[#calls.notifications]
+  local failure_notification = calls.notifications[#calls.notifications]
 
   assert(
-    failure_notification.message
-      == "无法删除当前项目会话",
+    failure_notification.message == "无法删除当前项目会话",
     "删除失败时不应该报告成功"
   )
   assert(
@@ -156,59 +140,49 @@ local ok, error_message = xpcall(function()
   local command_count = #calls.commands
   adapter.save_current()
 
-  local mkdir_failure_notification =
-    calls.notifications[#calls.notifications]
+  local mkdir_failure_notification = calls.notifications[#calls.notifications]
 
   assert(
     #calls.commands == command_count,
     "创建会话目录失败时不应该执行 mksession"
   )
   assert(
-    mkdir_failure_notification.message
-      == "无法创建会话目录",
+    mkdir_failure_notification.message == "无法创建会话目录",
     "创建会话目录失败时应该通知用户"
   )
   assert(
-    mkdir_failure_notification.level
-      == vim.log.levels.ERROR,
+    mkdir_failure_notification.level == vim.log.levels.ERROR,
     "创建会话目录失败应该使用 ERROR 级别通知"
   )
 
   mkdir_result = 1
-  failing_command =
-    "mksession! escaped:" .. session_file
+  failing_command = "mksession! escaped:" .. session_file
 
   local save_ok = pcall(adapter.save_current)
-  local save_failure_notification =
-    calls.notifications[#calls.notifications]
+  local save_failure_notification = calls.notifications[#calls.notifications]
 
   assert(save_ok, "保存失败不应该抛出未处理异常")
   assert(
-    save_failure_notification.message
-      == "无法保存当前项目会话",
+    save_failure_notification.message == "无法保存当前项目会话",
     "mksession 失败时应该通知用户"
   )
   assert(
-    save_failure_notification.level
-      == vim.log.levels.ERROR,
+    save_failure_notification.level == vim.log.levels.ERROR,
     "保存失败应该使用 ERROR 级别通知"
   )
 
   failing_command = "source escaped:" .. session_file
 
   local restore_ok = pcall(adapter.restore_current)
-  local restore_failure_notification =
-    calls.notifications[#calls.notifications]
+  local restore_failure_notification = calls.notifications[#calls.notifications]
 
   assert(restore_ok, "恢复失败不应该抛出未处理异常")
   assert(
-    restore_failure_notification.message
-      == "无法恢复当前项目会话",
+    restore_failure_notification.message == "无法恢复当前项目会话",
     "source 失败时应该通知用户"
   )
   assert(
-    restore_failure_notification.level
-      == vim.log.levels.ERROR,
+    restore_failure_notification.level == vim.log.levels.ERROR,
     "恢复失败应该使用 ERROR 级别通知"
   )
 end, debug.traceback)

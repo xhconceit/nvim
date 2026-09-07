@@ -19,12 +19,8 @@ local required_methods = {
   "swap_previous",
 }
 
-
 function M.validate(adapter)
-  assert(
-    type(adapter) == "table",
-    "window adapter 必须是 table"
-  )
+  assert(type(adapter) == "table", "window adapter 必须是 table")
 
   for _, method in ipairs(required_methods) do
     assert(

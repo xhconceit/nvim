@@ -8,7 +8,6 @@ local function enable_servers(servers)
   end
 end
 
-
 function M.setup(options)
   -- 基础设施通过回调连接功能层，不直接 require 功能模块
   assert(
@@ -17,8 +16,7 @@ function M.setup(options)
   )
 
   assert(
-    options.servers == nil
-    or type(options.servers) == "table",
+    options.servers == nil or type(options.servers) == "table",
     "LSP servers 必须是 table"
   )
 
@@ -35,8 +33,7 @@ function M.setup(options)
         bufnr = event.buf,
         client_id = event.data.client_id,
       })
-    end
-
+    end,
   })
 
   -- 统一配置诊断信息的显示方式
@@ -51,10 +48,9 @@ function M.setup(options)
     },
     float = {
       border = "rounded",
-      source = true
-    }
+      source = true,
+    },
   })
-
 
   -- 必须先监听 LspAttach 在启用服务器
   enable_servers(options.servers)

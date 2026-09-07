@@ -1,18 +1,17 @@
-
 -- lua-language-server
 --
 return {
   cmd = {
-    "lua-language-server"
+    "lua-language-server",
   },
   filetypes = {
-    "lua"
+    "lua",
   },
   -- 按顺序寻找项目根目录
   root_markers = {
     ".luarc.json",
     ".luarc.jsonc",
-    ".git"
+    ".git",
   },
   -- 没有项目根标记时也允许启动
   workspace_required = false,
@@ -21,13 +20,13 @@ return {
     Lua = {
       -- Neovim 使用 LuaJIT
       runtime = {
-        version = "LuaJIT"
+        version = "LuaJIT",
       },
       -- 让服务器认识 Neovim 的 vim 全局变量
       diagnostics = {
         globals = {
-          "vim"
-        }
+          "vim",
+        },
       },
 
       -- 把 Neovim 运行时 Lua 文件加入工作区
@@ -35,11 +34,11 @@ return {
         checkThirdParty = false,
         library = {
           vim.env.VIMRUNTIME,
-        }
+        },
       },
       telemetry = {
-        enable = false
-      }
-    }
-  }
+        enable = false,
+      },
+    },
+  },
 }

@@ -11,7 +11,7 @@ function M.list(paths)
 
       table.insert(items, {
         path = path,
-        text = path
+        text = path,
       })
     end
   end

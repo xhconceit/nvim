@@ -43,10 +43,7 @@ local ok, error_message = xpcall(function()
     "Quickfix adapter 执行了错误命令"
   )
 
-  assert(
-    #calls.notifications == 0,
-    "导航成功时不应该发送通知"
-  )
+  assert(#calls.notifications == 0, "导航成功时不应该发送通知")
 
   failing_commands.cnext = true
   failing_commands.cprevious = true

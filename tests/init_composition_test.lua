@@ -132,7 +132,11 @@ local dependencies = {
     adapter = tab_adapter,
   },
   session = {
-    feature = { setup = function(adapter) calls.session = adapter end },
+    feature = {
+      setup = function(adapter)
+        calls.session = adapter
+      end,
+    },
     adapter = session_adapter,
   },
   quickfix = {
@@ -186,10 +190,7 @@ for _, name in ipairs({
   "autocmds",
   "lazy",
 }) do
-  assert(
-    calls[name] == 1,
-    name .. " 应该初始化一次"
-  )
+  assert(calls[name] == 1, name .. " 应该初始化一次")
 end
 
 assert(
@@ -209,18 +210,17 @@ assert(
   "窗口功能没有收到注入的适配器"
 )
 assert(calls.tab == tab_adapter, "Tab 功能没有收到注入的适配器")
-assert(calls.session == session_adapter, "Session 功能没有收到注入的适配器")
+assert(
+  calls.session == session_adapter,
+  "Session 功能没有收到注入的适配器"
+)
 assert(
   calls.quickfix == quickfix_adapter,
   "Quickfix 功能没有收到注入的适配器"
 )
+assert(calls.git == git_adapter, "Git 功能没有收到注入的适配器")
 assert(
-  calls.git == git_adapter,
-  "Git 功能没有收到注入的适配器"
-)
-assert(
-  calls.file_explorer
-    == file_explorer_adapter,
+  calls.file_explorer == file_explorer_adapter,
   "文件浏览器没有收到 mini.files 适配器"
 )
 assert(
@@ -233,23 +233,19 @@ assert(
 )
 
 assert(
-  calls.lsp.infrastructure
-    == lsp_dependencies.infrastructure,
+  calls.lsp.infrastructure == lsp_dependencies.infrastructure,
   "LSP 基础设施接线错误"
 )
 assert(
-  calls.lsp.code_intelligence
-    == lsp_dependencies.code_intelligence,
+  calls.lsp.code_intelligence == lsp_dependencies.code_intelligence,
   "代码智能接线错误"
 )
 assert(
-  calls.lsp.diagnostics
-    == lsp_dependencies.diagnostics,
+  calls.lsp.diagnostics == lsp_dependencies.diagnostics,
   "诊断接线错误"
 )
 assert(
-  calls.lsp.servers.lua_ls
-    == lsp_dependencies.servers.lua_ls,
+  calls.lsp.servers.lua_ls == lsp_dependencies.servers.lua_ls,
   "lua_ls 服务配置接线错误"
 )
 

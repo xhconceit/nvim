@@ -1,7 +1,6 @@
 local Nvi = require("nvi")
 
-local function no_op_setup()
-end
+local function no_op_setup() end
 
 local function create_dependencies()
   return {
@@ -81,174 +80,95 @@ local function create_dependencies()
   }
 end
 
-local missing_core_ok,
-  missing_core_error = pcall(
-    Nvi.setup,
-    {}
-  )
+local missing_core_ok, missing_core_error = pcall(Nvi.setup, {})
 
-local missing_search_dependencies =
-  create_dependencies()
+local missing_search_dependencies = create_dependencies()
 missing_search_dependencies.search.adapter = nil
 
-local missing_search_ok,
-  missing_search_error = pcall(
-    Nvi.setup,
-    missing_search_dependencies
-  )
+local missing_search_ok, missing_search_error =
+  pcall(Nvi.setup, missing_search_dependencies)
 
-local missing_explorer_feature_dependencies =
-  create_dependencies()
-missing_explorer_feature_dependencies
-  .file_explorer.feature.setup = nil
+local missing_explorer_feature_dependencies = create_dependencies()
+missing_explorer_feature_dependencies.file_explorer.feature.setup = nil
 
-local missing_explorer_feature_ok,
-  missing_explorer_feature_error = pcall(
-    Nvi.setup,
-    missing_explorer_feature_dependencies
-  )
+local missing_explorer_feature_ok, missing_explorer_feature_error =
+  pcall(Nvi.setup, missing_explorer_feature_dependencies)
 
-local missing_buffer_feature_dependencies =
-  create_dependencies()
-missing_buffer_feature_dependencies
-  .buffer.feature.setup = nil
+local missing_buffer_feature_dependencies = create_dependencies()
+missing_buffer_feature_dependencies.buffer.feature.setup = nil
 
-local missing_buffer_feature_ok,
-  missing_buffer_feature_error = pcall(
-    Nvi.setup,
-    missing_buffer_feature_dependencies
-  )
+local missing_buffer_feature_ok, missing_buffer_feature_error =
+  pcall(Nvi.setup, missing_buffer_feature_dependencies)
 
-local missing_buffer_adapter_dependencies =
-  create_dependencies()
-missing_buffer_adapter_dependencies
-  .buffer.adapter = nil
+local missing_buffer_adapter_dependencies = create_dependencies()
+missing_buffer_adapter_dependencies.buffer.adapter = nil
 
-local missing_buffer_adapter_ok,
-  missing_buffer_adapter_error = pcall(
-    Nvi.setup,
-    missing_buffer_adapter_dependencies
-  )
+local missing_buffer_adapter_ok, missing_buffer_adapter_error =
+  pcall(Nvi.setup, missing_buffer_adapter_dependencies)
 
-local missing_terminal_feature_dependencies =
-  create_dependencies()
-missing_terminal_feature_dependencies
-  .terminal.feature.setup = nil
+local missing_terminal_feature_dependencies = create_dependencies()
+missing_terminal_feature_dependencies.terminal.feature.setup = nil
 
-local missing_terminal_feature_ok,
-  missing_terminal_feature_error = pcall(
-    Nvi.setup,
-    missing_terminal_feature_dependencies
-  )
+local missing_terminal_feature_ok, missing_terminal_feature_error =
+  pcall(Nvi.setup, missing_terminal_feature_dependencies)
 
-local missing_terminal_adapter_dependencies =
-  create_dependencies()
-missing_terminal_adapter_dependencies
-  .terminal.adapter = nil
+local missing_terminal_adapter_dependencies = create_dependencies()
+missing_terminal_adapter_dependencies.terminal.adapter = nil
 
-local missing_terminal_adapter_ok,
-  missing_terminal_adapter_error = pcall(
-    Nvi.setup,
-    missing_terminal_adapter_dependencies
-  )
+local missing_terminal_adapter_ok, missing_terminal_adapter_error =
+  pcall(Nvi.setup, missing_terminal_adapter_dependencies)
 
-local missing_window_feature_dependencies =
-  create_dependencies()
-missing_window_feature_dependencies
-  .window.feature.setup = nil
+local missing_window_feature_dependencies = create_dependencies()
+missing_window_feature_dependencies.window.feature.setup = nil
 
-local missing_window_feature_ok,
-  missing_window_feature_error = pcall(
-    Nvi.setup,
-    missing_window_feature_dependencies
-  )
+local missing_window_feature_ok, missing_window_feature_error =
+  pcall(Nvi.setup, missing_window_feature_dependencies)
 
-local missing_window_adapter_dependencies =
-  create_dependencies()
+local missing_window_adapter_dependencies = create_dependencies()
 missing_window_adapter_dependencies.window.adapter = nil
 
-local missing_window_adapter_ok,
-  missing_window_adapter_error = pcall(
-    Nvi.setup,
-    missing_window_adapter_dependencies
-  )
+local missing_window_adapter_ok, missing_window_adapter_error =
+  pcall(Nvi.setup, missing_window_adapter_dependencies)
 
-local missing_quickfix_feature_dependencies =
-  create_dependencies()
-missing_quickfix_feature_dependencies
-  .quickfix.feature.setup = nil
+local missing_quickfix_feature_dependencies = create_dependencies()
+missing_quickfix_feature_dependencies.quickfix.feature.setup = nil
 
-local missing_quickfix_feature_ok,
-  missing_quickfix_feature_error = pcall(
-    Nvi.setup,
-    missing_quickfix_feature_dependencies
-  )
+local missing_quickfix_feature_ok, missing_quickfix_feature_error =
+  pcall(Nvi.setup, missing_quickfix_feature_dependencies)
 
-local missing_quickfix_adapter_dependencies =
-  create_dependencies()
-missing_quickfix_adapter_dependencies
-  .quickfix.adapter = nil
+local missing_quickfix_adapter_dependencies = create_dependencies()
+missing_quickfix_adapter_dependencies.quickfix.adapter = nil
 
-local missing_quickfix_adapter_ok,
-  missing_quickfix_adapter_error = pcall(
-    Nvi.setup,
-    missing_quickfix_adapter_dependencies
-  )
+local missing_quickfix_adapter_ok, missing_quickfix_adapter_error =
+  pcall(Nvi.setup, missing_quickfix_adapter_dependencies)
 
-local missing_explorer_adapter_dependencies =
-  create_dependencies()
-missing_explorer_adapter_dependencies
-  .file_explorer.adapter = nil
+local missing_explorer_adapter_dependencies = create_dependencies()
+missing_explorer_adapter_dependencies.file_explorer.adapter = nil
 
-local missing_explorer_adapter_ok,
-  missing_explorer_adapter_error = pcall(
-    Nvi.setup,
-    missing_explorer_adapter_dependencies
-  )
+local missing_explorer_adapter_ok, missing_explorer_adapter_error =
+  pcall(Nvi.setup, missing_explorer_adapter_dependencies)
 
-local missing_git_feature_dependencies =
-  create_dependencies()
+local missing_git_feature_dependencies = create_dependencies()
 missing_git_feature_dependencies.git.feature.setup = nil
 
-local missing_git_feature_ok,
-  missing_git_feature_error = pcall(
-    Nvi.setup,
-    missing_git_feature_dependencies
-  )
+local missing_git_feature_ok, missing_git_feature_error =
+  pcall(Nvi.setup, missing_git_feature_dependencies)
 
-local missing_git_adapter_dependencies =
-  create_dependencies()
+local missing_git_adapter_dependencies = create_dependencies()
 missing_git_adapter_dependencies.git.adapter = nil
 
-local missing_git_adapter_ok,
-  missing_git_adapter_error = pcall(
-    Nvi.setup,
-    missing_git_adapter_dependencies
-  )
+local missing_git_adapter_ok, missing_git_adapter_error =
+  pcall(Nvi.setup, missing_git_adapter_dependencies)
 
+assert(not missing_core_ok, "缺少 core.commands.setup 时应该拒绝启动")
 assert(
-  not missing_core_ok,
-  "缺少 core.commands.setup 时应该拒绝启动"
-)
-assert(
-  tostring(missing_core_error):find(
-    "core.commands.setup",
-    1,
-    true
-  ),
+  tostring(missing_core_error):find("core.commands.setup", 1, true),
   "错误应该指出缺少 core.commands.setup"
 )
 
+assert(not missing_search_ok, "缺少 search.adapter 时应该拒绝启动")
 assert(
-  not missing_search_ok,
-  "缺少 search.adapter 时应该拒绝启动"
-)
-assert(
-  tostring(missing_search_error):find(
-    "search.adapter",
-    1,
-    true
-  ),
+  tostring(missing_search_error):find("search.adapter", 1, true),
   "错误应该指出缺少 search.adapter"
 )
 
@@ -280,24 +200,13 @@ assert(
   "缺少终端适配器时应该拒绝启动"
 )
 assert(
-  tostring(missing_terminal_adapter_error):find(
-    "terminal.adapter",
-    1,
-    true
-  ),
+  tostring(missing_terminal_adapter_error):find("terminal.adapter", 1, true),
   "错误应该指出缺少 terminal.adapter"
 )
 
+assert(not missing_window_feature_ok, "缺少窗口功能时应该拒绝启动")
 assert(
-  not missing_window_feature_ok,
-  "缺少窗口功能时应该拒绝启动"
-)
-assert(
-  tostring(missing_window_feature_error):find(
-    "window.feature.setup",
-    1,
-    true
-  ),
+  tostring(missing_window_feature_error):find("window.feature.setup", 1, true),
   "错误应该指出缺少 window.feature.setup"
 )
 
@@ -306,11 +215,7 @@ assert(
   "缺少窗口适配器时应该拒绝启动"
 )
 assert(
-  tostring(missing_window_adapter_error):find(
-    "window.adapter",
-    1,
-    true
-  ),
+  tostring(missing_window_adapter_error):find("window.adapter", 1, true),
   "错误应该指出缺少 window.adapter"
 )
 
@@ -332,19 +237,11 @@ assert(
   "缺少 Quickfix 适配器时应该拒绝启动"
 )
 assert(
-  tostring(missing_quickfix_adapter_error):find(
-    "quickfix.adapter",
-    1,
-    true
-  ),
+  tostring(missing_quickfix_adapter_error):find("quickfix.adapter", 1, true),
   "错误应该指出缺少 quickfix.adapter"
 )
 assert(
-  tostring(missing_buffer_feature_error):find(
-    "buffer.feature.setup",
-    1,
-    true
-  ),
+  tostring(missing_buffer_feature_error):find("buffer.feature.setup", 1, true),
   "错误应该指出缺少 buffer.feature.setup"
 )
 
@@ -353,37 +250,19 @@ assert(
   "缺少 Buffer 适配器时应该拒绝启动"
 )
 assert(
-  tostring(missing_buffer_adapter_error):find(
-    "buffer.adapter",
-    1,
-    true
-  ),
+  tostring(missing_buffer_adapter_error):find("buffer.adapter", 1, true),
   "错误应该指出缺少 buffer.adapter"
 )
 
+assert(not missing_git_feature_ok, "缺少 Git 功能时应该拒绝启动")
 assert(
-  not missing_git_feature_ok,
-  "缺少 Git 功能时应该拒绝启动"
-)
-assert(
-  tostring(missing_git_feature_error):find(
-    "git.feature.setup",
-    1,
-    true
-  ),
+  tostring(missing_git_feature_error):find("git.feature.setup", 1, true),
   "错误应该指出缺少 git.feature.setup"
 )
 
+assert(not missing_git_adapter_ok, "缺少 Git 适配器时应该拒绝启动")
 assert(
-  not missing_git_adapter_ok,
-  "缺少 Git 适配器时应该拒绝启动"
-)
-assert(
-  tostring(missing_git_adapter_error):find(
-    "git.adapter",
-    1,
-    true
-  ),
+  tostring(missing_git_adapter_error):find("git.adapter", 1, true),
   "错误应该指出缺少 git.adapter"
 )
 assert(

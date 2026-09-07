@@ -1,4 +1,3 @@
-
 local SearchPort = require("nvi.ports.search")
 
 local valid_adapter = {
@@ -24,10 +23,7 @@ local ok, error_message = pcall(function()
   })
 end)
 
-assert(
-  not ok,
-  "缺少 search_text 的适配器应该验证失败"
-)
+assert(not ok, "缺少 search_text 的适配器应该验证失败")
 
 assert(
   error_message:match("search_text"),
@@ -41,10 +37,7 @@ local keymaps_ok, keymaps_error = pcall(function()
   })
 end)
 
-assert(
-  not keymaps_ok,
-  "缺少 search_keymaps 的适配器应该验证失败"
-)
+assert(not keymaps_ok, "缺少 search_keymaps 的适配器应该验证失败")
 
 assert(
   keymaps_error:match("search_keymaps"),
@@ -59,10 +52,7 @@ local commands_ok, commands_error = pcall(function()
   })
 end)
 
-assert(
-  not commands_ok,
-  "缺少 search_commands 的适配器应该验证失败"
-)
+assert(not commands_ok, "缺少 search_commands 的适配器应该验证失败")
 
 assert(
   commands_error:match("search_commands"),
@@ -78,10 +68,7 @@ local buffers_ok, buffers_error = pcall(function()
   })
 end)
 
-assert(
-  not buffers_ok,
-  "缺少 search_buffers 的适配器应该验证失败"
-)
+assert(not buffers_ok, "缺少 search_buffers 的适配器应该验证失败")
 
 assert(
   buffers_error:match("search_buffers"),
@@ -119,10 +106,7 @@ local help_ok, help_error = pcall(function()
   })
 end)
 
-assert(
-  not help_ok,
-  "缺少 search_help 的适配器应该验证失败"
-)
+assert(not help_ok, "缺少 search_help 的适配器应该验证失败")
 
 assert(
   help_error:match("search_help"),
@@ -141,10 +125,7 @@ local word_ok, word_error = pcall(function()
   })
 end)
 
-assert(
-  not word_ok,
-  "缺少 search_word 的适配器应该验证失败"
-)
+assert(not word_ok, "缺少 search_word 的适配器应该验证失败")
 
 assert(
   word_error:match("search_word"),
@@ -164,10 +145,7 @@ local git_files_ok, git_files_error = pcall(function()
   })
 end)
 
-assert(
-  not git_files_ok,
-  "缺少 find_git_files 的适配器应该验证失败"
-)
+assert(not git_files_ok, "缺少 find_git_files 的适配器应该验证失败")
 
 assert(
   git_files_error:match("find_git_files"),

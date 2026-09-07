@@ -1,16 +1,12 @@
-
 local M = {}
 
 local required_methods = {
   "open_horizontal",
-  "open_vertical"
+  "open_vertical",
 }
 
 function M.validate(adapter)
-  assert(
-    type(adapter) == "table",
-    "terminal adapter 必须是 table"
-  )
+  assert(type(adapter) == "table", "terminal adapter 必须是 table")
 
   for _, method in ipairs(required_methods) do
     assert(

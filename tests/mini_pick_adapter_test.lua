@@ -1,11 +1,9 @@
-local original_mini_pick =
-  package.loaded["mini.pick"]
+local original_mini_pick = package.loaded["mini.pick"]
 local module_name = "nvi.adapters.mini_pick"
 local original_adapter = package.loaded[module_name]
 local original_command = package.loaded["nvi.ui.command"]
 local original_project = package.loaded["nvi.core.project"]
-local original_recent_file =
-  package.loaded["nvi.ui.recent_file"]
+local original_recent_file = package.loaded["nvi.ui.recent_file"]
 
 local command_items = {
   {
@@ -83,10 +81,7 @@ package.loaded["nvi.ui.recent_file"] = {
 package.loaded[module_name] = nil
 
 vim.fn.expand = function(expression)
-  assert(
-    expression == "<cword>",
-    "应该读取光标下的单词"
-  )
+  assert(expression == "<cword>", "应该读取光标下的单词")
   return "search_word"
 end
 
@@ -108,12 +103,7 @@ vim.api.nvim_get_keymap = function(mode)
   }
 end
 
-vim.api.nvim_replace_termcodes = function(
-  keys,
-  from_part,
-  do_lt,
-  special
-)
+vim.api.nvim_replace_termcodes = function(keys, from_part, do_lt, special)
   calls.replaced_keys = {
     keys = keys,
     from_part = from_part,
@@ -146,8 +136,7 @@ package.loaded["mini.pick"] = {
     end,
 
     grep_live = function(_, options)
-      calls.grep_live =
-        calls.grep_live + 1
+      calls.grep_live = calls.grep_live + 1
       calls.grep_options = options
     end,
 
@@ -171,8 +160,7 @@ package.loaded["mini.pick"] = {
   end,
 }
 
-local MiniPickAdapter =
-  require("nvi.adapters.mini_pick")
+local MiniPickAdapter = require("nvi.adapters.mini_pick")
 
 local ok, error_message = xpcall(function()
   MiniPickAdapter.find_files()
@@ -183,10 +171,7 @@ local ok, error_message = xpcall(function()
   MiniPickAdapter.search_word()
   MiniPickAdapter.find_git_files()
 
-  assert(
-    calls.files == 2,
-    "两种文件搜索都应该调用 builtin.files"
-  )
+  assert(calls.files == 2, "两种文件搜索都应该调用 builtin.files")
 
   assert(
     calls.grep_live == 1,
@@ -198,15 +183,9 @@ local ok, error_message = xpcall(function()
     "search_buffers 应该调用一次 builtin.buffers"
   )
 
-  assert(
-    calls.help == 1,
-    "search_help 应该调用一次 builtin.help"
-  )
+  assert(calls.help == 1, "search_help 应该调用一次 builtin.help")
 
-  assert(
-    calls.grep == 1,
-    "search_word 应该调用一次 builtin.grep"
-  )
+  assert(calls.grep == 1, "search_word 应该调用一次 builtin.grep")
 
   assert(
     calls.word_pattern == "search_word",
@@ -245,19 +224,12 @@ local ok, error_message = xpcall(function()
 
   local source = calls.picker_options.source
 
-  assert(
-    source.name == "快捷键",
-    "快捷键 Picker 名称错误"
-  )
+  assert(source.name == "快捷键", "快捷键 Picker 名称错误")
+
+  assert(#source.items == 2, "应该忽略没有 desc 的快捷键")
 
   assert(
-    #source.items == 2,
-    "应该忽略没有 desc 的快捷键"
-  )
-
-  assert(
-    source.items[1].text
-      == "<leader>ff  搜索文件",
+    source.items[1].text == "<leader>ff  搜索文件",
     "快捷键条目应该包含按键和描述"
   )
 
@@ -294,10 +266,7 @@ local ok, error_message = xpcall(function()
 
   source = calls.picker_options.source
 
-  assert(
-    source.name == "最近文件",
-    "最近文件 Picker 名称错误"
-  )
+  assert(source.name == "最近文件", "最近文件 Picker 名称错误")
 
   assert(
     source.items == recent_file_items,
@@ -306,10 +275,7 @@ local ok, error_message = xpcall(function()
 
   source.choose(source.items[1])
 
-  assert(
-    calls.recent_file_list == 1,
-    "应该读取一次最近文件列表"
-  )
+  assert(calls.recent_file_list == 1, "应该读取一次最近文件列表")
 
   assert(
     calls.opened_recent_file == "/projects/demo/init.lua",
@@ -317,8 +283,7 @@ local ok, error_message = xpcall(function()
   )
 end, debug.traceback)
 
-package.loaded["mini.pick"] =
-  original_mini_pick
+package.loaded["mini.pick"] = original_mini_pick
 package.loaded["nvi.ui.command"] = original_command
 package.loaded["nvi.core.project"] = original_project
 package.loaded["nvi.ui.recent_file"] = original_recent_file

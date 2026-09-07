@@ -30,16 +30,13 @@ local function production_dependencies()
 end
 
 local function validate(dependencies)
-  assert(
-    type(dependencies) == "table",
-    "lazy infrastructure 需要依赖"
-  )
+  assert(type(dependencies) == "table", "lazy infrastructure 需要依赖")
 
   local required_methods = {
     "exists",
     "clone",
     "prepend_runtimepath",
-    "setup_lazy"
+    "setup_lazy",
   }
 
   for _, method in ipairs(required_methods) do
@@ -59,15 +56,10 @@ function M.setup(dependencies)
   local repository = "https://github.com/folke/lazy.nvim"
 
   if not dependencies.exists(lazypath) then
-    local exit_code, output = dependencies.clone(
-      repository,
-      lazypath
-    )
+    local exit_code, output = dependencies.clone(repository, lazypath)
 
     if exit_code ~= 0 then
-      error(
-        "无法安装 lazy.nvim:\n" .. tostring(output)
-      )
+      error("无法安装 lazy.nvim:\n" .. tostring(output))
     end
   end
 
@@ -76,8 +68,7 @@ function M.setup(dependencies)
   dependencies.setup_lazy({
     spec = {
       {
-        import =
-        "nvi.infrastructure.plugins",
+        import = "nvi.infrastructure.plugins",
       },
     },
 

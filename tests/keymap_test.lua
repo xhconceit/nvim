@@ -1,10 +1,6 @@
 local Keymap = require("nvi.ui.keymap")
 
-Keymap.nmap(
-  "<F12>",
-  function() end,
-  "测试全局快捷键"
-)
+Keymap.nmap("<F12>", function() end, "测试全局快捷键")
 
 local global_mapping = nil
 
@@ -15,15 +11,9 @@ for _, mapping in ipairs(vim.api.nvim_get_keymap("n")) do
   end
 end
 
-assert(
-  global_mapping ~= nil,
-  "Keymap.set 没有注册全局快捷键"
-)
+assert(global_mapping ~= nil, "Keymap.set 没有注册全局快捷键")
 
-assert(
-  global_mapping.silent == 1,
-  "Keymap.set 应该默认启用 silent"
-)
+assert(global_mapping.silent == 1, "Keymap.set 应该默认启用 silent")
 
 local function has_mapping(mode, description)
   for _, mapping in ipairs(vim.api.nvim_get_keymap(mode)) do
@@ -67,49 +57,29 @@ local ok, error_message = pcall(function()
   Keymap.set("n", "<F11>", function() end)
 end)
 
-assert(
-  not ok,
-  "缺少 desc 的快捷键应该注册失败"
-)
+assert(not ok, "缺少 desc 的快捷键应该注册失败")
 
-assert(
-  error_message:match("desc"),
-  "错误信息应该指出缺少 desc"
-)
+assert(error_message:match("desc"), "错误信息应该指出缺少 desc")
 
 local bufnr = vim.api.nvim_create_buf(false, true)
 
-Keymap.buffer(
-  bufnr,
-  "n",
-  "<F10>",
-  function() end,
-  {
-    desc = "测试 Buffer 快捷键",
-    nowait = true,
-  }
-)
+Keymap.buffer(bufnr, "n", "<F10>", function() end, {
+  desc = "测试 Buffer 快捷键",
+  nowait = true,
+})
 
 local buffer_mapping = nil
 
-for _, mapping in ipairs(
-  vim.api.nvim_buf_get_keymap(bufnr, "n")
-) do
+for _, mapping in ipairs(vim.api.nvim_buf_get_keymap(bufnr, "n")) do
   if mapping.desc == "测试 Buffer 快捷键" then
     buffer_mapping = mapping
     break
   end
 end
 
-assert(
-  buffer_mapping ~= nil,
-  "Keymap.buffer 没有注册 Buffer 快捷键"
-)
+assert(buffer_mapping ~= nil, "Keymap.buffer 没有注册 Buffer 快捷键")
 
-assert(
-  buffer_mapping.nowait == 1,
-  "table options 应该保留自定义选项"
-)
+assert(buffer_mapping.nowait == 1, "table options 应该保留自定义选项")
 
 Keymap.del("n", "<F12>")
 vim.api.nvim_buf_delete(bufnr, {
@@ -170,12 +140,7 @@ vim.api.nvim_buf_get_keymap = function(bufnr, mode)
   }
 end
 
-vim.api.nvim_replace_termcodes = function(
-  keys,
-  from_part,
-  do_lt,
-  special
-)
+vim.api.nvim_replace_termcodes = function(keys, from_part, do_lt, special)
   calls.replaced_keys = {
     keys = keys,
     from_part = from_part,
@@ -185,7 +150,6 @@ vim.api.nvim_replace_termcodes = function(
 
   return "encoded:" .. keys
 end
-
 
 vim.api.nvim_feedkeys = function(keys, mode, escape)
   calls.feedkeys = {
@@ -198,10 +162,7 @@ end
 local catalog_ok, catalog_error = xpcall(function()
   local items = Keymap.list("n")
 
-  assert(
-    #items == 2,
-    "Buffer 快捷键应该覆盖同 lhs 的全局快捷键"
-  )
+  assert(#items == 2, "Buffer 快捷键应该覆盖同 lhs 的全局快捷键")
 
   assert(
     vim.deep_equal(items[1], {
@@ -239,8 +200,7 @@ end, debug.traceback)
 vim.api.nvim_get_keymap = original_api.get_keymap
 vim.api.nvim_get_current_buf = original_api.get_current_buf
 vim.api.nvim_buf_get_keymap = original_api.buf_get_keymap
-vim.api.nvim_replace_termcodes =
-  original_api.replace_termcodes
+vim.api.nvim_replace_termcodes = original_api.replace_termcodes
 vim.api.nvim_feedkeys = original_api.feedkeys
 
 assert(catalog_ok, catalog_error)

@@ -13,7 +13,9 @@ return {
         "bash",
         "dart",
         "json",
-        "markdown"
+        "markdown",
+        "markdown_inline",
+        "latex",
       }
 
       local treesitter = require("nvim-treesitter")
@@ -22,15 +24,12 @@ return {
       treesitter.install(languages)
 
       -- 启动语言高亮
-      vim.api.nvim_create_autocmd(
-        "FileType",
-        {
-          pattern = languages,
-          callback = function()
-            vim.treesitter.start()
-          end
-        }
-      )
-    end
-  }
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = languages,
+        callback = function()
+          vim.treesitter.start()
+        end,
+      })
+    end,
+  },
 }

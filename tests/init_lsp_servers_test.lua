@@ -42,18 +42,18 @@ end
 
 local function setup_module()
   return {
-    setup = function()
-    end,
+    setup = function() end,
   }
 end
 
 for _, name in ipairs(module_names) do
-  if name:find("%.features%.")
-      or name:find("%.core%.")
-      or name == "nvi.infrastructure.lazy" then
+  if
+    name:find("%.features%.")
+    or name:find("%.core%.")
+    or name == "nvi.infrastructure.lazy"
+  then
     package.loaded[name] = setup_module()
-  elseif name:find("%.adapters%.")
-      or name == "nvi.infrastructure.lsp" then
+  elseif name:find("%.adapters%.") or name == "nvi.infrastructure.lsp" then
     package.loaded[name] = {}
   end
 end

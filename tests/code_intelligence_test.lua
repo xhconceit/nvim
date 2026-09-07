@@ -1,4 +1,3 @@
-
 local calls = {}
 
 -- 创建一个不依赖真实 LSP 的测试适配器
@@ -29,8 +28,7 @@ end
 -- 创建临时 Buffer，避免污染其他测试
 local bufnr = vim.api.nvim_create_buf(false, true)
 
-require("nvi.features.code_intelligence")
-  .attach(fake_adapter, bufnr)
+require("nvi.features.code_intelligence").attach(fake_adapter, bufnr)
 
 local expected_mappings = {
   ["显示符号文档"] = "hover",
@@ -47,9 +45,7 @@ local expected_mappings = {
 }
 
 -- 检查每个快捷键是否调用正确的端口方法
-for _, mapping in ipairs(
-  vim.api.nvim_buf_get_keymap(bufnr, "n")
-) do
+for _, mapping in ipairs(vim.api.nvim_buf_get_keymap(bufnr, "n")) do
   local method = expected_mappings[mapping.desc]
 
   if method then
@@ -60,10 +56,7 @@ for _, mapping in ipairs(
 
     mapping.callback()
 
-    assert(
-      calls[method] == 1,
-      mapping.desc .. " 调用了错误的方法"
-    )
+    assert(calls[method] == 1, mapping.desc .. " 调用了错误的方法")
 
     expected_mappings[mapping.desc] = nil
   end

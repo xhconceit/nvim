@@ -25,12 +25,9 @@ package.loaded.lazy = {
   end,
 }
 
-local LazyInfrastructure =
-  require("nvi.infrastructure.lazy")
+local LazyInfrastructure = require("nvi.infrastructure.lazy")
 
-local expected_path =
-  vim.fn.stdpath("data")
-  .. "/lazy/lazy.nvim"
+local expected_path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 local ok, error_message = xpcall(function()
   LazyInfrastructure.setup()
@@ -41,39 +38,29 @@ local ok, error_message = xpcall(function()
   )
 
   assert(
-    vim.tbl_contains(
-      vim.opt.runtimepath:get(),
-      expected_path
-    ),
+    vim.tbl_contains(vim.opt.runtimepath:get(), expected_path),
     "lazy.nvim 没有加入 runtimepath"
   )
 
-  assert(
-    type(calls.lazy_options) == "table",
-    "没有调用 lazy.setup"
-  )
+  assert(type(calls.lazy_options) == "table", "没有调用 lazy.setup")
 
   assert(
-    calls.lazy_options.spec[1].import
-      == "nvi.infrastructure.plugins",
+    calls.lazy_options.spec[1].import == "nvi.infrastructure.plugins",
     "lazy.nvim 导入了错误的插件目录"
   )
 
   assert(
-    calls.lazy_options.install
-      .colorscheme[1] == "habamax",
+    calls.lazy_options.install.colorscheme[1] == "habamax",
     "lazy.nvim 安装回退配色错误"
   )
 
   assert(
-    calls.lazy_options.checker.enabled
-      == false,
+    calls.lazy_options.checker.enabled == false,
     "插件更新检查应该关闭"
   )
 
   assert(
-    calls.lazy_options.change_detection
-      .notify == false,
+    calls.lazy_options.change_detection.notify == false,
     "配置变化通知应该关闭"
   )
 end, debug.traceback)

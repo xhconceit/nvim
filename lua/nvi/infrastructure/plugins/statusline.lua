@@ -1,12 +1,16 @@
-
 return {
   {
     "nvim-mini/mini.statusline",
     version = false,
-    config = function ()
+    config = function()
       require("mini.statusline").setup({
-        use_icons = false
+        use_icons = true,
+        set_vim_settings = true,
+        content = {
+          active = nil,
+          inactive = nil,
+        },
       })
-    end
-  }
+    end,
+  },
 }

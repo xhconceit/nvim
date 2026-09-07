@@ -37,8 +37,7 @@ assert(
 )
 
 assert(
-  received_request.bufnr
-    == vim.api.nvim_get_current_buf(),
+  received_request.bufnr == vim.api.nvim_get_current_buf(),
   "格式化请求包含了错误的 Buffer"
 )
 
@@ -51,9 +50,18 @@ for _, candidate in ipairs(vim.api.nvim_get_keymap("v")) do
 end
 
 assert(range_mapping ~= nil, "找不到选区格式化快捷键")
-assert(type(range_mapping.callback) == "function", "选区格式化应该使用 Lua callback")
+assert(
+  type(range_mapping.callback) == "function",
+  "选区格式化应该使用 Lua callback"
+)
 received_request = nil
 range_mapping.callback()
 assert(type(received_request) == "table", "选区格式化没有收到请求")
-assert(received_request.range.start[2] == 0, "选区格式化起始列应该为 0")
-assert(received_request.range["end"][2] == 0, "选区格式化结束列应该为 0")
+assert(
+  received_request.range.start[2] == 0,
+  "选区格式化起始列应该为 0"
+)
+assert(
+  received_request.range["end"][2] == 0,
+  "选区格式化结束列应该为 0"
+)

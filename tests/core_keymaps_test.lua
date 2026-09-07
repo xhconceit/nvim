@@ -23,12 +23,7 @@ local expected_mappings = {
 }
 
 for lhs, description in pairs(expected_mappings) do
-  local mapping = vim.fn.maparg(
-    lhs,
-    "n",
-    false,
-    true
-  )
+  local mapping = vim.fn.maparg(lhs, "n", false, true)
 
   assert(
     mapping.desc == description,
@@ -71,12 +66,7 @@ for _, lhs in ipairs({
   "K",
   "<leader>y",
 }) do
-  local mapping = vim.fn.maparg(
-    lhs,
-    "v",
-    false,
-    true
-  )
+  local mapping = vim.fn.maparg(lhs, "v", false, true)
 
   assert(
     type(mapping.desc) == "string",
@@ -85,9 +75,7 @@ for _, lhs in ipairs({
 end
 
 assert(
-  vim.tbl_isempty(
-    vim.fn.maparg("<leader>j", "n", false, true)
-  ),
+  vim.tbl_isempty(vim.fn.maparg("<leader>j", "n", false, true)),
   "<leader>j 应该只作为跳转命名空间前缀"
 )
 
@@ -101,19 +89,12 @@ for _, lhs in ipairs({
   "<leader>jl",
 }) do
   assert(
-    vim.tbl_isempty(
-      vim.fn.maparg(lhs, "n", false, true)
-    ),
+    vim.tbl_isempty(vim.fn.maparg(lhs, "n", false, true)),
     lhs .. " 旧快速移动快捷键应该被移除"
   )
 end
 
-local system_clipboard_mapping = vim.fn.maparg(
-  "<leader>y",
-  "n",
-  false,
-  true
-)
+local system_clipboard_mapping = vim.fn.maparg("<leader>y", "n", false, true)
 
 assert(
   system_clipboard_mapping.rhs == '"+y',
@@ -127,12 +108,7 @@ for _, mode in ipairs({
   "c",
   "t",
 }) do
-  local mapping = vim.fn.maparg(
-    "<D-v>",
-    mode,
-    false,
-    true
-  )
+  local mapping = vim.fn.maparg("<D-v>", mode, false, true)
 
   assert(
     mapping.desc == "从系统剪贴板粘贴",
@@ -140,24 +116,14 @@ for _, mode in ipairs({
   )
 end
 
-local terminal_escape_mapping = vim.fn.maparg(
-  "<Esc><Esc>",
-  "t",
-  false,
-  true
-)
+local terminal_escape_mapping = vim.fn.maparg("<Esc><Esc>", "t", false, true)
 
 assert(
   terminal_escape_mapping.desc == "退出终端模式",
   "<Esc><Esc> 没有注册 Terminal 退出映射"
 )
 
-local old_save_mapping = vim.fn.maparg(
-  "<leader>w",
-  "n",
-  false,
-  true
-)
+local old_save_mapping = vim.fn.maparg("<leader>w", "n", false, true)
 
 assert(
   vim.tbl_isempty(old_save_mapping),
@@ -165,9 +131,7 @@ assert(
 )
 
 assert(
-  vim.tbl_isempty(
-    vim.fn.maparg("<leader>q", "n", false, true)
-  ),
+  vim.tbl_isempty(vim.fn.maparg("<leader>q", "n", false, true)),
   "<leader>q 应该只作为退出命名空间前缀"
 )
 
@@ -178,9 +142,7 @@ for _, lhs in ipairs({
   "<leader>bq",
 }) do
   assert(
-    vim.tbl_isempty(
-      vim.fn.maparg(lhs, "n", false, true)
-    ),
+    vim.tbl_isempty(vim.fn.maparg(lhs, "n", false, true)),
     lhs .. " 旧 Buffer 快捷键应该被移除"
   )
 end

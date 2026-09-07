@@ -1,25 +1,11 @@
-local specs = require(
-  "nvi.infrastructure.plugins.completion"
-)
+local specs = require("nvi.infrastructure.plugins.completion")
 local plugin = specs[1]
 
+assert(type(plugin) == "table", "应该返回 blink.cmp 插件声明")
+assert(plugin[1] == "saghen/blink.cmp", "声明了错误的补全插件")
+assert(plugin.version == "1.*", "blink.cmp 应该固定在稳定的 v1")
 assert(
-  type(plugin) == "table",
-  "应该返回 blink.cmp 插件声明"
-)
-assert(
-  plugin[1] == "saghen/blink.cmp",
-  "声明了错误的补全插件"
-)
-assert(
-  plugin.version == "1.*",
-  "blink.cmp 应该固定在稳定的 v1"
-)
-assert(
-  vim.tbl_contains(
-    plugin.dependencies,
-    "rafamadriz/friendly-snippets"
-  ),
+  vim.tbl_contains(plugin.dependencies, "rafamadriz/friendly-snippets"),
   "blink.cmp 应该加载包含 Dart 模板的 snippets"
 )
 assert(
@@ -40,6 +26,14 @@ assert(
   "blink.cmp 应该自动显示候选文档"
 )
 assert(
+  plugin.opts.completion.menu.border == "rounded",
+  "补全菜单应该使用圆角边框"
+)
+assert(
+  plugin.opts.completion.documentation.window.border == "rounded",
+  "补全文档应该使用圆角边框"
+)
+assert(
   plugin.opts.completion.list.selection.preselect == false,
   "blink.cmp 不应该自动选中第一个候选"
 )
@@ -48,21 +42,18 @@ assert(
   "blink.cmp 不应该在确认前预览插入候选"
 )
 assert(
-  vim.deep_equal(
-    plugin.opts.completion.menu.draw.columns,
+  vim.deep_equal(plugin.opts.completion.menu.draw.columns, {
     {
-      {
-        "label",
-        "label_description",
-        gap = 1,
-      },
-      {
-        "kind",
-        "source_name",
-        gap = 1,
-      },
-    }
-  ),
+      "label",
+      "label_description",
+      gap = 1,
+    },
+    {
+      "kind",
+      "source_name",
+      gap = 1,
+    },
+  }),
   "补全菜单应该显示候选类型和来源"
 )
 assert(

@@ -5,7 +5,7 @@ local required_methods = {
   "next_buffer",
   "prev_buffer",
   "alternate_buffer",
-  "close_buffer"
+  "close_buffer",
 }
 
 function M.validate(adapter)

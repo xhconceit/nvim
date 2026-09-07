@@ -4,8 +4,7 @@ local original = {
   mini_files = package.loaded["mini.files"],
 }
 
-local current_path =
-  "/tmp/project/init.lua"
+local current_path = "/tmp/project/init.lua"
 local cwd = "/tmp/project"
 local calls = {}
 
@@ -29,8 +28,7 @@ package.loaded["mini.files"] = {
   end,
 }
 
-local MiniFilesAdapter =
-  require("nvi.adapters.mini_files")
+local MiniFilesAdapter = require("nvi.adapters.mini_files")
 
 local ok, error_message = xpcall(function()
   MiniFilesAdapter.open_current()
@@ -41,31 +39,18 @@ local ok, error_message = xpcall(function()
   MiniFilesAdapter.open_cwd()
   MiniFilesAdapter.close()
 
+  assert(#calls == 4, "mini.files 应该被调用四次")
   assert(
-    #calls == 4,
-    "mini.files 应该被调用四次"
-  )
-  assert(
-    calls[1].path
-      == "/tmp/project/init.lua",
+    calls[1].path == "/tmp/project/init.lua",
     "应该使用当前文件路径"
   )
   assert(
     calls[1].use_latest == false,
     "打开当前文件时不应该复用历史"
   )
-  assert(
-    calls[2].path == nil,
-    "未命名 Buffer 应该传入 nil"
-  )
-  assert(
-    calls[2].use_latest == false,
-    "未命名 Buffer 不应该复用历史"
-  )
-  assert(
-    calls[3].path == cwd,
-    "应该使用当前工作目录"
-  )
+  assert(calls[2].path == nil, "未命名 Buffer 应该传入 nil")
+  assert(calls[2].use_latest == false, "未命名 Buffer 不应该复用历史")
+  assert(calls[3].path == cwd, "应该使用当前工作目录")
   assert(
     calls[3].use_latest == false,
     "打开工作目录时不应该复用历史"
@@ -75,8 +60,7 @@ end, debug.traceback)
 
 vim.api.nvim_buf_get_name = original.get_name
 vim.fn.getcwd = original.getcwd
-package.loaded["mini.files"] =
-  original.mini_files
+package.loaded["mini.files"] = original.mini_files
 
 assert(ok, error_message)
 

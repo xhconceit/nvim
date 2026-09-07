@@ -4,12 +4,7 @@ local M = {}
 local function open(split_command)
   local root = vim.fn.fnameescape(Project.root())
 
-  vim.cmd(
-    split_command
-    .. " | lcd "
-    .. root
-    .. " | terminal"
-  )
+  vim.cmd(split_command .. " | lcd " .. root .. " | terminal")
   vim.cmd("startinsert")
 end
 

@@ -2,8 +2,7 @@ local module_name = "nvi.adapters.native_picker"
 local original_adapter = package.loaded[module_name]
 local original_command = package.loaded["nvi.ui.command"]
 local original_project = package.loaded["nvi.core.project"]
-local original_recent_file =
-  package.loaded["nvi.ui.recent_file"]
+local original_recent_file = package.loaded["nvi.ui.recent_file"]
 
 local command_items = {
   {
@@ -126,10 +125,7 @@ vim.fn.input = function(prompt, default, completion)
 end
 
 vim.fn.expand = function(expression)
-  assert(
-    expression == "<cword>",
-    "应该读取光标下的单词"
-  )
+  assert(expression == "<cword>", "应该读取光标下的单词")
   return "search_word"
 end
 
@@ -183,12 +179,7 @@ vim.api.nvim_get_keymap = function(mode)
   }
 end
 
-vim.api.nvim_replace_termcodes = function(
-  keys,
-  from_part,
-  do_lt,
-  special
-)
+vim.api.nvim_replace_termcodes = function(keys, from_part, do_lt, special)
   calls.replaced_keys = {
     keys = keys,
     from_part = from_part,
@@ -230,10 +221,7 @@ end
 setmetatable(fake_cmd, {
   __call = function(_, command)
     if command:match("^silent vimgrep") then
-      table.insert(
-        calls.search_commands,
-        command
-      )
+      table.insert(calls.search_commands, command)
 
       if fail_vimgrep then
         error("模拟搜索失败")
@@ -257,15 +245,13 @@ vim.notify = function(message, level)
   }
 end
 
-local NativePicker =
-  require("nvi.adapters.native_picker")
+local NativePicker = require("nvi.adapters.native_picker")
 
 local ok, error_message = xpcall(function()
   NativePicker.find_files()
 
   assert(
-    calls.edit
-      == "escaped:notes/a b.lua",
+    calls.edit == "escaped:notes/a b.lua",
     "find_files 没有转义并打开文件"
   )
 
@@ -280,61 +266,41 @@ local ok, error_message = xpcall(function()
 
   NativePicker.search_text()
 
-  assert(
-    #calls.search_commands == 1,
-    "search_text 应该执行一次 vimgrep"
-  )
+  assert(#calls.search_commands == 1, "search_text 应该执行一次 vimgrep")
 
   assert(
     calls.search_commands[1]
       == "silent vimgrep /\\Vescaped-needle/gj "
-      .. "escaped:/projects/demo/**/*",
+        .. "escaped:/projects/demo/**/*",
     "search_text 生成了错误的 vimgrep 命令"
   )
 
-  assert(
-    calls.escape.text == "needle",
-    "search_text 没有转义搜索文本"
-  )
+  assert(calls.escape.text == "needle", "search_text 没有转义搜索文本")
 
   assert(
     calls.escape.characters == [[\/]],
     "search_text 使用了错误的转义字符集合"
   )
 
-  assert(
-    calls.copen == 1,
-    "搜索成功后应该打开 Quickfix"
-  )
+  assert(calls.copen == 1, "搜索成功后应该打开 Quickfix")
 
   fail_vimgrep = true
 
   NativePicker.search_text()
 
-  assert(
-    #calls.search_commands == 2,
-    "失败场景也应该执行 vimgrep"
-  )
+  assert(#calls.search_commands == 2, "失败场景也应该执行 vimgrep")
+
+  assert(calls.copen == 1, "搜索失败后不应该再次打开 Quickfix")
+
+  assert(calls.notification ~= nil, "搜索失败后应该显示通知")
 
   assert(
-    calls.copen == 1,
-    "搜索失败后不应该再次打开 Quickfix"
-  )
-
-  assert(
-    calls.notification ~= nil,
-    "搜索失败后应该显示通知"
-  )
-
-  assert(
-    calls.notification.message
-      == "没有找到：missing",
+    calls.notification.message == "没有找到：missing",
     "搜索失败通知内容错误"
   )
 
   assert(
-    calls.notification.level
-      == vim.log.levels.WARN,
+    calls.notification.level == vim.log.levels.WARN,
     "搜索失败应该使用 WARN 级别"
   )
 
@@ -350,14 +316,10 @@ local ok, error_message = xpcall(function()
     "原生 Picker 提示文本错误"
   )
 
-  assert(
-    #calls.select.items == 1,
-    "应该忽略没有 desc 的快捷键"
-  )
+  assert(#calls.select.items == 1, "应该忽略没有 desc 的快捷键")
 
   assert(
-    calls.select.items[1].text
-      == "<leader>ff  搜索文件",
+    calls.select.items[1].text == "<leader>ff  搜索文件",
     "快捷键条目应该包含按键和描述"
   )
 
@@ -415,8 +377,7 @@ local ok, error_message = xpcall(function()
   )
 
   assert(
-    calls.select.options.format_item(buffer_items[2])
-      == "8  [No Name]",
+    calls.select.options.format_item(buffer_items[2]) == "8  [No Name]",
     "未命名 Buffer 应该显示占位名称"
   )
 
@@ -443,10 +404,7 @@ local ok, error_message = xpcall(function()
     "原生 Picker 应该显示最近文件文本"
   )
 
-  assert(
-    calls.recent_file_list == 1,
-    "应该读取一次最近文件列表"
-  )
+  assert(calls.recent_file_list == 1, "应该读取一次最近文件列表")
 
   assert(
     calls.opened_recent_file == "/projects/demo/init.lua",
@@ -464,10 +422,7 @@ local ok, error_message = xpcall(function()
     "帮助输入应该启用原生 help 补全"
   )
 
-  assert(
-    calls.help == "lua-guide",
-    "应该打开输入的帮助标签"
-  )
+  assert(calls.help == "lua-guide", "应该打开输入的帮助标签")
 
   fail_vimgrep = false
   NativePicker.search_word()
@@ -480,14 +435,11 @@ local ok, error_message = xpcall(function()
   assert(
     calls.search_commands[3]
       == "silent vimgrep /\\Vescaped-search_word/gj "
-      .. "escaped:/projects/demo/**/*",
+        .. "escaped:/projects/demo/**/*",
     "当前单词搜索生成了错误的 vimgrep 命令"
   )
 
-  assert(
-    calls.copen == 2,
-    "当前单词搜索成功后应该打开 Quickfix"
-  )
+  assert(calls.copen == 2, "当前单词搜索成功后应该打开 Quickfix")
 
   assert(
     calls.project_root == 4,
@@ -511,10 +463,7 @@ local ok, error_message = xpcall(function()
     "Git 命令应该返回文本输出"
   )
 
-  assert(
-    calls.system_wait == 1,
-    "应该等待 Git 文件列表"
-  )
+  assert(calls.system_wait == 1, "应该等待 Git 文件列表")
 
   assert(
     vim.deep_equal(calls.select.items, {
@@ -530,15 +479,11 @@ local ok, error_message = xpcall(function()
   )
 
   assert(
-    calls.edit
-      == "escaped:/projects/demo/lua/nvi/init.lua",
+    calls.edit == "escaped:/projects/demo/lua/nvi/init.lua",
     "选中后应该打开项目中的 Git 文件"
   )
 
-  assert(
-    calls.project_root == 5,
-    "Git 文件搜索应该解析项目根目录"
-  )
+  assert(calls.project_root == 5, "Git 文件搜索应该解析项目根目录")
 
   local select_count_before_failure = calls.select_count
   local edit_before_failure = calls.edit

@@ -17,9 +17,7 @@ end
 require("nvi.features.buffer").setup(adapter)
 
 local function find_mapping(lhs)
-  for _, mapping in ipairs(
-    vim.api.nvim_get_keymap("n")
-  ) do
+  for _, mapping in ipairs(vim.api.nvim_get_keymap("n")) do
     if mapping.lhs == lhs then
       return mapping
     end

@@ -18,10 +18,7 @@ local ok, error_message = xpcall(function()
   local specs = require(module_name)
   local plugin = specs[1]
 
-  assert(
-    type(plugin) == "table",
-    "应该返回 Git 插件声明"
-  )
+  assert(type(plugin) == "table", "应该返回 Git 插件声明")
   assert(
     plugin[1] == "lewis6991/gitsigns.nvim",
     "声明了错误的 Git 插件"
@@ -37,21 +34,22 @@ local ok, error_message = xpcall(function()
 
   plugin.config()
 
-  assert(
-    calls.setup == 1,
-    "config 应该调用一次 gitsigns.setup"
-  )
-  assert(
-    calls.options.signcolumn == true,
-    "应该启用 Git 符号列"
-  )
-  assert(
-    calls.options.numhl == false,
-    "不应该高亮 Git 变更行号"
-  )
+  assert(calls.setup == 1, "config 应该调用一次 gitsigns.setup")
+  assert(calls.options.signcolumn == true, "应该启用 Git 符号列")
+  assert(calls.options.numhl == false, "不应该高亮 Git 变更行号")
   assert(
     calls.options.current_line_blame == false,
     "不应该默认显示当前行 blame"
+  )
+  assert(calls.options.signs.add.text == "┃", "新增标记错误")
+  assert(calls.options.signs.delete.text == "▁", "删除标记错误")
+  assert(
+    calls.options.attach_to_untracked == true,
+    "应该跟踪未纳入版本控制的文件"
+  )
+  assert(
+    calls.options.preview_config.border == "rounded",
+    "Git 预览应该使用圆角边框"
   )
 end, debug.traceback)
 

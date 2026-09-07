@@ -35,17 +35,9 @@ local expected = {
 }
 
 for lhs, expectation in pairs(expected) do
-  local mapping = vim.fn.maparg(
-    lhs,
-    "n",
-    false,
-    true
-  )
+  local mapping = vim.fn.maparg(lhs, "n", false, true)
 
-  assert(
-    mapping.desc == expectation.desc,
-    lhs .. " 没有注册正确描述"
-  )
+  assert(mapping.desc == expectation.desc, lhs .. " 没有注册正确描述")
 
   assert(
     type(mapping.callback) == "function",

@@ -31,10 +31,7 @@ local function get_path(value, path)
 end
 
 local function validate(dependencies)
-  assert(
-    type(dependencies) == "table",
-    "nvi composition 需要依赖"
-  )
+  assert(type(dependencies) == "table", "nvi composition 需要依赖")
 
   for _, path in ipairs(required_methods) do
     assert(
@@ -92,11 +89,13 @@ local function validate(dependencies)
     dependencies.tab.adapter ~= nil,
     "nvi composition 缺少依赖：tab.adapter"
   )
-  assert(dependencies.session.adapter ~= nil, "nvi composition 缺少依赖：session.adapter")
+  assert(
+    dependencies.session.adapter ~= nil,
+    "nvi composition 缺少依赖：session.adapter"
+  )
 
   return dependencies
 end
-
 
 local function production_dependencies()
   return {
@@ -112,12 +111,12 @@ local function production_dependencies()
 
     git = {
       feature = require("nvi.features.git"),
-      adapter = require("nvi.adapters.gitsigns")
+      adapter = require("nvi.adapters.gitsigns"),
     },
 
     buffer = {
       feature = require("nvi.features.buffer"),
-      adapter = require("nvi.adapters.native_buffer")
+      adapter = require("nvi.adapters.native_buffer"),
     },
 
     search = {
@@ -127,7 +126,7 @@ local function production_dependencies()
 
     file_explorer = {
       feature = require("nvi.features.file_explorer"),
-      adapter = require("nvi.adapters.mini_files")
+      adapter = require("nvi.adapters.mini_files"),
     },
 
     formatting = {
@@ -137,22 +136,22 @@ local function production_dependencies()
 
     terminal = {
       feature = require("nvi.features.terminal"),
-      adapter = require("nvi.adapters.native_terminal")
+      adapter = require("nvi.adapters.native_terminal"),
     },
 
     quickfix = {
       feature = require("nvi.features.quickfix"),
-      adapter = require("nvi.adapters.native_quickfix")
+      adapter = require("nvi.adapters.native_quickfix"),
     },
 
     window = {
       feature = require("nvi.features.window"),
-      adapter = require("nvi.adapters.native_window")
+      adapter = require("nvi.adapters.native_window"),
     },
 
     tab = {
       feature = require("nvi.features.tab"),
-      adapter = require("nvi.adapters.native_tab")
+      adapter = require("nvi.adapters.native_tab"),
     },
     session = {
       feature = require("nvi.features.session"),
@@ -162,42 +161,29 @@ local function production_dependencies()
     lsp = {
       composition = require("nvi.composition.lsp"),
       dependencies = {
-        infrastructure =
-            require("nvi.infrastructure.lsp"),
+        infrastructure = require("nvi.infrastructure.lsp"),
 
         code_intelligence = {
-          feature =
-              require("nvi.features.code_intelligence"),
-          adapter =
-              require("nvi.adapters.native_lsp"),
+          feature = require("nvi.features.code_intelligence"),
+          adapter = require("nvi.adapters.native_lsp"),
         },
 
-
         diagnostics = {
-          feature =
-              require("nvi.features.diagnostics"),
-          adapter =
-              require("nvi.adapters.native_diagnostics"),
+          feature = require("nvi.features.diagnostics"),
+          adapter = require("nvi.adapters.native_diagnostics"),
         },
 
         servers = {
-          lua_ls = require(
-            "nvi.infrastructure.lsp.servers.lua_ls"
-          ),
-          dartls = require(
-            "nvi.infrastructure.lsp.servers.dartls"
-          )
+          lua_ls = require("nvi.infrastructure.lsp.servers.lua_ls"),
+          dartls = require("nvi.infrastructure.lsp.servers.dartls"),
         },
       },
-
     },
   }
 end
 
 function M.setup(dependencies)
-  dependencies = validate(
-    dependencies or production_dependencies()
-  )
+  dependencies = validate(dependencies or production_dependencies())
 
   dependencies.core.commands.setup()
   dependencies.core.options.setup()
@@ -206,48 +192,26 @@ function M.setup(dependencies)
 
   dependencies.lazy.setup()
 
-  dependencies.search.feature.setup(
-    dependencies.search.adapter
-  )
+  dependencies.search.feature.setup(dependencies.search.adapter)
 
-  dependencies.buffer.feature.setup(
-    dependencies.buffer.adapter
-  )
-  dependencies.terminal.feature.setup(
-    dependencies.terminal.adapter
-  )
+  dependencies.buffer.feature.setup(dependencies.buffer.adapter)
+  dependencies.terminal.feature.setup(dependencies.terminal.adapter)
 
-  dependencies.window.feature.setup(
-    dependencies.window.adapter
-  )
+  dependencies.window.feature.setup(dependencies.window.adapter)
 
-  dependencies.tab.feature.setup(
-    dependencies.tab.adapter
-  )
+  dependencies.tab.feature.setup(dependencies.tab.adapter)
 
-  dependencies.session.feature.setup(
-    dependencies.session.adapter
-  )
+  dependencies.session.feature.setup(dependencies.session.adapter)
 
-  dependencies.file_explorer.feature.setup(
-    dependencies.file_explorer.adapter
-  )
+  dependencies.file_explorer.feature.setup(dependencies.file_explorer.adapter)
 
-  dependencies.git.feature.setup(
-    dependencies.git.adapter
-  )
+  dependencies.git.feature.setup(dependencies.git.adapter)
 
-  dependencies.formatting.feature.setup(
-    dependencies.formatting.adapter
-  )
+  dependencies.formatting.feature.setup(dependencies.formatting.adapter)
 
-  dependencies.quickfix.feature.setup(
-    dependencies.quickfix.adapter
-  )
+  dependencies.quickfix.feature.setup(dependencies.quickfix.adapter)
 
-  dependencies.lsp.composition.setup(
-    dependencies.lsp.dependencies
-  )
+  dependencies.lsp.composition.setup(dependencies.lsp.dependencies)
 end
 
 return M

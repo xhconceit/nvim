@@ -52,14 +52,19 @@ local ok, error_message = xpcall(function()
   NativeTab.previous()
   NativeTab.only()
 
-  for _, method in ipairs({ "tabnew", "tabclose", "tabnext", "tabprevious", "tabonly" }) do
+  for _, method in ipairs({
+    "tabnew",
+    "tabclose",
+    "tabnext",
+    "tabprevious",
+    "tabonly",
+  }) do
     assert(calls[method] == 1, method .. " 应该执行一次")
   end
 
   fail_close = true
   local close_ok = pcall(NativeTab.close)
-  local notification =
-    calls.notifications[#calls.notifications]
+  local notification = calls.notifications[#calls.notifications]
 
   assert(close_ok, "关闭最后一个 Tab 不应该抛出异常")
   assert(

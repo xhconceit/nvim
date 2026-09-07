@@ -1,4 +1,3 @@
-
 local calls = {
   find_files = 0,
   search_text = 0,
@@ -126,49 +125,25 @@ search_help_mapping.callback()
 search_word_mapping.callback()
 find_git_files_mapping.callback()
 
-assert(
-  calls.find_files == 1,
-  "find_files 应该被调用一次"
-)
+assert(calls.find_files == 1, "find_files 应该被调用一次")
 
-assert(
-  calls.search_text == 1,
-  "search_text 应该被调用一次"
-)
+assert(calls.search_text == 1, "search_text 应该被调用一次")
 
-assert(
-  calls.search_keymaps == 1,
-  "search_keymaps 应该被调用一次"
-)
+assert(calls.search_keymaps == 1, "search_keymaps 应该被调用一次")
 
-assert(
-  calls.search_commands == 1,
-  "search_commands 应该被调用一次"
-)
+assert(calls.search_commands == 1, "search_commands 应该被调用一次")
 
-assert(
-  calls.search_buffers == 1,
-  "search_buffers 应该被调用一次"
-)
+assert(calls.search_buffers == 1, "search_buffers 应该被调用一次")
 
 assert(
   calls.search_recent_files == 1,
   "search_recent_files 应该被调用一次"
 )
 
-assert(
-  calls.search_help == 1,
-  "search_help 应该被调用一次"
-)
+assert(calls.search_help == 1, "search_help 应该被调用一次")
 
-assert(
-  calls.search_word == 1,
-  "search_word 应该被调用一次"
-)
+assert(calls.search_word == 1, "search_word 应该被调用一次")
 
-assert(
-  calls.find_git_files == 1,
-  "find_git_files 应该被调用一次"
-)
+assert(calls.find_git_files == 1, "find_git_files 应该被调用一次")
 
 print("search_test: OK")

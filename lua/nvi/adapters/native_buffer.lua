@@ -1,4 +1,3 @@
-
 local M = {}
 
 function M.new_buffer()
@@ -21,10 +20,7 @@ function M.close_buffer()
   local ok = pcall(vim.cmd, "bdelete")
 
   if not ok then
-    vim.notify(
-      "当前 Buffer 有未保存修改",
-      vim.log.levels.WARN
-    )
+    vim.notify("当前 Buffer 有未保存修改", vim.log.levels.WARN)
   end
 end
 

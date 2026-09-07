@@ -10,10 +10,7 @@ local original = {
 local executed = nil
 
 vim.api.nvim_get_commands = function(options)
-  assert(
-    options.builtin == false,
-    "命令列表暂时只应读取用户命令"
-  )
+  assert(options.builtin == false, "命令列表暂时只应读取用户命令")
 
   return {
     Undescribed = {
@@ -85,10 +82,7 @@ local ok, error_message = xpcall(function()
 
   Command.execute(items[1].name)
 
-  assert(
-    executed == "NviConfig",
-    "Command.execute 应该执行选中的命令"
-  )
+  assert(executed == "NviConfig", "Command.execute 应该执行选中的命令")
 end, debug.traceback)
 
 vim.api.nvim_get_commands = original.get_commands

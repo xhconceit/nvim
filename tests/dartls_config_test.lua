@@ -1,6 +1,4 @@
-local config = require(
-  "nvi.infrastructure.lsp.servers.dartls"
-)
+local config = require("nvi.infrastructure.lsp.servers.dartls")
 
 assert(
   vim.deep_equal(config.cmd, {

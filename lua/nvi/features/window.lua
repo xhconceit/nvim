@@ -46,26 +46,10 @@ function M.setup(adapter)
   Keymap.nmap("<leader>wr", window.swap_next, "交换到下一个窗口")
   Keymap.nmap("<leader>wR", window.swap_previous, "交换到上一个窗口")
 
-  Keymap.nmap(
-    "<leader>wmh",
-    window.decrease_width,
-    "缩小窗口宽度"
-  )
-  Keymap.nmap(
-    "<leader>wml",
-    window.increase_width,
-    "增加窗口宽度"
-  )
-  Keymap.nmap(
-    "<leader>wmk",
-    window.decrease_height,
-    "缩小窗口高度"
-  )
-  Keymap.nmap(
-    "<leader>wmj",
-    window.increase_height,
-    "增加窗口高度"
-  )
+  Keymap.nmap("<leader>wmh", window.decrease_width, "缩小窗口宽度")
+  Keymap.nmap("<leader>wml", window.increase_width, "增加窗口宽度")
+  Keymap.nmap("<leader>wmk", window.decrease_height, "缩小窗口高度")
+  Keymap.nmap("<leader>wmj", window.increase_height, "增加窗口高度")
 end
 
 return M

@@ -1,4 +1,3 @@
-
 local GitPort = require("nvi.ports.git")
 local Keymap = require("nvi.ui.keymap")
 

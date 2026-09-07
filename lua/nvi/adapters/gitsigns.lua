@@ -1,10 +1,8 @@
-
 local M = {}
 
 function M.next_hunk()
   require("gitsigns").nav_hunk("next")
 end
-
 
 function M.prev_hunk()
   require("gitsigns").nav_hunk("prev")

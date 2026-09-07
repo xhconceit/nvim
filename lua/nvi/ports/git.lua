@@ -7,14 +7,11 @@ local required_methods = {
   "reset_hunk",
   "preview_hunk",
   "blame_line",
-  "toggle_line_blame"
+  "toggle_line_blame",
 }
 
 function M.validate(adapter)
-  assert(
-    type(adapter) == "table",
-    "git adapter 必须是 table"
-  )
+  assert(type(adapter) == "table", "git adapter 必须是 table")
   for _, method in ipairs(required_methods) do
     assert(
       type(adapter[method]) == "function",

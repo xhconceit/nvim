@@ -20,10 +20,8 @@ function M.list()
     builtin = false,
   })
 
-  local buffer_commands = vim.api.nvim_buf_get_commands(
-    vim.api.nvim_get_current_buf(),
-    {}
-  )
+  local buffer_commands =
+    vim.api.nvim_buf_get_commands(vim.api.nvim_get_current_buf(), {})
 
   for name, command in pairs(buffer_commands) do
     commands[name] = command
@@ -35,10 +33,7 @@ function M.list()
   local items = {}
 
   for _, name in ipairs(names) do
-    table.insert(
-      items,
-      to_item(name, commands[name])
-    )
+    table.insert(items, to_item(name, commands[name]))
   end
 
   return items

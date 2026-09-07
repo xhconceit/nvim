@@ -8,23 +8,45 @@ function M.setup()
   opt.fileencoding = "utf-8"
 
   -- 界面
+  opt.termguicolors = true
+
+  -- 行号
   opt.number = true
   opt.relativenumber = true
   opt.cursorline = true
+  opt.cursorlineopt = "number"
+
+  -- 边距
   opt.signcolumn = "yes"
   opt.scrolloff = 8
   opt.sidescrolloff = 8
-  opt.termguicolors = true
+
   -- 自动补全不自动选中
   opt.completeopt = "menu,menuone,noselect,noinsert"
-  opt.termguicolors = true -- 启用 24 位 RGB 颜色
-  -- 显示左侧图标指示列
-  opt.signcolumn = "yes"
+
   -- 右侧参考线，超过表示代码太长了，考虑换行
   opt.colorcolumn = "100"
-  -- 不可见字符的显示，这里只把空格显示为一个点
+
+  -- 不可见字符
   opt.list = true
-  opt.listchars = "space:·,tab:.."
+  opt.listchars = {
+    tab = "» ",
+    trail = "·",
+    nbsp = "␣",
+    extends = "…",
+    precedes = "…",
+  }
+
+  -- 窗口分隔线和文件末尾
+  opt.fillchars = {
+    eob = " ",
+    fold = " ",
+    foldopen = "",
+    foldclose = "",
+    foldsep = " ",
+    diff = "╱",
+  }
+
   -- 补全最多显示10行
   opt.pumheight = 10
 
@@ -58,6 +80,7 @@ function M.setup()
 
   -- 命令行高为 2
   opt.cmdheight = 2
+  opt.winborder = "rounded"
 
   -- 窗口
   opt.splitright = true

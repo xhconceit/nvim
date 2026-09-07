@@ -15,15 +15,9 @@ for method in pairs(calls) do
   end
 end
 
-local bufnr = vim.api.nvim_create_buf(
-  false,
-  true
-)
+local bufnr = vim.api.nvim_create_buf(false, true)
 
-require("nvi.features.diagnostics").attach(
-  fake_diagnostics,
-  bufnr
-)
+require("nvi.features.diagnostics").attach(fake_diagnostics, bufnr)
 
 local expected_mappings = {
   ["显示当前位置诊断"] = "show_current",
@@ -34,11 +28,8 @@ local expected_mappings = {
   ["切换诊断显示"] = "toggle",
 }
 
-for _, mapping in ipairs(
-  vim.api.nvim_buf_get_keymap(bufnr, "n")
-) do
-  local method =
-    expected_mappings[mapping.desc]
+for _, mapping in ipairs(vim.api.nvim_buf_get_keymap(bufnr, "n")) do
+  local method = expected_mappings[mapping.desc]
 
   if method then
     assert(
@@ -57,10 +48,7 @@ for _, mapping in ipairs(
   end
 end
 
-assert(
-  next(expected_mappings) == nil,
-  "部分诊断快捷键没有注册"
-)
+assert(next(expected_mappings) == nil, "部分诊断快捷键没有注册")
 
 vim.api.nvim_buf_delete(bufnr, {
   force = true,

@@ -8,23 +8,17 @@ local M = {}
 local function project_options()
   return {
     source = {
-      cwd = Project.root()
-    }
+      cwd = Project.root(),
+    },
   }
 end
 
 function M.find_files()
-  require("mini.pick").builtin.files(
-    nil,
-    project_options()
-  )
+  require("mini.pick").builtin.files(nil, project_options())
 end
 
 function M.search_text()
-  require("mini.pick").builtin.grep_live(
-    nil,
-    project_options()
-  )
+  require("mini.pick").builtin.grep_live(nil, project_options())
 end
 
 function M.search_keymaps()
@@ -62,8 +56,8 @@ function M.search_recent_files()
       items = RecentFile.list(),
       choose = function(item)
         RecentFile.open(item.path)
-      end
-    }
+      end,
+    },
   })
 end
 
@@ -78,17 +72,11 @@ function M.search_word()
     return
   end
 
-  require("mini.pick").builtin.grep(
-    { pattern = word },
-    project_options()
-  )
+  require("mini.pick").builtin.grep({ pattern = word }, project_options())
 end
 
 function M.find_git_files()
-  require("mini.pick").builtin.files(
-    { tool = "git" },
-    project_options()
-  )
+  require("mini.pick").builtin.files({ tool = "git" }, project_options())
 end
 
 return M

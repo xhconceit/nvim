@@ -27,10 +27,7 @@ local ok, error_message = xpcall(function()
     "/projects/demo/init.lua",
   })
 
-  assert(
-    #items == 2,
-    "最近文件应该忽略空路径并去重"
-  )
+  assert(#items == 2, "最近文件应该忽略空路径并去重")
 
   assert(
     vim.deep_equal(items[1], {

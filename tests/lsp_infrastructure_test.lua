@@ -1,7 +1,6 @@
 local attached_context = nil
 
-local lsp =
-  require("nvi.infrastructure.lsp")
+local lsp = require("nvi.infrastructure.lsp")
 
 -- 记录基础设施传出的完整 LSP 上下文
 lsp.setup({
@@ -23,8 +22,7 @@ vim.api.nvim_exec_autocmds("LspAttach", {
 
 -- 验证 Buffer 是否正确传递
 assert(
-  attached_context ~= nil
-    and attached_context.bufnr == bufnr,
+  attached_context ~= nil and attached_context.bufnr == bufnr,
   "LspAttach 没有传递正确的 Buffer"
 )
 

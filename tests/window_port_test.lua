@@ -28,17 +28,10 @@ local ok, error_message = pcall(function()
   WindowPort.validate({})
 end)
 
-assert(
-  not ok,
-  "缺少 split_vertical 时应该拒绝适配器"
-)
+assert(not ok, "缺少 split_vertical 时应该拒绝适配器")
 
 assert(
-  tostring(error_message):find(
-    "split_vertical",
-    1,
-    true
-  ),
+  tostring(error_message):find("split_vertical", 1, true),
   "错误应该指出缺少 split_vertical"
 )
 
@@ -48,17 +41,10 @@ local horizontal_ok, horizontal_error = pcall(function()
   })
 end)
 
-assert(
-  not horizontal_ok,
-  "缺少 split_horizontal 时应该拒绝适配器"
-)
+assert(not horizontal_ok, "缺少 split_horizontal 时应该拒绝适配器")
 
 assert(
-  tostring(horizontal_error):find(
-    "split_horizontal",
-    1,
-    true
-  ),
+  tostring(horizontal_error):find("split_horizontal", 1, true),
   "错误应该指出缺少 split_horizontal"
 )
 
@@ -69,10 +55,7 @@ local close_ok, close_error = pcall(function()
   })
 end)
 
-assert(
-  not close_ok,
-  "缺少 close 时应该拒绝适配器"
-)
+assert(not close_ok, "缺少 close 时应该拒绝适配器")
 
 assert(
   tostring(close_error):find("close", 1, true),
@@ -87,10 +70,7 @@ local only_ok, only_error = pcall(function()
   })
 end)
 
-assert(
-  not only_ok,
-  "缺少 only 时应该拒绝适配器"
-)
+assert(not only_ok, "缺少 only 时应该拒绝适配器")
 
 assert(
   tostring(only_error):find("only", 1, true),
@@ -121,10 +101,7 @@ for _, missing_method in ipairs(focus_methods) do
 
   incomplete_adapter[missing_method] = nil
 
-  local focus_ok, focus_error = pcall(
-    WindowPort.validate,
-    incomplete_adapter
-  )
+  local focus_ok, focus_error = pcall(WindowPort.validate, incomplete_adapter)
 
   assert(
     not focus_ok,
@@ -136,7 +113,6 @@ for _, missing_method in ipairs(focus_methods) do
     "错误应该指出缺少 " .. missing_method
   )
 end
-
 
 local equalize_ok, equalize_error = pcall(function()
   WindowPort.validate({
@@ -152,10 +128,7 @@ local equalize_ok, equalize_error = pcall(function()
   })
 end)
 
-assert(
-  not equalize_ok,
-  "缺少 equalize 时应该拒绝适配器"
-)
+assert(not equalize_ok, "缺少 equalize 时应该拒绝适配器")
 
 assert(
   tostring(equalize_error):find("equalize", 1, true),
@@ -189,10 +162,7 @@ for _, missing_method in ipairs(resize_methods) do
 
   incomplete_adapter[missing_method] = nil
 
-  local resize_ok, resize_error = pcall(
-    WindowPort.validate,
-    incomplete_adapter
-  )
+  local resize_ok, resize_error = pcall(WindowPort.validate, incomplete_adapter)
 
   assert(
     not resize_ok,

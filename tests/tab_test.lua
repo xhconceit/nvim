@@ -34,10 +34,19 @@ local expectations = {
 
 for _, expectation in ipairs(expectations) do
   local mapping = find_mapping(expectation.lhs)
-  assert(type(mapping.callback) == "function", expectation.lhs .. " 应该使用 Lua callback")
-  assert(mapping.desc == expectation.description, expectation.lhs .. " 的说明不正确")
+  assert(
+    type(mapping.callback) == "function",
+    expectation.lhs .. " 应该使用 Lua callback"
+  )
+  assert(
+    mapping.desc == expectation.description,
+    expectation.lhs .. " 的说明不正确"
+  )
   mapping.callback()
-  assert(calls[expectation.method] == 1, expectation.method .. " 应该被调用一次")
+  assert(
+    calls[expectation.method] == 1,
+    expectation.method .. " 应该被调用一次"
+  )
 end
 
 print("tab_test: OK")

@@ -22,17 +22,11 @@ for _, file in ipairs(test_files) do
   end
 end -- for 循环必须在这里结束
 
-print(string.format(
-  "\n结果：%d 通过，%d 失败",
-  passed,
-  #failures
-))
+print(string.format("\n结果：%d 通过，%d 失败", passed, #failures))
 
 if #failures > 0 then
   for _, failure in ipairs(failures) do
-    vim.api.nvim_err_writeln(
-      "\n" .. failure.file .. "\n" .. failure.message
-    )
+    vim.api.nvim_err_writeln("\n" .. failure.file .. "\n" .. failure.message)
   end
 
   vim.cmd("cquit 1")
