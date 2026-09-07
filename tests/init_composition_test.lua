@@ -221,7 +221,7 @@ assert(
 assert(calls.git == git_adapter, "Git 功能没有收到注入的适配器")
 assert(
   calls.file_explorer == file_explorer_adapter,
-  "文件浏览器没有收到 mini.files 适配器"
+  "文件浏览器没有收到 Oil 适配器"
 )
 assert(
   calls.formatting == formatter_adapter,

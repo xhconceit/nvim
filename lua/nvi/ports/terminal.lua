@@ -3,6 +3,7 @@ local M = {}
 local required_methods = {
   "open_horizontal",
   "open_vertical",
+  "toggle_float",
 }
 
 function M.validate(adapter)

@@ -1,47 +1,15 @@
-local original_mini_files = package.loaded["mini.files"]
-local module_name = "nvi.infrastructure.plugins.file_explorer"
+local plugin = require("nvi.infrastructure.plugins.file_explorer")[1]
 
-local calls = {
-  setup = 0,
-  options = nil,
-}
-
-package.loaded["mini.files"] = {
-  setup = function(options)
-    calls.setup = calls.setup + 1
-    calls.options = options
-  end,
-}
-package.loaded[module_name] = nil
-
-local ok, error_message = xpcall(function()
-  local specs = require(module_name)
-  local plugin = specs[1]
-
-  assert(type(plugin) == "table", "应该返回 mini.files 插件声明")
-  assert(
-    plugin[1] == "nvim-mini/mini.files",
-    "声明了错误的文件浏览器插件"
-  )
-  assert(plugin.version == false, "mini.files 应该跟随最新版")
-  assert(plugin.lazy == true, "mini.files 应该按需加载")
-  assert(
-    type(plugin.config) == "function",
-    "mini.files 应该提供 config 函数"
-  )
-
-  plugin.config()
-
-  assert(calls.setup == 1, "config 应该调用一次 mini.files.setup")
-  assert(
-    calls.options.options.use_as_default_explorer == false,
-    "mini.files 不应该接管默认目录浏览器"
-  )
-end, debug.traceback)
-
-package.loaded["mini.files"] = original_mini_files
-package.loaded[module_name] = nil
-
-assert(ok, error_message)
+assert(plugin[1] == "stevearc/oil.nvim", "文件浏览器插件声明错误")
+assert(plugin.lazy == true, "Oil 应该按需加载")
+assert(
+  vim.tbl_contains(plugin.dependencies, "nvim-mini/mini.icons"),
+  "Oil 应该复用 mini.icons"
+)
+assert(plugin.opts.default_file_explorer == false)
+assert(vim.deep_equal(plugin.opts.columns, { "icon" }))
+assert(plugin.opts.skip_confirm_for_simple_edits == false)
+assert(plugin.opts.view_options.show_hidden == true)
+assert(plugin.opts.float.border == "rounded")
 
 print("file_explorer_plugin_test: OK")

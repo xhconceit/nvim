@@ -12,7 +12,7 @@ local module_names = {
   "nvi.features.search",
   "nvi.adapters.mini_pick",
   "nvi.features.file_explorer",
-  "nvi.adapters.mini_files",
+  "nvi.adapters.oil",
   "nvi.features.formatting",
   "nvi.adapters.lsp_formatter",
   "nvi.features.terminal",

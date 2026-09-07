@@ -1,6 +1,7 @@
 local calls = {
   open_horizontal = 0,
   open_vertical = 0,
+  toggle_float = 0,
 }
 
 local adapter = {}
@@ -33,6 +34,11 @@ local expectations = {
     lhs = " tv",
     method = "open_vertical",
     description = "打开垂直终端",
+  },
+  {
+    lhs = " tf",
+    method = "toggle_float",
+    description = "切换浮动终端",
   },
 }
 

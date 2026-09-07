@@ -3,6 +3,7 @@ local Port = require("nvi.ports.terminal")
 local required_methods = {
   "open_horizontal",
   "open_vertical",
+  "toggle_float",
 }
 
 local adapter = {}

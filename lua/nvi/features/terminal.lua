@@ -9,6 +9,8 @@ function M.setup(adapter)
   Keymap.nmap("<leader>ts", terminal.open_horizontal, "打开水平终端")
 
   Keymap.nmap("<leader>tv", terminal.open_vertical, "打开垂直终端")
+
+  Keymap.nmap("<leader>tf", terminal.toggle_float, "切换浮动终端")
 end
 
 return M

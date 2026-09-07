@@ -126,7 +126,7 @@ local function production_dependencies()
 
     file_explorer = {
       feature = require("nvi.features.file_explorer"),
-      adapter = require("nvi.adapters.mini_files"),
+      adapter = require("nvi.adapters.oil"),
     },
 
     formatting = {
